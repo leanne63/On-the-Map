@@ -16,6 +16,7 @@
 		D5DE9FDD1CC7FB7B00537561 /* On_the_MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DE9FDC1CC7FB7B00537561 /* On_the_MapTests.swift */; };
 		D5DE9FE81CC7FB7B00537561 /* On_the_MapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DE9FE71CC7FB7B00537561 /* On_the_MapUITests.swift */; };
 		D5DE9FF61CC7FBD900537561 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5DE9FF51CC7FBD900537561 /* MapKit.framework */; };
+		D5DE9FF81CC83E7500537561 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DE9FF71CC83E7500537561 /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		D5DE9FE71CC7FB7B00537561 /* On_the_MapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = On_the_MapUITests.swift; sourceTree = "<group>"; };
 		D5DE9FE91CC7FB7B00537561 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5DE9FF51CC7FBD900537561 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		D5DE9FF71CC83E7500537561 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				D5DE9FCE1CC7FB7A00537561 /* Assets.xcassets */,
 				D5DE9FD01CC7FB7A00537561 /* LaunchScreen.storyboard */,
 				D5DE9FD31CC7FB7A00537561 /* Info.plist */,
+				D5DE9FF71CC83E7500537561 /* LoginViewController.swift */,
 			);
 			path = "On the Map";
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5DE9FF81CC83E7500537561 /* LoginViewController.swift in Sources */,
 				D5DE9FCA1CC7FB7A00537561 /* SecondViewController.swift in Sources */,
 				D5DE9FC61CC7FB7A00537561 /* AppDelegate.swift in Sources */,
 				D5DE9FC81CC7FB7A00537561 /* FirstViewController.swift in Sources */,
