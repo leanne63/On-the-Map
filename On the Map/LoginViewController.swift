@@ -13,7 +13,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        view.layer.configureGradientBackground(UIColor.whiteColor().CGColor, UIColor.blueColor().CGColor)
+		//view.layer.configureGradientBackground(UIColor.purpleColor().CGColor, UIColor.blueColor().CGColor, UIColor.whiteColor().CGColor)
     }
 
     override func didReceiveMemoryWarning() {
