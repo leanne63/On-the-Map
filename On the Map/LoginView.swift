@@ -19,8 +19,7 @@ class LoginView: UIView {
 	override class func layerClass() -> AnyClass {
 		
 		// return a 'type' or class of CAGradientLayer (Obj-C equivalent is CAGradientLayer.class)
-		//return CAGradientLayer.self
-		return CALayer.self
+		return CAGradientLayer.self
 	}
 	
 	
