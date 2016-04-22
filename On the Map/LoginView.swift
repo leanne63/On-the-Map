@@ -9,9 +9,19 @@
 import UIKit
 
 class LoginView: UIView {
-
-	override class func layerClass() -> AnyClass {
-		return CAGradientLayer.self
+	
+	@NSCopying var backgroundGradientColor: UIColor? = nil {
+		didSet {
+			setGradientLayer(withColor: backgroundGradientColor)
+		}
 	}
 
+	override class func layerClass() -> AnyClass {
+		
+		// return a 'type' or class of CAGradientLayer (Obj-C equivalent is CAGradientLayer.class)
+		//return CAGradientLayer.self
+		return CALayer.self
+	}
+	
+	
 }
