@@ -10,10 +10,16 @@ import UIKit
 
 class LoginViewController: UIViewController {
 	
-    override func viewDidLoad() {
+	// MARK: - Properties
+	
+	
+	// MARK: - Overrides
+	
+	override func viewDidLoad() {
         super.viewDidLoad()
 		
-		view.setGradientLayer(withColor: UIColor.orangeColor())
+		view.gradientLayerColors = [UIColor.orangeColor()]
+		print("gradient layer colors:\n\(view.gradientLayerColors)\n")
     }
 
 	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
