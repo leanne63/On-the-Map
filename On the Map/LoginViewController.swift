@@ -18,13 +18,11 @@ class LoginViewController: UIViewController {
 	override func viewDidLoad() {
         super.viewDidLoad()
 		
-		view.gradientLayerColors = [UIColor.orangeColor()]
-		print("gradient layer colors:\n\(view.gradientLayerColors)\n")
     }
 
 	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
 		
-		// locking this (login view) to portrait since subviews won't all fit on smaller devices in landscape
+		// locking this login view to portrait since subviews won't all fit on smaller devices in landscape
 		return .Portrait
 	}
 

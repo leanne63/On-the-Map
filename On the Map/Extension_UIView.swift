@@ -62,9 +62,9 @@ extension UIView {
 	
 	Converts UIColors to CGColors for use in CAGradientLayer. If only one UIColor provided, generates 3-color array with provided color as center value, preceded by lighter color and followed by darker color.
 	
-	- Parameter: Array of UIColors.
+	- Parameter colors: An array of UIColors in order, top to bottom, for the desired gradient.
 	
-	- Return: Array of CGColors.
+	- Returns: Array of CGColors for the provided UIColors (including generated colors if only one UIColor was provided).
 	
 	*/
 	private func gradientColorsFromUIColors(colors: [UIColor]) -> [CGColor] {
