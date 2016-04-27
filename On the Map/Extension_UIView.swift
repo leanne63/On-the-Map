@@ -29,7 +29,7 @@ extension UIView {
 			if let layer = (self.layer as? CAGradientLayer),
 				let layerColors = layer.colors {
 				
-				var uiColors: [UIColor] = []
+				var uiColors = [UIColor]()
 				for (indexVal, cgColor) in layerColors.enumerate() {
 					let thisColor = UIColor.init(CGColor: cgColor as! CGColor)
 					uiColors.insert(thisColor, atIndex: indexVal)
@@ -69,7 +69,7 @@ extension UIView {
 	*/
 	private func gradientColorsFromUIColors(colors: [UIColor]) -> [CGColor] {
 		
-		var gradientColors: [CGColor] = []
+		var gradientColors = [CGColor]()
 		
 		// if only one color present, use it as center color, and compute top and bottom colors
 		if colors.count == 1 {
@@ -92,8 +92,8 @@ extension UIView {
 			let hueAsInt = Int(round(hue * placeMultiplier))
 			
 			// calculate the upper and lower hue values
-			let hueDown: CGFloat = CGFloat(hueAsInt - hueDelta) / placeMultiplier
 			let hueUp: CGFloat = CGFloat(hueAsInt + hueDelta) / placeMultiplier
+			let hueDown: CGFloat = CGFloat(hueAsInt - hueDelta) / placeMultiplier
 			
 			// set up color objects to pass into the setGradientLayer overload
 			let color1 = (UIColor.init(hue: hueUp, saturation: saturation, brightness: brightness, alpha: alpha))
