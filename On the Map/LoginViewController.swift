@@ -12,6 +12,10 @@ class LoginViewController: UIViewController {
 	
 	// MARK: - Properties
 	
+	@IBOutlet weak var emailField: UITextField!
+	@IBOutlet weak var passwordField: UITextField!
+	@IBOutlet weak var loginButton: UIButton!
+	
 	
 	// MARK: - Overrides
 	
@@ -24,6 +28,14 @@ class LoginViewController: UIViewController {
 		
 		// locking this login view to portrait since subviews won't all fit on smaller devices in landscape
 		return .Portrait
+	}
+	
+	
+	// MARK: - Actions
+	
+	@IBAction func loginClicked(sender: UIButton) {
+		
+		print("Login button was clicked. Sender: \(sender)")
 	}
 
 }
