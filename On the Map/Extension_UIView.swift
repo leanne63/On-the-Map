@@ -1,14 +1,14 @@
 //
-//  Extension_LoginViewController.swift
+//  Extension_UIView.swift
 //  On the Map
 //
 //  Created by leanne on 4/21/16.
 //  Copyright © 2016 leanne63. All rights reserved.
 //
 //  NOTE: as of this date, Xcode won't display arrays marked as @IBInspectable.
-//	I'm leaving this decoration in hopes that will change one day (soon!)
-//  - I can change this to represent individual settings, but then I'd have to
-//	limit the number of colors used in the gradient. I'd rather not do that.
+//  I can change the array property to represent individual settings, but then
+//	I'd have to limit the number of colors used in the gradient. I'd rather not
+//  do that.
 //
 
 import UIKit
@@ -23,7 +23,7 @@ extension UIView {
 	The colors used in this view's layer, if layer is CAGradientLayer.
 	
 	*/
-	@IBInspectable var gradientLayerColors: [UIColor]? {
+	var gradientLayerColors: [UIColor]? {
 		
 		get {
 			if let layer = (self.layer as? CAGradientLayer),
