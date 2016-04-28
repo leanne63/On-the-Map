@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -119,48 +118,48 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Enu-UL-ki3">
-                                <rect key="frame" x="20" y="26" width="560" height="343"/>
+                                <rect key="frame" x="10" y="69" width="580" height="343"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="udacityLogo" translatesAutoresizingMaskIntoConstraints="NO" id="XpW-AJ-vus">
-                                        <rect key="frame" x="230" y="0.0" width="100" height="100"/>
+                                        <rect key="frame" x="240" y="0.0" width="100" height="100"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="b8g-kf-vTl"/>
                                             <constraint firstAttribute="height" constant="100" id="dL2-1h-feK"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login to Udacity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dne-r3-dKY">
-                                        <rect key="frame" x="218" y="112" width="125" height="21"/>
+                                        <rect key="frame" x="228" y="112" width="125" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pjk-Kt-lJE">
-                                        <rect key="frame" x="0.0" y="145" width="560" height="30"/>
+                                        <rect key="frame" x="0.0" y="145" width="580" height="30"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="y4u-Fv-3KU">
-                                        <rect key="frame" x="0.0" y="187" width="560" height="30"/>
+                                        <rect key="frame" x="0.0" y="187" width="580" height="30"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aPT-l0-NXO">
-                                        <rect key="frame" x="0.0" y="229" width="560" height="30"/>
+                                        <rect key="frame" x="0.0" y="229" width="580" height="30"/>
                                         <color key="backgroundColor" red="0.98877578973770142" green="0.37906736135482788" blue="0.031414907425642014" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Login">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puq-CG-FxR">
-                                        <rect key="frame" x="0.0" y="271" width="560" height="30"/>
+                                        <rect key="frame" x="0.0" y="271" width="580" height="30"/>
                                         <state key="normal" title="Don't have an account? Sign Up!">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rRt-Lw-Bdl">
-                                        <rect key="frame" x="0.0" y="313" width="560" height="30"/>
+                                        <rect key="frame" x="0.0" y="313" width="580" height="30"/>
                                         <color key="backgroundColor" red="0.23137254901960785" green="0.34901960784313724" blue="0.59607843137254901" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Sign in with Facebook">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -168,14 +167,14 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="y4u-Fv-3KU" secondAttribute="trailing" id="GmH-OZ-PXO"/>
+                                    <constraint firstItem="y4u-Fv-3KU" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" id="GmH-OZ-PXO"/>
                                     <constraint firstItem="aPT-l0-NXO" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" id="LG1-2L-XDc"/>
                                     <constraint firstItem="rRt-Lw-Bdl" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" id="Url-Iy-d5b"/>
                                     <constraint firstItem="Pjk-Kt-lJE" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" id="WFo-rq-sz9"/>
-                                    <constraint firstAttribute="trailing" secondItem="puq-CG-FxR" secondAttribute="trailing" id="dxe-1e-Ho8"/>
-                                    <constraint firstAttribute="trailing" secondItem="Pjk-Kt-lJE" secondAttribute="trailing" id="eKg-io-fIA"/>
-                                    <constraint firstAttribute="trailing" secondItem="rRt-Lw-Bdl" secondAttribute="trailing" id="l0C-EH-kDP"/>
-                                    <constraint firstAttribute="trailing" secondItem="aPT-l0-NXO" secondAttribute="trailing" id="qlO-GP-bXq"/>
+                                    <constraint firstItem="puq-CG-FxR" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" id="dxe-1e-Ho8"/>
+                                    <constraint firstItem="Pjk-Kt-lJE" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" id="eKg-io-fIA"/>
+                                    <constraint firstItem="rRt-Lw-Bdl" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" id="l0C-EH-kDP"/>
+                                    <constraint firstItem="aPT-l0-NXO" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" id="qlO-GP-bXq"/>
                                     <constraint firstItem="y4u-Fv-3KU" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" id="xe2-lz-rys"/>
                                     <constraint firstItem="puq-CG-FxR" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" id="zHa-n9-do1"/>
                                 </constraints>
@@ -183,9 +182,9 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Enu-UL-ki3" firstAttribute="top" secondItem="xbV-PK-5Tm" secondAttribute="bottom" multiplier="1.3" id="KXx-xu-tpu"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Enu-UL-ki3" secondAttribute="trailing" id="jq6-xj-Tf1"/>
-                            <constraint firstItem="Enu-UL-ki3" firstAttribute="leading" secondItem="Olz-p4-9WK" secondAttribute="leadingMargin" id="u4z-iK-gw2"/>
+                            <constraint firstItem="Enu-UL-ki3" firstAttribute="width" secondItem="Olz-p4-9WK" secondAttribute="width" constant="-20" id="HNa-6w-Tn3"/>
+                            <constraint firstItem="Enu-UL-ki3" firstAttribute="centerX" secondItem="Olz-p4-9WK" secondAttribute="centerX" id="TMP-bV-7jh"/>
+                            <constraint firstItem="Enu-UL-ki3" firstAttribute="centerY" secondItem="Olz-p4-9WK" secondAttribute="centerY" multiplier="80%" id="YNI-Il-aFb"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="gradientColor">
