@@ -110,15 +110,10 @@
 			isa = PBXGroup;
 			children = (
 				D5DE9FC51CC7FB7A00537561 /* AppDelegate.swift */,
-				D5DE9FC71CC7FB7A00537561 /* FirstViewController.swift */,
-				D5DE9FC91CC7FB7A00537561 /* SecondViewController.swift */,
-				D5DE9FCB1CC7FB7A00537561 /* Main.storyboard */,
-				D5DE9FCE1CC7FB7A00537561 /* Assets.xcassets */,
-				D5DE9FD01CC7FB7A00537561 /* LaunchScreen.storyboard */,
-				D5DE9FD31CC7FB7A00537561 /* Info.plist */,
-				D5DE9FF71CC83E7500537561 /* LoginViewController.swift */,
-				D54387BD1CC98AFE00EC6DB6 /* LoginView.swift */,
-				D54387BF1CC9DE2300EC6DB6 /* Extension_UIView.swift */,
+				D5EB2CDC1CDBED20001737B3 /* Views */,
+				D5EB2CDB1CDBED03001737B3 /* View Controllers */,
+				D5EB2CDE1CDBED4A001737B3 /* Extensions */,
+				D5EB2CDD1CDBED39001737B3 /* Supporting Files */,
 			);
 			path = "On the Map";
 			sourceTree = "<group>";
@@ -139,6 +134,43 @@
 				D5DE9FE91CC7FB7B00537561 /* Info.plist */,
 			);
 			path = "On the MapUITests";
+			sourceTree = "<group>";
+		};
+		D5EB2CDB1CDBED03001737B3 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D5DE9FC71CC7FB7A00537561 /* FirstViewController.swift */,
+				D5DE9FC91CC7FB7A00537561 /* SecondViewController.swift */,
+				D5DE9FF71CC83E7500537561 /* LoginViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		D5EB2CDC1CDBED20001737B3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D5DE9FCB1CC7FB7A00537561 /* Main.storyboard */,
+				D5DE9FD01CC7FB7A00537561 /* LaunchScreen.storyboard */,
+				D54387BD1CC98AFE00EC6DB6 /* LoginView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		D5EB2CDD1CDBED39001737B3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D5DE9FCE1CC7FB7A00537561 /* Assets.xcassets */,
+				D5DE9FD31CC7FB7A00537561 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D5EB2CDE1CDBED4A001737B3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D54387BF1CC9DE2300EC6DB6 /* Extension_UIView.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
