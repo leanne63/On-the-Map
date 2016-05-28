@@ -6,11 +6,19 @@
 //  Copyright © 2016 leanne63. All rights reserved.
 //
 
+// TODO: Add keyboard toolbar for <> and Done
+// Password field needs to be marked as such
 import UIKit
 
 class LoginViewController: UIViewController {
 	
-	// MARK: - Properties
+	// MARK: - Properties (Non-Outlets)
+	
+	lazy var loginModel = Login()
+	lazy var userModel = User()
+	
+	
+	// MARK: - Properties (Outlets)
 	
 	@IBOutlet weak var emailField: UITextField!
 	@IBOutlet weak var passwordField: UITextField!
@@ -35,14 +43,33 @@ class LoginViewController: UIViewController {
 	
 	@IBAction func loginClicked(sender: UIButton) {
 		
-		print("Login button was clicked. Sender: \(sender)")
-		
-		let isValidLoginData = validateLoginData()
-		print("goodLoginValues = \(isValidLoginData)")
+		let loginDataValidationResult = validateLoginData()
+		print("loginDataValidationResult = \(loginDataValidationResult)")
 		
 		
 		// get Udacity session id (not retrieving data at this time)
-		
+		if loginDataValidationResult.isSuccess {
+			// TODO: valid data exists; now login, retrieve session id
+			loginModel.login()
+			
+			// TODO: if successful login, get user data; use key-value observing
+			// TODO: alertview for login failure - why? invalid Udacity login values or network?
+			// TEST: what happens if network is unavailable?
+		}
+		else {
+			let alertViewTitle = "Please correct login:"
+			let alertViewMessage = loginDataValidationResult.errorMsg
+			let alertControllerStyle = UIAlertControllerStyle.Alert
+			let alertView = UIAlertController(title: alertViewTitle, message: alertViewMessage, preferredStyle: alertControllerStyle)
+			
+			let alertActionTitle = "Return"
+			let alertActionStyle = UIAlertActionStyle.Default
+			let alertActionOK = UIAlertAction(title: alertActionTitle, style: alertActionStyle, handler: nil)
+			
+			alertView.addAction(alertActionOK)
+			
+			presentViewController(alertView, animated: true, completion: nil)
+		}
 	}
 	
 	
@@ -57,7 +84,7 @@ class LoginViewController: UIViewController {
 		- Failure message if validation unsuccessful, nil otherwise
 	
 	*/
-	private func validateLoginData() -> (Bool, String?) {
+	private func validateLoginData() -> (isSuccess: Bool, errorMsg: String?) {
 		
 		var returnBool = true
 		var failMessage: String? = nil
@@ -71,8 +98,8 @@ class LoginViewController: UIViewController {
 		}
 		
 		// validate basic email format
-		let successData: (success: Bool, errorMsg: String?) = validateEmailAddressFormat(email)
-		if !successData.success {
+		let successData: (isSuccess: Bool, errorMsg: String?) = validateEmailAddressFormat(email)
+		if !successData.isSuccess {
 			returnBool = false
 			failMessage = successData.errorMsg
 			return (returnBool, failMessage)
@@ -101,14 +128,17 @@ class LoginViewController: UIViewController {
 		// NSRegularExpression to ensure email in at least a correct format before sending
 		// [A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}
 		// [A-Z0-9._%+-]+
-		//		matches letters A thru Z, digits 0 thru 9, dot, underscore, percent, plus, hyphen occurring 1 or more times (+)
+		//		matches letters A thru Z, digits 0 thru 9, dot, underscore, percent, plus, hyphen
+		//			occurring 1 or more times (+)
 		// @ matches literal "at" character
 		// [A-Z0-9.-]+
 		//		matches letters A thru Z, digits 0 thru 9, dot, hyphen occurring 1 or more times (+)
 		// \. matches literal "dot" character
+		//		(note: our version has two backslashes - the first is escaping the 2nd, real backslash)
 		// [A-Z]{2,}
 		//		matches letters A thru Z occurring 2 or more times
-		// Note: regular expression matches are case sensitive by default; we'll use NSRegularExpressionOptions.CaseInsensitive to ignore that
+		// Note: regular expression matches are case sensitive by default;
+		//	we'll use NSRegularExpressionOptions.CaseInsensitive to ignore that
 		let regexPattern = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}"
 		guard let regex = try? NSRegularExpression(pattern: regexPattern, options: .CaseInsensitive) else {
 			returnBool = false
@@ -116,7 +146,10 @@ class LoginViewController: UIViewController {
 			return (returnBool, failMessage)
 		}
 		
-		let searchRange = NSMakeRange(0, emailAddress.characters.count)
+		// email address will be processed under the hood as an NSString
+		//	if it contains UTF multi-code-unit characters, its length will differ from
+		//	Swift's characters.count value; so convert to NSString for correct length
+		let searchRange = NSMakeRange(0, (emailAddress as NSString).length)
 		
 		guard regex.numberOfMatchesInString(emailAddress, options: .WithoutAnchoringBounds, range: searchRange) > 0 else {
 			returnBool = false

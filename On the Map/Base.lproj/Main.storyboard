@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="YCn-aC-dno">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="YCn-aC-dno">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -141,7 +141,7 @@
                                     <textField opaque="NO" clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="y4u-Fv-3KU">
                                         <rect key="frame" x="0.0" y="187" width="580" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aPT-l0-NXO">
                                         <rect key="frame" x="0.0" y="229" width="580" height="30"/>
@@ -153,13 +153,13 @@
                                             <action selector="loginClicked:" destination="YCn-aC-dno" eventType="touchUpInside" id="bsl-t4-0dy"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puq-CG-FxR">
+                                    <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puq-CG-FxR" userLabel="Sign Up Button">
                                         <rect key="frame" x="0.0" y="271" width="580" height="30"/>
                                         <state key="normal" title="Don't have an account? Sign Up!">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rRt-Lw-Bdl">
+                                    <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rRt-Lw-Bdl" userLabel="Facebook Sign In">
                                         <rect key="frame" x="0.0" y="313" width="580" height="30"/>
                                         <color key="backgroundColor" red="0.23137254901960785" green="0.34901960784313724" blue="0.59607843137254901" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Sign in with Facebook">
@@ -168,16 +168,16 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="y4u-Fv-3KU" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" id="GmH-OZ-PXO"/>
-                                    <constraint firstItem="aPT-l0-NXO" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" id="LG1-2L-XDc"/>
-                                    <constraint firstItem="rRt-Lw-Bdl" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" id="Url-Iy-d5b"/>
-                                    <constraint firstItem="Pjk-Kt-lJE" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" id="WFo-rq-sz9"/>
-                                    <constraint firstItem="puq-CG-FxR" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" id="dxe-1e-Ho8"/>
-                                    <constraint firstItem="Pjk-Kt-lJE" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" id="eKg-io-fIA"/>
-                                    <constraint firstItem="rRt-Lw-Bdl" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" id="l0C-EH-kDP"/>
-                                    <constraint firstItem="aPT-l0-NXO" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" id="qlO-GP-bXq"/>
-                                    <constraint firstItem="y4u-Fv-3KU" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" id="xe2-lz-rys"/>
-                                    <constraint firstItem="puq-CG-FxR" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" id="zHa-n9-do1"/>
+                                    <constraint firstItem="y4u-Fv-3KU" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" identifier="PasswordFieldTrailingToView" id="GmH-OZ-PXO"/>
+                                    <constraint firstItem="aPT-l0-NXO" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" identifier="LoginButtonLeadingToView" id="LG1-2L-XDc"/>
+                                    <constraint firstItem="rRt-Lw-Bdl" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" identifier="FacebookSignInLeadingToView" id="Url-Iy-d5b"/>
+                                    <constraint firstItem="Pjk-Kt-lJE" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" identifier="EmailFieldLeadingToView" id="WFo-rq-sz9"/>
+                                    <constraint firstItem="puq-CG-FxR" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" identifier="SignUpButtonTrailingToView" id="dxe-1e-Ho8"/>
+                                    <constraint firstItem="Pjk-Kt-lJE" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" identifier="EmailFieldTrailingToView" id="eKg-io-fIA"/>
+                                    <constraint firstItem="rRt-Lw-Bdl" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" identifier="FacebookSignInTrailingToView" id="l0C-EH-kDP"/>
+                                    <constraint firstItem="aPT-l0-NXO" firstAttribute="trailing" secondItem="Enu-UL-ki3" secondAttribute="trailing" identifier="LoginButtonTrailingToView" id="qlO-GP-bXq"/>
+                                    <constraint firstItem="y4u-Fv-3KU" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" identifier="PasswordFieldLeadingToView" id="xe2-lz-rys"/>
+                                    <constraint firstItem="puq-CG-FxR" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" identifier="SignUpButtonLeadingToView" id="zHa-n9-do1"/>
                                 </constraints>
                             </stackView>
                         </subviews>
