@@ -17,7 +17,7 @@ struct Login {
 	
 	// MARK: - Constants
 	
-	let sessionIdChanged = "sessionIdChanged"
+	let sessionIdChangedNotification = "sessionIdChangedNotification"
 	let sessionIdKey = "sessionIdKey"
 	
 	
@@ -36,7 +36,7 @@ struct Login {
 			}
 			
 			// post notification for observers
-			let notification = NSNotification(name: sessionIdChanged, object: nil, userInfo: userInfo)
+			let notification = NSNotification(name: sessionIdChangedNotification, object: nil, userInfo: userInfo)
 			NSNotificationCenter.defaultCenter().postNotification(notification)
 		}
 	}
