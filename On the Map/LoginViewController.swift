@@ -14,7 +14,7 @@ class LoginViewController: UIViewController {
 	
 	// MARK: - Properties (Non-Outlets)
 	
-	lazy var loginModel = Login()
+	lazy var loginModel = UdacityLogin()
 	lazy var userModel = User()
 	
 	
@@ -51,27 +51,7 @@ class LoginViewController: UIViewController {
 	
 	@IBAction func loginClicked(sender: UIButton) {
 		
-		let loginDataValidationResult = loginModel.validateLoginData(emailField.text, password: passwordField.text)
-		
-		// get Udacity session id (not retrieving data at this time)
-		if loginDataValidationResult.isSuccess {
-			// TODO: valid data exists; now login, retrieve session id
-			loginModel.loginToUdacity(emailField.text!, password: passwordField.text!)
-		}
-		else {
-			let alertViewTitle = "Please correct login:"
-			let alertViewMessage = loginDataValidationResult.errorMsg
-			let alertControllerStyle = UIAlertControllerStyle.Alert
-			let alertView = UIAlertController(title: alertViewTitle, message: alertViewMessage, preferredStyle: alertControllerStyle)
-			
-			let alertActionTitle = "Return"
-			let alertActionStyle = UIAlertActionStyle.Default
-			let alertActionOK = UIAlertAction(title: alertActionTitle, style: alertActionStyle, handler: nil)
-			
-			alertView.addAction(alertActionOK)
-			
-			presentViewController(alertView, animated: true, completion: nil)
-		}
+		loginModel.loginToUdacity(emailField.text, password: passwordField.text)
 	}
 	
 	
@@ -113,10 +93,6 @@ class LoginViewController: UIViewController {
 	*/
 	func loginDidFail(notification: NSNotification) {
 		
-		print("IN \(#function)")
-		
-		print(notification.userInfo)
-
 		let alertViewTitle = "Login failed!"
 		let alertViewMessage = notification.userInfo![loginModel.messageKey] as! String
 		let alertControllerStyle = UIAlertControllerStyle.Alert

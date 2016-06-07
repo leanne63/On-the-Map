@@ -1,5 +1,5 @@
 //
-//  Login.swift
+//  UdacityLogin.swift
 //  On the Map
 //
 //  Created by leanne on 5/20/16.
@@ -10,10 +10,10 @@ import Foundation
 
 /**
 
-Handles On the Map login-related activities.
+Handles Udacity login-related activities.
 
 */
-struct Login {
+struct UdacityLogin {
 	
 	// MARK: - Constants
 	
@@ -22,34 +22,34 @@ struct Login {
 	let loginDidFailNotification = "loginDidFailNotification"
 	
 	// dictionary keys
-	let idKey = "id"
-	let apiKey = "udacity"
-	let usernameKey = "username"
-	let passwordKey = "password"
-	let accountKey = "account"
-	let sessionKey = "session"
-	let accountIdKey = "key"
-	let sessionIdKey = "sessionId"
 	let messageKey = "message"
+	private let idKey = "id"
+	private let apiKey = "udacity"
+	private let usernameKey = "username"
+	private let passwordKey = "password"
+	private let accountKey = "account"
+	private let sessionKey = "session"
+	private let accountIdKey = "key"
+	private let sessionIdKey = "sessionId"
 	
 	// request-related
-	let urlString = "https:/www.udacity.com/api/session"
-	let postMethod = "POST"
-	let jsonMimeType = "application/json"
-	let acceptHeader = "Accept"
-	let contentTypeHeader = "Content-Type"
+	private let urlString = "https:/www.udacity.com/api/session"
+	private let postMethod = "POST"
+	private let jsonMimeType = "application/json"
+	private let acceptHeader = "Accept"
+	private let contentTypeHeader = "Content-Type"
 	
 	// failure messages
-	let missingLoginDataMessage = "Login email and password are both required."
-	let regexCreationFailureMessage = "Unable to validate email address."
-	let jsonSerializationFailureMessage = "Unable to convert login data to required format."
-	let invalidEmailFormatMessage = "Email address isn't formatted correctly"
-	let errorReceivedMessage = "An error was received:\n"
-	let badStatusCodeMessage = "Invalid login email or password."
-	let loginDataUnavailableMessage = "Login data unavailable."
-	let unableToParseDataMessage = "Unable to parse received data."
-	let accountDataUnavailableMessage = "Account data unavailable."
-	let sessionDataUnavailableMessage = "Session data unavailable."
+	private let missingLoginDataMessage = "Login email and password are both required."
+	private let regexCreationFailureMessage = "Unable to validate email address."
+	private let jsonSerializationFailureMessage = "Unable to convert login data to required format."
+	private let invalidEmailFormatMessage = "Email address isn't formatted correctly"
+	private let errorReceivedMessage = "An error was received:\n"
+	private let badStatusCodeMessage = "Invalid login email or password."
+	private let loginDataUnavailableMessage = "Login data unavailable."
+	private let unableToParseDataMessage = "Unable to parse received data."
+	private let accountDataUnavailableMessage = "Account data unavailable."
+	private let sessionDataUnavailableMessage = "Session data unavailable."
 	
 	// regular expression patterns, including pattern explanation
 	/*
@@ -68,8 +68,13 @@ struct Login {
 	 * Note: regular expression matches are case sensitive by default;
 	 *	we'll use NSRegularExpressionOptions.CaseInsensitive to ignore that
 	 */
-	let regexEmailPattern = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}"
-
+	private let regexEmailPattern = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}"
+	
+	
+	// MARK: - Properties
+	
+	/// Udacity session ID; required for logging out
+	private var sessionID: String?
 	
 	
 	// MARK: - Functions
@@ -81,9 +86,19 @@ struct Login {
 	- parameters:
 		- email: user's Udacity email address.
 		- password: user's Udacity password.
+	
 	 */
-	func loginToUdacity(email: String, password: String) {
+	mutating func loginToUdacity(email: String?, password: String?) {
 
+		// validate login data
+		let validationResult = validateLoginData(email, password: password)
+		guard validationResult.isSuccess, let email = email, let password = password else {
+			let failureMessage = validationResult.errorMsg!
+			postFailureNotification(failureMessage)
+			return
+		}
+		
+		// data is good; begin request
 		guard let requestURL = NSURL(string: urlString) else {
 			// send login failure notification
 			return
@@ -156,11 +171,10 @@ struct Login {
 					return
 			}
 			
+			self.sessionID = udacitySessionId
+			
 			// post success notification for observers
-			let userInfo = [
-				self.accountKey: userAccountId,
-				self.sessionIdKey: udacitySessionId
-			]
+			let userInfo = [self.accountKey: userAccountId]
 			
 			self.postNotificationOnMain(self.loginDidCompleteNotification, userInfo: userInfo)
 		}
@@ -175,8 +189,8 @@ struct Login {
 	- parameter sessionID: ID for current Udacity session.
 	
 	*/
-	func logoutFromUdacity() {
-		// TODO: DELETE request with session id
+	mutating func logoutFromUdacity() {
+		// TODO: DELETE request with session id (mutating 'cause removes session id)
 		print("IN: \(#function)")
 	}
 	
@@ -262,7 +276,7 @@ struct Login {
 	- parameter failureMessage: Failure information to be provided to observers.
 	
 	 */
-	func postFailureNotification(failureMessage: String) {
+	private func postFailureNotification(failureMessage: String) {
 		
 		let userInfo = [messageKey: failureMessage]
 		postNotificationOnMain(loginDidFailNotification, userInfo: userInfo)
@@ -278,7 +292,7 @@ struct Login {
 		- userInfo: Dictionary of custom information to be provided to observers, or nil if none needed.
 	
 	 */
-	func postNotificationOnMain(notificationName: String, userInfo: [String: String]?) {
+	private func postNotificationOnMain(notificationName: String, userInfo: [String: String]?) {
 		
 		let notification = NSNotification(name: notificationName, object: nil, userInfo: userInfo)
 		
