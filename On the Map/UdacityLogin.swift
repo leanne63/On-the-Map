@@ -23,11 +23,11 @@ struct UdacityLogin {
 	
 	// dictionary keys
 	let messageKey = "message"
+	let accountKey = "account"
 	private let idKey = "id"
 	private let apiKey = "udacity"
 	private let usernameKey = "username"
 	private let passwordKey = "password"
-	private let accountKey = "account"
 	private let sessionKey = "session"
 	private let accountIdKey = "key"
 	private let sessionIdKey = "sessionId"
@@ -42,6 +42,7 @@ struct UdacityLogin {
 	// failure messages
 	private let missingLoginDataMessage = "Login email and password are both required."
 	private let regexCreationFailureMessage = "Unable to validate email address."
+	private let invalidRequestURLMessage = "Invalid request URL."
 	private let jsonSerializationFailureMessage = "Unable to convert login data to required format."
 	private let invalidEmailFormatMessage = "Email address isn't formatted correctly"
 	private let errorReceivedMessage = "An error was received:\n"
@@ -100,7 +101,8 @@ struct UdacityLogin {
 		
 		// data is good; begin request
 		guard let requestURL = NSURL(string: urlString) else {
-			// send login failure notification
+			let failureMessage = invalidRequestURLMessage
+			postFailureNotification(failureMessage)
 			return
 		}
 		
