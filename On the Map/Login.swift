@@ -10,7 +10,7 @@ import Foundation
 
 /**
 
-Represents On the Map login-related data.
+Handles On the Map login-related activities.
 
 */
 struct Login {
@@ -40,6 +40,10 @@ struct Login {
 	let contentTypeHeader = "Content-Type"
 	
 	// failure messages
+	let missingLoginDataMessage = "Login email and password are both required."
+	let regexCreationFailureMessage = "Unable to validate email address."
+	let jsonSerializationFailureMessage = "Unable to convert login data to required format."
+	let invalidEmailFormatMessage = "Email address isn't formatted correctly"
 	let errorReceivedMessage = "An error was received:\n"
 	let badStatusCodeMessage = "Invalid login email or password."
 	let loginDataUnavailableMessage = "Login data unavailable."
@@ -47,14 +51,38 @@ struct Login {
 	let accountDataUnavailableMessage = "Account data unavailable."
 	let sessionDataUnavailableMessage = "Session data unavailable."
 	
+	// regular expression patterns, including pattern explanation
+	/*
+	 * NSRegularExpression to ensure email in at least a correct format before sending
+	 * [A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}
+	 * [A-Z0-9._%+-]+
+	 *		matches letters A thru Z, digits 0 thru 9, dot, underscore, percent, plus, hyphen
+	 *			occurring 1 or more times (+)
+	 * @ matches literal "at" character
+	 * [A-Z0-9.-]+
+	 *		matches letters A thru Z, digits 0 thru 9, dot, hyphen occurring 1 or more times (+)
+	 * \. matches literal "dot" character
+	 *		(note: our version has two backslashes - the first is escaping the 2nd, real backslash)
+	 * [A-Z]{2,}
+	 *		matches letters A thru Z occurring 2 or more times
+	 * Note: regular expression matches are case sensitive by default;
+	 *	we'll use NSRegularExpressionOptions.CaseInsensitive to ignore that
+	 */
+	let regexEmailPattern = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}"
+
+	
 	
 	// MARK: - Functions
 	
+	/**
+	Attempts to login to Udacity API.
+	  
+	- parameters:
+		- email: user's Udacity email address.
+		- password: user's Udacity password.
+	 */
 	func loginToUdacity(email: String, password: String) {
-		// TODO: POST request to get session id
-		// https://docs.google.com/document/d/1MECZgeASBDYrbBg7RlRu9zBBLGd3_kfzsN-0FtURqn0/pub?embedded=true
-		print("IN: \(#function)")
-		
+
 		guard let requestURL = NSURL(string: urlString) else {
 			// send login failure notification
 			return
@@ -68,7 +96,8 @@ struct Login {
 		let jsonBodyDict = [apiKey: [usernameKey: email, passwordKey: password]]
 		let jsonWritingOptions = NSJSONWritingOptions()
 		guard let jsonBody: NSData = try? NSJSONSerialization.dataWithJSONObject(jsonBodyDict, options: jsonWritingOptions) else {
-			// TODO: send failure notification
+			let failureMessage = jsonSerializationFailureMessage
+			postFailureNotification(failureMessage)
 			return
 		}
 
@@ -77,38 +106,24 @@ struct Login {
 		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
 			(data, response, error) in
 			
-			func postFailureNotification(failureMessage: String) {
-
-				let userInfo = [self.messageKey: failureMessage]
-				let notification = NSNotification(name: self.loginDidFailNotification, object: nil, userInfo: userInfo)
-				postNotificationOnMain(notification)
-			}
-			
-			func postNotificationOnMain(notification: NSNotification) {
-				
-				NSOperationQueue.mainQueue().addOperationWithBlock {
-					NSNotificationCenter.defaultCenter().postNotification(notification)
-				}
-			}
-			
 			if error != nil {
 				
 				let errorMessage = error!.userInfo[NSLocalizedDescriptionKey] as! String
 				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
-				postFailureNotification(failureMessage)
+				self.postFailureNotification(failureMessage)
 				return
 			}
 			
 			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
 				
 				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
-				postFailureNotification(failureMessage)
+				self.postFailureNotification(failureMessage)
 				return
 			}
 			
 			guard let data = data else {
 				
-				postFailureNotification(self.loginDataUnavailableMessage)
+				self.postFailureNotification(self.loginDataUnavailableMessage)
 				return
 			}
 			
@@ -122,32 +137,31 @@ struct Login {
 			
 			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(subData, options: .AllowFragments) else {
 				
-				postFailureNotification(self.unableToParseDataMessage)
+				self.postFailureNotification(self.unableToParseDataMessage)
 				return
 			}
 			
 			guard let accountData = parsedData[self.accountKey] as? [String: AnyObject],
 				let userAccountId = accountData[self.accountIdKey] as? String else {
 					
-					postFailureNotification(self.accountDataUnavailableMessage)
+					self.postFailureNotification(self.accountDataUnavailableMessage)
 					return
 			}
 			
 			guard let sessionData = parsedData[self.sessionKey] as? [String: String],
 				let udacitySessionId = sessionData[self.idKey] else {
 					
-					postFailureNotification(self.sessionDataUnavailableMessage)
+					self.postFailureNotification(self.sessionDataUnavailableMessage)
 					return
 			}
 			
+			// post notification for observers
 			let userInfo = [
 				self.accountKey: userAccountId,
 				self.sessionIdKey: udacitySessionId
 			]
 			
-			// post notification for observers
-			let notification = NSNotification(name: self.loginDidCompleteNotification, object: nil, userInfo: userInfo)
-			postNotificationOnMain(notification)
+			self.postNotificationOnMain(self.loginDidCompleteNotification, userInfo: userInfo)
 		}
 		
 		task.resume()
@@ -156,6 +170,13 @@ struct Login {
 
 	}
 
+	/**
+	
+	Attempts to logout from Udacity API.
+	
+	- parameter sessionID: ID for current Udacity session.
+	
+	*/
 	func logoutFromUdacity() {
 		// TODO: DELETE request with session id
 		print("IN: \(#function)")
@@ -163,11 +184,11 @@ struct Login {
 	
 	/**
 	
-	Validate login data for minimal correctness
+	Validates login data for minimal correctness
 	
-	- returns: Tuple containing
-	- Bool indicating whether validation was successful
-	- Failure message if validation unsuccessful, nil otherwise
+	- returns: Tuple containing:
+		* Bool indicating whether validation was successful
+		* Failure message if validation unsuccessful, nil otherwise
 	
 	*/
 	func validateLoginData(email: String?, password: String?) -> (isSuccess: Bool, errorMsg: String?) {
@@ -179,7 +200,7 @@ struct Login {
 		guard let email = email where !email.isEmpty,
 			let password = password where !password.isEmpty else {
 				returnBool = false
-				failMessage = "login email and password are both required"
+				failMessage = missingLoginDataMessage
 				return (returnBool, failMessage)
 		}
 		
@@ -202,8 +223,8 @@ struct Login {
 	- parameter emailAddress: an email address to validate
 	
 	- returns: Tuple containing:
-	- Bool indicating whether validation was successful
-	- Failure message if validation unsuccessful, nil otherwise
+		* Bool indicating whether validation was successful
+		* Failure message if validation unsuccessful, nil otherwise
 	
 	*/
 	private func validateEmailAddressFormat(emailAddress: String) -> (Bool, String?) {
@@ -211,24 +232,9 @@ struct Login {
 		var returnBool = true
 		var failMessage: String? = nil
 		
-		// NSRegularExpression to ensure email in at least a correct format before sending
-		// [A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}
-		// [A-Z0-9._%+-]+
-		//		matches letters A thru Z, digits 0 thru 9, dot, underscore, percent, plus, hyphen
-		//			occurring 1 or more times (+)
-		// @ matches literal "at" character
-		// [A-Z0-9.-]+
-		//		matches letters A thru Z, digits 0 thru 9, dot, hyphen occurring 1 or more times (+)
-		// \. matches literal "dot" character
-		//		(note: our version has two backslashes - the first is escaping the 2nd, real backslash)
-		// [A-Z]{2,}
-		//		matches letters A thru Z occurring 2 or more times
-		// Note: regular expression matches are case sensitive by default;
-		//	we'll use NSRegularExpressionOptions.CaseInsensitive to ignore that
-		let regexPattern = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}"
-		guard let regex = try? NSRegularExpression(pattern: regexPattern, options: .CaseInsensitive) else {
+		guard let regex = try? NSRegularExpression(pattern: regexEmailPattern, options: .CaseInsensitive) else {
 			returnBool = false
-			failMessage = "unable to validate email address"
+			failMessage = regexCreationFailureMessage
 			return (returnBool, failMessage)
 		}
 		
@@ -239,7 +245,7 @@ struct Login {
 		
 		guard regex.numberOfMatchesInString(emailAddress, options: .WithoutAnchoringBounds, range: searchRange) > 0 else {
 			returnBool = false
-			failMessage = "email address isn't formatted correctly"
+			failMessage = invalidEmailFormatMessage
 			return (returnBool, failMessage)
 		}
 		
@@ -247,5 +253,40 @@ struct Login {
 		return(returnBool, failMessage)
 		
 	}
-
+	
+	
+	// MARK: - Notification Handling
+	
+	/**
+	
+	Sets up notification containing a failure message.
+	
+	- parameter failureMessage: Failure information to be provided to observers.
+	
+	 */
+	func postFailureNotification(failureMessage: String) {
+		
+		let userInfo = [messageKey: failureMessage]
+		postNotificationOnMain(loginDidFailNotification, userInfo: userInfo)
+	}
+	
+	
+	/**
+	
+	Creates and posts a notification to the main thread.
+	
+	- parameters:
+		- notificationName: Notification name to be provided to observers.
+		- userInfo: Dictionary of custom information to be provided to observers, or nil if none needed.
+	
+	 */
+	func postNotificationOnMain(notificationName: String, userInfo: [String: String]?) {
+		
+		let notification = NSNotification(name: notificationName, object: nil, userInfo: userInfo)
+		
+		NSOperationQueue.mainQueue().addOperationWithBlock {
+			NSNotificationCenter.defaultCenter().postNotification(notification)
+		}
+	}
+	
 }
