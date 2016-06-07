@@ -15,11 +15,7 @@ Represents On the Map user-related data.
 */
 struct User {
 	
-	/**
-	
-	Retrieved on successful login.
-	
-	*/
+	var userAccountId: String?
 	var userFirstName: String?
 	var userLastName: String?
 	var userNickname: String?

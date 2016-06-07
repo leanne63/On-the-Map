@@ -7,7 +7,7 @@
 //
 
 // TODO: Add keyboard toolbar for <> and Done
-// Password field needs to be marked as such
+
 import UIKit
 
 class LoginViewController: UIViewController {
@@ -27,10 +27,18 @@ class LoginViewController: UIViewController {
 	
 	// MARK: - Overrides
 	
-	override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
 		
+		subscribeToNotifications()
     }
+	
+	override func viewWillDisappear(animated: Bool) {
+		super.viewWillDisappear(animated)
+		
+		// remove ourself from all notifications
+		NSNotificationCenter.defaultCenter().removeObserver(self)
+	}
 
 	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
 		
@@ -48,11 +56,7 @@ class LoginViewController: UIViewController {
 		// get Udacity session id (not retrieving data at this time)
 		if loginDataValidationResult.isSuccess {
 			// TODO: valid data exists; now login, retrieve session id
-			loginModel.loginToUdacity()
-			
-			// TODO: if successful login, get user data; use key-value observing
-			// TODO: alertview for login failure - why? invalid Udacity login values or network?
-			// TEST: what happens if network is unavailable?
+			loginModel.loginToUdacity(emailField.text!, password: passwordField.text!)
 		}
 		else {
 			let alertViewTitle = "Please correct login:"
@@ -71,6 +75,60 @@ class LoginViewController: UIViewController {
 	}
 	
 	
-	// MARK: - Private Functions
+	// MARK: - Notification Handlers
+	
+	/// Subscribes to any needed notifications.
+	private func subscribeToNotifications() {
+		
+		NSNotificationCenter.defaultCenter().addObserver(self,
+		                                                 selector: #selector(loginDidComplete(_:)),
+		                                                 name: loginModel.loginDidCompleteNotification,
+		                                                 object: nil)
+		
+		NSNotificationCenter.defaultCenter().addObserver(self,
+		                                                 selector: #selector(loginDidFail(_:)),
+		                                                 name: loginModel.loginDidFailNotification,
+		                                                 object: nil)
+	}
+	
+	
+	/**
+     *	Handles actions needed when login completes successfully.
+	 *
+	 *	- parameter: notification object
+	 */
+	func loginDidComplete(notification: NSNotification) {
+		
+		// TODO: respond to login (bring up modal tab controller, set to map)
+		print("IN \(#function)")
+		
+		print(notification.userInfo)
+	}
+	
+	
+	/**
+	*	Handles actions related to a failed login attempt.
+	*
+	*	- parameter: notification object
+	*/
+	func loginDidFail(notification: NSNotification) {
+		
+		print("IN \(#function)")
+		
+		print(notification.userInfo)
+
+		let alertViewTitle = "Login failed!"
+		let alertViewMessage = notification.userInfo![loginModel.messageKey] as! String
+		let alertControllerStyle = UIAlertControllerStyle.Alert
+		let alertView = UIAlertController(title: alertViewTitle, message: alertViewMessage, preferredStyle: alertControllerStyle)
+		
+		let alertActionTitle = "Return"
+		let alertActionStyle = UIAlertActionStyle.Default
+		let alertActionOK = UIAlertAction(title: alertActionTitle, style: alertActionStyle, handler: nil)
+		
+		alertView.addAction(alertActionOK)
+		
+		presentViewController(alertView, animated: true, completion: nil)
+	}
 	
 }

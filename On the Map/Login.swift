@@ -17,37 +17,143 @@ struct Login {
 	
 	// MARK: - Constants
 	
-	let sessionIdChangedNotification = "sessionIdChangedNotification"
-	let sessionIdKey = "sessionIdKey"
+	// notification names
+	let loginDidCompleteNotification = "loginDidCompleteNotification"
+	let loginDidFailNotification = "loginDidFailNotification"
 	
+	// dictionary keys
+	let idKey = "id"
+	let apiKey = "udacity"
+	let usernameKey = "username"
+	let passwordKey = "password"
+	let accountKey = "account"
+	let sessionKey = "session"
+	let accountIdKey = "key"
+	let sessionIdKey = "sessionId"
+	let messageKey = "message"
 	
-	// MARK: - Properties
+	// request-related
+	let urlString = "https:/www.udacity.com/api/session"
+	let postMethod = "POST"
+	let jsonMimeType = "application/json"
+	let acceptHeader = "Accept"
+	let contentTypeHeader = "Content-Type"
 	
-	/**
-	
-	Retrieved on successful login.
-	
-	*/
-	var sessionId: String? {
-		didSet {
-			var userInfo: [String: String]?
-			if let sessionId = sessionId {
-				userInfo = [sessionIdKey: sessionId]
-			}
-			
-			// post notification for observers
-			let notification = NSNotification(name: sessionIdChangedNotification, object: nil, userInfo: userInfo)
-			NSNotificationCenter.defaultCenter().postNotification(notification)
-		}
-	}
+	// failure messages
+	let errorReceivedMessage = "An error was received:\n"
+	let badStatusCodeMessage = "Invalid login email or password."
+	let loginDataUnavailableMessage = "Login data unavailable."
+	let unableToParseDataMessage = "Unable to parse received data."
+	let accountDataUnavailableMessage = "Account data unavailable."
+	let sessionDataUnavailableMessage = "Session data unavailable."
 	
 	
 	// MARK: - Functions
 	
-	func loginToUdacity() {
+	func loginToUdacity(email: String, password: String) {
 		// TODO: POST request to get session id
 		// https://docs.google.com/document/d/1MECZgeASBDYrbBg7RlRu9zBBLGd3_kfzsN-0FtURqn0/pub?embedded=true
 		print("IN: \(#function)")
+		
+		guard let requestURL = NSURL(string: urlString) else {
+			// send login failure notification
+			return
+		}
+		
+		let request = NSMutableURLRequest(URL: requestURL)
+		request.HTTPMethod = postMethod
+		request.addValue(jsonMimeType, forHTTPHeaderField: acceptHeader)
+		request.addValue(jsonMimeType, forHTTPHeaderField: contentTypeHeader)
+		
+		let jsonBodyDict = [apiKey: [usernameKey: email, passwordKey: password]]
+		let jsonWritingOptions = NSJSONWritingOptions()
+		guard let jsonBody: NSData = try? NSJSONSerialization.dataWithJSONObject(jsonBodyDict, options: jsonWritingOptions) else {
+			// TODO: send failure notification
+			return
+		}
+
+		request.HTTPBody = jsonBody
+		
+		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+			(data, response, error) in
+			
+			func postFailureNotification(failureMessage: String) {
+
+				let userInfo = [self.messageKey: failureMessage]
+				let notification = NSNotification(name: self.loginDidFailNotification, object: nil, userInfo: userInfo)
+				postNotificationOnMain(notification)
+			}
+			
+			func postNotificationOnMain(notification: NSNotification) {
+				
+				NSOperationQueue.mainQueue().addOperationWithBlock {
+					NSNotificationCenter.defaultCenter().postNotification(notification)
+				}
+			}
+			
+			if error != nil {
+				
+				let errorMessage = error!.userInfo[NSLocalizedDescriptionKey] as! String
+				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
+				postFailureNotification(failureMessage)
+				return
+			}
+			
+			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
+				
+				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
+				postFailureNotification(failureMessage)
+				return
+			}
+			
+			guard let data = data else {
+				
+				postFailureNotification(self.loginDataUnavailableMessage)
+				return
+			}
+			
+			/* "FOR ALL RESPONSES FROM THE UDACITY API, YOU WILL NEED TO SKIP THE FIRST 5 CHARACTERS OF THE RESPONSE.
+			 * These characters are used for security purposes. In the examples, you will see that we subset the
+			 * response data in order to skip over them." - per API doc at:
+			 * https://docs.google.com/document/d/1MECZgeASBDYrbBg7RlRu9zBBLGd3_kfzsN-0FtURqn0/pub?embedded=true
+			 */
+			let range = NSMakeRange(5, data.length - 5)
+			let subData = data.subdataWithRange(range)
+			
+			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(subData, options: .AllowFragments) else {
+				
+				postFailureNotification(self.unableToParseDataMessage)
+				return
+			}
+			
+			guard let accountData = parsedData[self.accountKey] as? [String: AnyObject],
+				let userAccountId = accountData[self.accountIdKey] as? String else {
+					
+					postFailureNotification(self.accountDataUnavailableMessage)
+					return
+			}
+			
+			guard let sessionData = parsedData[self.sessionKey] as? [String: String],
+				let udacitySessionId = sessionData[self.idKey] else {
+					
+					postFailureNotification(self.sessionDataUnavailableMessage)
+					return
+			}
+			
+			let userInfo = [
+				self.accountKey: userAccountId,
+				self.sessionIdKey: udacitySessionId
+			]
+			
+			// post notification for observers
+			let notification = NSNotification(name: self.loginDidCompleteNotification, object: nil, userInfo: userInfo)
+			postNotificationOnMain(notification)
+		}
+		
+		task.resume()
+		
+		// TODO: what happens if network is unavailable?
+
 	}
 
 	func logoutFromUdacity() {
@@ -141,7 +247,5 @@ struct Login {
 		return(returnBool, failMessage)
 		
 	}
-	
-
 
 }
