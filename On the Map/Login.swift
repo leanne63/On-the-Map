@@ -75,6 +75,7 @@ struct Login {
 	// MARK: - Functions
 	
 	/**
+	
 	Attempts to login to Udacity API.
 	  
 	- parameters:
@@ -155,7 +156,7 @@ struct Login {
 					return
 			}
 			
-			// post notification for observers
+			// post success notification for observers
 			let userInfo = [
 				self.accountKey: userAccountId,
 				self.sessionIdKey: udacitySessionId
@@ -165,9 +166,6 @@ struct Login {
 		}
 		
 		task.resume()
-		
-		// TODO: what happens if network is unavailable?
-
 	}
 
 	/**
@@ -259,7 +257,7 @@ struct Login {
 	
 	/**
 	
-	Sets up notification containing a failure message.
+	Post notification containing a failure message.
 	
 	- parameter failureMessage: Failure information to be provided to observers.
 	
