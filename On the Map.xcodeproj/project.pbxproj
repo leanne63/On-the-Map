@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D54387BE1CC98AFE00EC6DB6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54387BD1CC98AFE00EC6DB6 /* LoginView.swift */; };
 		D54387C01CC9DE2300EC6DB6 /* Extension_UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54387BF1CC9DE2300EC6DB6 /* Extension_UIView.swift */; };
+		D5CE4E331D08699200283DC6 /* Extension_NSNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5CE4E321D08699200283DC6 /* Extension_NSNotificationCenter.swift */; };
 		D5D582A21CFA229B00E39110 /* UdacityLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D582A01CFA229B00E39110 /* UdacityLogin.swift */; };
 		D5D582A31CFA229B00E39110 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D582A11CFA229B00E39110 /* User.swift */; };
 		D5DE9FC61CC7FB7A00537561 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DE9FC51CC7FB7A00537561 /* AppDelegate.swift */; };
@@ -43,6 +44,7 @@
 /* Begin PBXFileReference section */
 		D54387BD1CC98AFE00EC6DB6 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		D54387BF1CC9DE2300EC6DB6 /* Extension_UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_UIView.swift; sourceTree = "<group>"; };
+		D5CE4E321D08699200283DC6 /* Extension_NSNotificationCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_NSNotificationCenter.swift; sourceTree = "<group>"; };
 		D5D582A01CFA229B00E39110 /* UdacityLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UdacityLogin.swift; path = "On the Map/UdacityLogin.swift"; sourceTree = "<group>"; };
 		D5D582A11CFA229B00E39110 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = "On the Map/User.swift"; sourceTree = "<group>"; };
 		D5DE9FC21CC7FB7A00537561 /* On the Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On the Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				D54387BF1CC9DE2300EC6DB6 /* Extension_UIView.swift */,
+				D5CE4E321D08699200283DC6 /* Extension_NSNotificationCenter.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 			files = (
 				D5D582A21CFA229B00E39110 /* UdacityLogin.swift in Sources */,
 				D54387C01CC9DE2300EC6DB6 /* Extension_UIView.swift in Sources */,
+				D5CE4E331D08699200283DC6 /* Extension_NSNotificationCenter.swift in Sources */,
 				D5DE9FF81CC83E7500537561 /* LoginViewController.swift in Sources */,
 				D54387BE1CC98AFE00EC6DB6 /* LoginView.swift in Sources */,
 				D5D582A31CFA229B00E39110 /* User.swift in Sources */,

@@ -178,7 +178,7 @@ struct UdacityLogin {
 			// post success notification for observers
 			let userInfo = [self.accountKey: userAccountId]
 			
-			self.postNotificationOnMain(self.loginDidCompleteNotification, userInfo: userInfo)
+			NSNotificationCenter.postNotificationOnMain(self.loginDidCompleteNotification, userInfo: userInfo)
 		}
 		
 		task.resume()
@@ -281,26 +281,8 @@ struct UdacityLogin {
 	private func postFailureNotification(failureMessage: String) {
 		
 		let userInfo = [messageKey: failureMessage]
-		postNotificationOnMain(loginDidFailNotification, userInfo: userInfo)
-	}
-	
-	
-	/**
-	
-	Creates and posts a notification to the main thread.
-	
-	- parameters:
-		- notificationName: Notification name to be provided to observers.
-		- userInfo: Dictionary of custom information to be provided to observers, or nil if none needed.
-	
-	 */
-	private func postNotificationOnMain(notificationName: String, userInfo: [String: String]?) {
-		
-		let notification = NSNotification(name: notificationName, object: nil, userInfo: userInfo)
-		
-		NSOperationQueue.mainQueue().addOperationWithBlock {
-			NSNotificationCenter.defaultCenter().postNotification(notification)
-		}
+
+		NSNotificationCenter.postNotificationOnMain(loginDidFailNotification, userInfo: userInfo)
 	}
 	
 }

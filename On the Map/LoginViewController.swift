@@ -79,10 +79,15 @@ class LoginViewController: UIViewController {
 	 */
 	func loginDidComplete(notification: NSNotification) {
 		
-		// TODO: respond to login (bring up modal tab controller, set to map)
 		print("IN \(#function)")
-		
 		print(notification.userInfo)
+		
+		// TODO: get user data
+		let accountId = notification.userInfo![loginModel.accountKey] as! String
+		
+		userModel.getUserInfo(accountId)
+		
+		// TODO: bring up modal tab controller, set to map
 	}
 	
 	
