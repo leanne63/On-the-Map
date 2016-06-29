@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SystemConfiguration	// required for SCNetworkReachability
 
 /**
 
@@ -47,10 +48,11 @@ struct UdacityLogin {
 	private let invalidEmailFormatMessage = "Email address isn't formatted correctly"
 	private let errorReceivedMessage = "An error was received:\n"
 	private let badStatusCodeMessage = "Invalid login email or password."
-	private let loginDataUnavailableMessage = "Login data unavailable."
+	private let loginDataUnavailableMessage = "Login data is unavailable."
 	private let unableToParseDataMessage = "Unable to parse received data."
-	private let accountDataUnavailableMessage = "Account data unavailable."
-	private let sessionDataUnavailableMessage = "Session data unavailable."
+	private let accountDataUnavailableMessage = "Account data is  not available."
+	private let sessionDataUnavailableMessage = "Session data is not available."
+	private let networkUnreachableMessage = "Network connection is not available."
 	
 	// regular expression patterns, including pattern explanation
 	/*
@@ -101,8 +103,7 @@ struct UdacityLogin {
 		
 		// data is good; begin request
 		guard let requestURL = NSURL(string: urlString) else {
-			let failureMessage = invalidRequestURLMessage
-			postFailureNotification(failureMessage)
+			postFailureNotification(invalidRequestURLMessage)
 			return
 		}
 		
@@ -114,12 +115,16 @@ struct UdacityLogin {
 		let jsonBodyDict = [apiKey: [usernameKey: email, passwordKey: password]]
 		let jsonWritingOptions = NSJSONWritingOptions()
 		guard let jsonBody: NSData = try? NSJSONSerialization.dataWithJSONObject(jsonBodyDict, options: jsonWritingOptions) else {
-			let failureMessage = jsonSerializationFailureMessage
-			postFailureNotification(failureMessage)
+			postFailureNotification(jsonSerializationFailureMessage)
 			return
 		}
 
 		request.HTTPBody = jsonBody
+		
+		guard SCNetworkReachability.checkIfNetworkAvailable(requestURL) == true else {
+			postFailureNotification(networkUnreachableMessage)
+			return
+		}
 		
 		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
 			(data, response, error) in

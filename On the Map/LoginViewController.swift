@@ -79,15 +79,9 @@ class LoginViewController: UIViewController {
 	 */
 	func loginDidComplete(notification: NSNotification) {
 		
-		print("IN \(#function)")
-		print(notification.userInfo)
+		let accountKey = notification.userInfo![loginModel.accountKey] as! String
 		
-		// TODO: get user data
-		let accountId = notification.userInfo![loginModel.accountKey] as! String
-		
-		userModel.getUserInfo(accountId)
-		
-		// TODO: bring up modal tab controller, set to map
+		userModel.getUserInfo(accountKey)
 	}
 	
 	
@@ -111,5 +105,22 @@ class LoginViewController: UIViewController {
 		
 		presentViewController(alertView, animated: true, completion: nil)
 	}
+	
+	
+	/**
+	 */
+	func userDataRequestDidComplete(notification: NSNotification) {
+		// TODO: bring up modal tab controller, set to map
+
+	}
+	
+	/**
+	*/
+	func userDataRequestDidFail(notification: NSNotification) {
+		// TODO: alert that request failed
+		
+	}
+	
+	
 	
 }
