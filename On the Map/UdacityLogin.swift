@@ -14,7 +14,7 @@ import SystemConfiguration	// required for SCNetworkReachability
 Handles Udacity login-related activities.
 
 */
-struct UdacityLogin {
+class UdacityLogin {
 	
 	// MARK: - Constants
 	
@@ -91,7 +91,7 @@ struct UdacityLogin {
 		- password: user's Udacity password.
 	
 	 */
-	mutating func loginToUdacity(email: String?, password: String?) {
+	func loginToUdacity(email: String?, password: String?) {
 
 		// validate login data
 		let validationResult = validateLoginData(email, password: password)
@@ -196,8 +196,8 @@ struct UdacityLogin {
 	- parameter sessionID: ID for current Udacity session.
 	
 	*/
-	mutating func logoutFromUdacity() {
-		// TODO: DELETE request with session id (mutating 'cause removes session id)
+	func logoutFromUdacity() {
+		// TODO: DELETE request with session id
 		print("IN: \(#function)")
 	}
 	

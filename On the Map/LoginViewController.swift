@@ -69,6 +69,16 @@ class LoginViewController: UIViewController {
 		                                                 selector: #selector(loginDidFail(_:)),
 		                                                 name: loginModel.loginDidFailNotification,
 		                                                 object: nil)
+	
+		NSNotificationCenter.defaultCenter().addObserver(self,
+		                                                 selector: #selector(userDataRequestDidComplete(_:)),
+		                                                 name: userModel.userDataRequestDidCompleteNotification,
+		                                                 object: nil)
+
+		NSNotificationCenter.defaultCenter().addObserver(self,
+		                                                 selector: #selector(userDataRequestDidFail(_:)),
+		                                                 name: userModel.userDataRequestDidFailNotification,
+		                                                 object: nil)
 	}
 	
 	
@@ -111,6 +121,7 @@ class LoginViewController: UIViewController {
 	 */
 	func userDataRequestDidComplete(notification: NSNotification) {
 		// TODO: bring up modal tab controller, set to map
+		print("In \(#function)")
 
 	}
 	
@@ -118,6 +129,7 @@ class LoginViewController: UIViewController {
 	*/
 	func userDataRequestDidFail(notification: NSNotification) {
 		// TODO: alert that request failed
+		print("In \(#function)")
 		
 	}
 	

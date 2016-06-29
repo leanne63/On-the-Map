@@ -24,13 +24,13 @@ extension SCNetworkReachability {
 		
 		let host = (urlToReach.absoluteString as NSString).UTF8String
 		guard let ref = SCNetworkReachabilityCreateWithName(nil, host) else {
-			print("Unable to create SCNetworkReachability reference.")
+			//Unable to create SCNetworkReachability reference.
 			return false
 		}
 		
 		var flags: SCNetworkReachabilityFlags = []
 		guard SCNetworkReachabilityGetFlags(ref, &flags) == true && flags.contains(.Reachable) else {
-			print("Unable to access network.")
+			//Unable to access network."
 			return false
 		}
 		

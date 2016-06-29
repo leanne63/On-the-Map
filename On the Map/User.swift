@@ -13,7 +13,7 @@ import Foundation
 Represents On the Map user-related data.
 
 */
-struct User {
+class User {
 	
 	// MARK: - Constants
 	
@@ -48,10 +48,7 @@ struct User {
 	
 	// MARK: - Public Functions
 	
-	mutating func getUserInfo(accountId: String) {
-		
-		// TODO: GET request to retrieve user info
-		print("IN: \(#function)")
+	func getUserInfo(accountId: String) {
 		
 		let apiURL = urlString + accountId
 		guard let requestURL = NSURL(string: apiURL) else {
