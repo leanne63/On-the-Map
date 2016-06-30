@@ -24,6 +24,7 @@
 		D5DE9FF61CC7FBD900537561 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5DE9FF51CC7FBD900537561 /* MapKit.framework */; };
 		D5DE9FF81CC83E7500537561 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DE9FF71CC83E7500537561 /* LoginViewController.swift */; };
 		D5E157B61D2575AC00E63DB8 /* Extension_UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E157B51D2575AC00E63DB8 /* Extension_UIViewController.swift */; };
+		D5E157B81D25903500E63DB8 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E157B71D25903500E63DB8 /* Parse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		D5DE9FF51CC7FBD900537561 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		D5DE9FF71CC83E7500537561 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D5E157B51D2575AC00E63DB8 /* Extension_UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_UIViewController.swift; sourceTree = "<group>"; };
+		D5E157B71D25903500E63DB8 /* Parse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parse.swift; path = "On the Map/Parse.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 			children = (
 				D5D582A01CFA229B00E39110 /* UdacityLogin.swift */,
 				D5D582A11CFA229B00E39110 /* User.swift */,
+				D5E157B71D25903500E63DB8 /* Parse.swift */,
 			);
 			name = Models;
 			path = ..;
@@ -335,6 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5D582A21CFA229B00E39110 /* UdacityLogin.swift in Sources */,
+				D5E157B81D25903500E63DB8 /* Parse.swift in Sources */,
 				D5E157B61D2575AC00E63DB8 /* Extension_UIViewController.swift in Sources */,
 				D54387C01CC9DE2300EC6DB6 /* Extension_UIView.swift in Sources */,
 				D5CE4E331D08699200283DC6 /* Extension_NSNotificationCenter.swift in Sources */,
