@@ -12,6 +12,9 @@ import UIKit
 
 class LoginViewController: UIViewController {
 	
+	// MARK: - CONSTANTS
+	let loginViewToTabViewSegue = "loginViewToTabViewSegue"
+	
 	// MARK: - Properties (Non-Outlets)
 	
 	lazy var loginModel = UdacityLogin()
@@ -44,6 +47,21 @@ class LoginViewController: UIViewController {
 		
 		// locking this login view to portrait since subviews won't all fit on smaller devices in landscape
 		return .Portrait
+	}
+	
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		guard let segueId = segue.identifier else {
+			return
+		}
+		
+		if segueId == loginViewToTabViewSegue {
+
+			let mapController = segue.destinationViewController.childViewControllers[0] as! MapViewController
+			mapController.userModel = userModel
+			
+			let tableController = segue.destinationViewController.childViewControllers[1] as! TableViewController
+			tableController.userModel = userModel
+		}
 	}
 	
 	
@@ -120,9 +138,8 @@ class LoginViewController: UIViewController {
 	/**
 	 */
 	func userDataRequestDidComplete(notification: NSNotification) {
-		// TODO: bring up modal tab controller, set to map
-		print("In \(#function)")
-
+		
+		performSegueWithIdentifier(loginViewToTabViewSegue, sender: self)
 	}
 	
 	/**

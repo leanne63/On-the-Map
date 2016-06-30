@@ -14,8 +14,8 @@
 		D5D582A21CFA229B00E39110 /* UdacityLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D582A01CFA229B00E39110 /* UdacityLogin.swift */; };
 		D5D582A31CFA229B00E39110 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D582A11CFA229B00E39110 /* User.swift */; };
 		D5DE9FC61CC7FB7A00537561 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DE9FC51CC7FB7A00537561 /* AppDelegate.swift */; };
-		D5DE9FC81CC7FB7A00537561 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DE9FC71CC7FB7A00537561 /* FirstViewController.swift */; };
-		D5DE9FCA1CC7FB7A00537561 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DE9FC91CC7FB7A00537561 /* SecondViewController.swift */; };
+		D5DE9FC81CC7FB7A00537561 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DE9FC71CC7FB7A00537561 /* MapViewController.swift */; };
+		D5DE9FCA1CC7FB7A00537561 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DE9FC91CC7FB7A00537561 /* TableViewController.swift */; };
 		D5DE9FCD1CC7FB7A00537561 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5DE9FCB1CC7FB7A00537561 /* Main.storyboard */; };
 		D5DE9FCF1CC7FB7A00537561 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5DE9FCE1CC7FB7A00537561 /* Assets.xcassets */; };
 		D5DE9FD21CC7FB7A00537561 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5DE9FD01CC7FB7A00537561 /* LaunchScreen.storyboard */; };
@@ -51,8 +51,8 @@
 		D5D582A11CFA229B00E39110 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = "On the Map/User.swift"; sourceTree = "<group>"; };
 		D5DE9FC21CC7FB7A00537561 /* On the Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On the Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5DE9FC51CC7FB7A00537561 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D5DE9FC71CC7FB7A00537561 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		D5DE9FC91CC7FB7A00537561 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		D5DE9FC71CC7FB7A00537561 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		D5DE9FC91CC7FB7A00537561 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		D5DE9FCC1CC7FB7A00537561 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D5DE9FCE1CC7FB7A00537561 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D5DE9FD11CC7FB7A00537561 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -149,8 +149,8 @@
 			isa = PBXGroup;
 			children = (
 				D5DE9FF71CC83E7500537561 /* LoginViewController.swift */,
-				D5DE9FC71CC7FB7A00537561 /* FirstViewController.swift */,
-				D5DE9FC91CC7FB7A00537561 /* SecondViewController.swift */,
+				D5DE9FC71CC7FB7A00537561 /* MapViewController.swift */,
+				D5DE9FC91CC7FB7A00537561 /* TableViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -337,10 +337,10 @@
 				D5DE9FF81CC83E7500537561 /* LoginViewController.swift in Sources */,
 				D54387BE1CC98AFE00EC6DB6 /* LoginView.swift in Sources */,
 				D5D582A31CFA229B00E39110 /* User.swift in Sources */,
-				D5DE9FCA1CC7FB7A00537561 /* SecondViewController.swift in Sources */,
+				D5DE9FCA1CC7FB7A00537561 /* TableViewController.swift in Sources */,
 				D5910CA01D136596005FCEA6 /* Extension_SCNetworkReachability.swift in Sources */,
 				D5DE9FC61CC7FB7A00537561 /* AppDelegate.swift in Sources */,
-				D5DE9FC81CC7FB7A00537561 /* FirstViewController.swift in Sources */,
+				D5DE9FC81CC7FB7A00537561 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
