@@ -7,12 +7,16 @@
 //
 
 // TODO: Add keyboard toolbar for <> and Done
+// TODO: Put constant strings into plist for localization
 
 import UIKit
 
 class LoginViewController: UIViewController {
 	
-	// MARK: - CONSTANTS
+	// MARK: - Constants
+	let loginFailedTitle = "Login failed!"
+	let unableToRetrieveUserDataMessage = "Unable to retrieve user data."
+	let returnActionTitle = "Return"
 	let loginViewToTabViewSegue = "loginViewToTabViewSegue"
 	
 	// MARK: - Properties (Non-Outlets)
@@ -101,9 +105,10 @@ class LoginViewController: UIViewController {
 	
 	
 	/**
-     *	Handles actions needed when login completes successfully.
-	 *
-	 *	- parameter: notification object
+	Handles actions needed when login completes successfully.
+	
+	- parameter: notification object
+	
 	 */
 	func loginDidComplete(notification: NSNotification) {
 		
@@ -114,42 +119,43 @@ class LoginViewController: UIViewController {
 	
 	
 	/**
-	*	Handles actions related to a failed login attempt.
-	*
-	*	- parameter: notification object
+	Handles actions related to a failed login attempt.
+	
+	- parameter: notification object
+	
 	*/
 	func loginDidFail(notification: NSNotification) {
 		
-		let alertViewTitle = "Login failed!"
 		let alertViewMessage = notification.userInfo![loginModel.messageKey] as! String
-		let alertControllerStyle = UIAlertControllerStyle.Alert
-		let alertView = UIAlertController(title: alertViewTitle, message: alertViewMessage, preferredStyle: alertControllerStyle)
-		
-		let alertActionTitle = "Return"
-		let alertActionStyle = UIAlertActionStyle.Default
-		let alertActionOK = UIAlertAction(title: alertActionTitle, style: alertActionStyle, handler: nil)
-		
-		alertView.addAction(alertActionOK)
-		
-		presentViewController(alertView, animated: true, completion: nil)
+		let alertActionTitle = returnActionTitle
+
+		presentAlert(loginFailedTitle, message: alertViewMessage, actionTitle: alertActionTitle)
 	}
 	
 	
 	/**
-	 */
+	Handles actions related to completion of a user data request.
+	
+	- parameter: notification object
+	
+	*/
 	func userDataRequestDidComplete(notification: NSNotification) {
 		
 		performSegueWithIdentifier(loginViewToTabViewSegue, sender: self)
 	}
 	
 	/**
+	Handles actions related to failure of a user data request.
+	
+	- parameter: notification object
+	
 	*/
 	func userDataRequestDidFail(notification: NSNotification) {
-		// TODO: alert that request failed
-		print("In \(#function)")
 		
+		let alertViewMessage = notification.userInfo![loginModel.messageKey] as! String
+		let alertActionTitle = returnActionTitle
+
+		presentAlert(unableToRetrieveUserDataMessage, message: alertViewMessage, actionTitle: alertActionTitle)
 	}
-	
-	
 	
 }
