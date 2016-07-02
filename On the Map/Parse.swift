@@ -23,9 +23,16 @@ class Parse {
 	
 	// dictionary keys
 	let messageKey = "message"
+	let resultsKey = "results"
 
 	// request-related
-	private let urlString = "https://api.parse.com/1/classes/StudentLocation"
+	private let limitParm = "limit"
+	private let limitValue = "100"
+	private let orderParm = "order"
+	private let orderValue = "-updatedAt,lastName"
+	private let apiScheme = "https"
+	private let apiHost = "api.parse.com"
+	private let retrievePath = "/1/classes/StudentLocation"
 	private let getMethod = "GET"
 	private let parseApplicationId = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
 	private let parseRESTAPIKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
@@ -45,13 +52,14 @@ class Parse {
 	
 	func retrieveMapData() {
 		
-		guard let requestURL = NSURL(string: urlString) else {
-			postFailureNotification(invalidRequestURLMessage)
-			return
-		}
+		let methodParameters = [
+			limitParm: limitValue,
+			orderParm: orderValue
+		]
 		
+		let requestURL = createURLFromParameters(methodParameters)
 		let request = NSMutableURLRequest(URL: requestURL)
-		request.HTTPMethod = getMethod
+		
 		request.addValue(parseApplicationId, forHTTPHeaderField: xParseApplicationId)
 		request.addValue(parseRESTAPIKey, forHTTPHeaderField: xParseRESTAPIKey)
 	
@@ -62,6 +70,7 @@ class Parse {
 		
 		let session = NSURLSession.sharedSession()
 		let task = session.dataTaskWithRequest(request) {
+
 			(data, response, error) in
 			
 			guard error == nil else {
@@ -86,16 +95,20 @@ class Parse {
 			}
 			
 			let options = NSJSONReadingOptions()
-			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(data, options: options) else {
+			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(data, options: options),
+				let results = parsedData[self.resultsKey] as? [[String: AnyObject]] else {
 				
 				self.postFailureNotification(self.unableToParseDataMessage)
 				return
 			}
 			
-			// TODO: replace with code to handle parsed data
-			if true {
-				print(parsedData)
+			for studentItem in results {
+				
+				// don't need to use the result; struct adds it to the model; so setting to '_'
+				let _ = StudentInformation(studentItem)
 			}
+			
+			print("student information:\n\(StudentInformationModel.students)")
 			
 		}
 		task.resume()
@@ -117,4 +130,24 @@ class Parse {
 		
 		NSNotificationCenter.postNotificationOnMain(parseRetrievalDidFailNotification, userInfo: userInfo)
 	}
+	
+	
+	//: MARK: - Private Functions
+	
+	func createURLFromParameters(parameters: [String:AnyObject]) -> NSURL {
+		
+		let components = NSURLComponents()
+		components.scheme = apiScheme
+		components.host = apiHost
+		components.path = retrievePath
+		components.queryItems = [NSURLQueryItem]()
+		
+		for (key, value) in parameters {
+			let queryItem = NSURLQueryItem(name: key, value: "\(value)")
+			components.queryItems!.append(queryItem)
+		}
+		
+		return components.URL!
+	}
+
 }

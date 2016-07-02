@@ -25,6 +25,8 @@
 		D5DE9FF81CC83E7500537561 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DE9FF71CC83E7500537561 /* LoginViewController.swift */; };
 		D5E157B61D2575AC00E63DB8 /* Extension_UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E157B51D2575AC00E63DB8 /* Extension_UIViewController.swift */; };
 		D5E157B81D25903500E63DB8 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E157B71D25903500E63DB8 /* Parse.swift */; };
+		D5E157BA1D25AF4300E63DB8 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E157B91D25AF4300E63DB8 /* StudentInformation.swift */; };
+		D5E157BC1D2722EF00E63DB8 /* StudentInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E157BB1D2722EF00E63DB8 /* StudentInformationModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +71,8 @@
 		D5DE9FF71CC83E7500537561 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D5E157B51D2575AC00E63DB8 /* Extension_UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_UIViewController.swift; sourceTree = "<group>"; };
 		D5E157B71D25903500E63DB8 /* Parse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parse.swift; path = "On the Map/Parse.swift"; sourceTree = "<group>"; };
+		D5E157B91D25AF4300E63DB8 /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
+		D5E157BB1D2722EF00E63DB8 /* StudentInformationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StudentInformationModel.swift; path = "On the Map/StudentInformationModel.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +199,8 @@
 				D5D582A01CFA229B00E39110 /* UdacityLogin.swift */,
 				D5D582A11CFA229B00E39110 /* User.swift */,
 				D5E157B71D25903500E63DB8 /* Parse.swift */,
+				D5E157B91D25AF4300E63DB8 /* StudentInformation.swift */,
+				D5E157BB1D2722EF00E63DB8 /* StudentInformationModel.swift */,
 			);
 			name = Models;
 			path = ..;
@@ -340,6 +346,7 @@
 				D5D582A21CFA229B00E39110 /* UdacityLogin.swift in Sources */,
 				D5E157B81D25903500E63DB8 /* Parse.swift in Sources */,
 				D5E157B61D2575AC00E63DB8 /* Extension_UIViewController.swift in Sources */,
+				D5E157BC1D2722EF00E63DB8 /* StudentInformationModel.swift in Sources */,
 				D54387C01CC9DE2300EC6DB6 /* Extension_UIView.swift in Sources */,
 				D5CE4E331D08699200283DC6 /* Extension_NSNotificationCenter.swift in Sources */,
 				D5DE9FF81CC83E7500537561 /* LoginViewController.swift in Sources */,
@@ -347,6 +354,7 @@
 				D5D582A31CFA229B00E39110 /* User.swift in Sources */,
 				D5DE9FCA1CC7FB7A00537561 /* TableViewController.swift in Sources */,
 				D5910CA01D136596005FCEA6 /* Extension_SCNetworkReachability.swift in Sources */,
+				D5E157BA1D25AF4300E63DB8 /* StudentInformation.swift in Sources */,
 				D5DE9FC61CC7FB7A00537561 /* AppDelegate.swift in Sources */,
 				D5DE9FC81CC7FB7A00537561 /* MapViewController.swift in Sources */,
 			);
