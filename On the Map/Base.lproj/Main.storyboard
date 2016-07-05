@@ -89,13 +89,28 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fvX-hq-exP">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="On The Map" id="olh-fh-xCL">
+                                        <barButtonItem key="leftBarButtonItem" title="Logout" id="4DC-lO-EwX"/>
+                                        <rightBarButtonItems>
+                                            <barButtonItem systemItem="refresh" id="eea-sz-ntG"/>
+                                            <barButtonItem image="pin" id="QV9-1C-AJL"/>
+                                        </rightBarButtonItems>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="fvX-hq-exP" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" id="2gN-Bf-ogS"/>
+                            <constraint firstItem="fvX-hq-exP" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-20" id="D1O-rG-B2z"/>
                             <constraint firstItem="NDk-cv-Gan" firstAttribute="top" secondItem="zEq-FU-wV5" secondAttribute="bottom" constant="8" symbolic="YES" id="Day-4N-Vmt"/>
                             <constraint firstItem="NDk-cv-Gan" firstAttribute="centerX" secondItem="zEq-FU-wV5" secondAttribute="centerX" id="JgO-Fn-dHn"/>
                             <constraint firstAttribute="centerX" secondItem="zEq-FU-wV5" secondAttribute="centerX" id="qqM-NS-xev"/>
                             <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fvX-hq-exP" secondAttribute="trailing" constant="-20" id="uLS-G6-X9W"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="List" image="list" id="cPa-gy-q4n"/>
