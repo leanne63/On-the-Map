@@ -3,7 +3,9 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Map View Controller-->
@@ -31,16 +33,32 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ibm-Gz-tJC">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="On The Map" id="yjs-Qa-NEY">
+                                        <barButtonItem key="leftBarButtonItem" title="Logout" id="onF-so-g8O"/>
+                                        <rightBarButtonItems>
+                                            <barButtonItem systemItem="refresh" id="U93-IV-lcI"/>
+                                            <barButtonItem image="pin" id="ndA-51-CLo"/>
+                                        </rightBarButtonItems>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="6BV-lF-sBN"/>
+                            <constraint firstItem="ibm-Gz-tJC" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="9fq-Lp-57h"/>
                             <constraint firstItem="A5M-7J-77L" firstAttribute="top" secondItem="KQZ-1w-vlD" secondAttribute="bottom" constant="8" symbolic="YES" id="cfb-er-3JN"/>
                             <constraint firstItem="A5M-7J-77L" firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="e1l-AV-tCB"/>
                             <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ibm-Gz-tJC" secondAttribute="trailing" constant="-20" id="q5v-z8-Arh"/>
+                            <constraint firstItem="ibm-Gz-tJC" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="-20" id="zdM-tY-F3V"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map" selectedImage="map" id="acW-dT-cKf"/>
+                    <navigationItem key="navigationItem" id="Y9k-hS-7BZ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
@@ -90,7 +108,8 @@
         <scene sceneID="yl2-sM-qoP">
             <objects>
                 <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics"/>
+                    <navigationItem key="navigationItem" id="tf1-Pr-lTu"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
@@ -198,17 +217,18 @@
                         <outlet property="emailField" destination="Pjk-Kt-lJE" id="cOE-Qi-4Fg"/>
                         <outlet property="loginButton" destination="aPT-l0-NXO" id="Qom-Ut-DGG"/>
                         <outlet property="passwordField" destination="y4u-Fv-3KU" id="tHo-8g-DUO"/>
-                        <segue destination="49e-Tb-3d3" kind="presentation" identifier="loginViewToTabViewSegue" id="aNn-Xh-wjq"/>
+                        <segue destination="49e-Tb-3d3" kind="presentation" identifier="loginViewToTabViewSegue" id="zlS-AA-3iV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lSJ-SU-PFZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-798" y="0.0"/>
+            <point key="canvasLocation" x="-760" y="0.0"/>
         </scene>
     </scenes>
     <resources>
         <image name="list" width="32" height="32"/>
         <image name="map" width="32" height="32"/>
+        <image name="pin" width="32" height="32"/>
         <image name="udacityLogo" width="44" height="44"/>
     </resources>
 </document>
