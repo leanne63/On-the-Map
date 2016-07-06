@@ -60,13 +60,16 @@ class LoginViewController: UIViewController {
 		
 		if segueId == loginViewToTabViewSegue {
 			
-			let tabViewController = segue.destinationViewController as! UITabBarController
-
-			let mapController = tabViewController.childViewControllers[0] as! MapViewController
-			mapController.userModel = userModel
+			let navController = segue.destinationViewController as! UINavigationController
+			let tabBarController = navController.childViewControllers[0] as! TabBarController
 			
-			let tableController = tabViewController.childViewControllers[1] as! TableViewController
-			tableController.userModel = userModel
+			tabBarController.userModel = userModel
+
+//			let mapController = tabBarController.childViewControllers[0] as! MapViewController
+//			mapController.userModel = userModel
+//			
+//			let tableController = tabBarController.childViewControllers[1] as! UITableViewController
+//			tableController.userModel = userModel
 		}
 	}
 	
