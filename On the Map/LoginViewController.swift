@@ -14,10 +14,12 @@ import UIKit
 class LoginViewController: UIViewController {
 	
 	// MARK: - Constants
+	
 	let loginFailedTitle = "Login failed!"
 	let unableToRetrieveUserDataMessage = "Unable to retrieve user data."
 	let returnActionTitle = "Return"
 	let loginViewToTabViewSegue = "loginViewToTabViewSegue"
+	
 	
 	// MARK: - Properties (Non-Outlets)
 	
@@ -64,12 +66,6 @@ class LoginViewController: UIViewController {
 			let tabBarController = navController.childViewControllers[0] as! TabBarController
 			
 			tabBarController.userModel = userModel
-
-//			let mapController = tabBarController.childViewControllers[0] as! MapViewController
-//			mapController.userModel = userModel
-//			
-//			let tableController = tabBarController.childViewControllers[1] as! UITableViewController
-//			tableController.userModel = userModel
 		}
 	}
 	
@@ -79,6 +75,12 @@ class LoginViewController: UIViewController {
 	@IBAction func loginClicked(sender: UIButton) {
 		
 		loginModel.loginToUdacity(emailField.text, password: passwordField.text)
+	}
+	
+	
+	@IBAction func unwindFromLogoutButton(segue: UIStoryboardSegue) {
+		
+		logoutFromUdacity()
 	}
 	
 	
@@ -161,6 +163,14 @@ class LoginViewController: UIViewController {
 		let alertActionTitle = returnActionTitle
 
 		presentAlert(unableToRetrieveUserDataMessage, message: alertViewMessage, actionTitle: alertActionTitle)
+	}
+	
+	
+	// MARK: - Utility Functions
+	
+	private func logoutFromUdacity() {
+		
+		print("IN \(#function)")
 	}
 	
 }

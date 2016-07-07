@@ -61,9 +61,11 @@
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="RGK-GC-MRG" kind="relationship" relationship="viewControllers" id="98m-N1-bWt"/>
+                        <segue destination="8p6-FZ-bEr" kind="unwind" identifier="unwindFromLogoutButton" unwindAction="unwindFromLogoutButton:" id="F3K-YD-SVL"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
+                <exit id="8p6-FZ-bEr" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>

@@ -34,6 +34,9 @@ class TabBarController: UITabBarController {
 		
 		print("IN \(#function)")
 		// TODO: segue back to login item, logging out in process
+		
+		performSegueWithIdentifier("unwindFromLogoutButton", sender: self)
+		
 	}
 	
 	
