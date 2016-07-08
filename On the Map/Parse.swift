@@ -18,8 +18,8 @@ class Parse {
 	// MARK: - Constants
 	
 	// notification names
-	let parseRetrievalDidCompleteNotification = "parseRetrievalDidComplete"
-	let parseRetrievalDidFailNotification = "parseRetrievalDidFail"
+	static let parseRetrievalDidCompleteNotification = "parseRetrievalDidComplete"
+	static let parseRetrievalDidFailNotification = "parseRetrievalDidFail"
 	
 	// dictionary keys
 	let messageKey = "message"
@@ -108,9 +108,9 @@ class Parse {
 				let _ = StudentInformation(studentItem)
 			}
 			
-			print("student information:\n\(StudentInformationModel.students)")
-			
+			NSNotificationCenter.postNotificationOnMain(Parse.parseRetrievalDidCompleteNotification, userInfo: nil)
 		}
+		
 		task.resume()
 }
 	
@@ -128,7 +128,7 @@ class Parse {
 		
 		let userInfo = [messageKey: failureMessage]
 		
-		NSNotificationCenter.postNotificationOnMain(parseRetrievalDidFailNotification, userInfo: userInfo)
+		NSNotificationCenter.postNotificationOnMain(Parse.parseRetrievalDidFailNotification, userInfo: userInfo)
 	}
 	
 	

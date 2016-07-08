@@ -10,17 +10,11 @@ import UIKit
 
 class MapViewController: UIViewController {
 	
-	var userModel: User!
-
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		
-		print("IN MapViewController: \(#function)\nuserModel: \(userModel)")
-		
-		let parseInstance = Parse()
-		parseInstance.retrieveMapData()
-		
+		print("IN MapViewController: \(#function)")
 	}
 
 }
