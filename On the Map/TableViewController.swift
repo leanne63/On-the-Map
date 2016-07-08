@@ -56,9 +56,7 @@ class TableViewController: UITableViewController {
 	*/
 	func parseRetrievalDidComplete(notification: NSNotification) {
 		
-		// TODO: share data as needed with view controllers
-		print(Parse.parseRetrievalDidCompleteNotification)
-		print("Student Info:\n\(StudentInformationModel.students)")
+		self.tableView.reloadData()
 	}
 	
 	
