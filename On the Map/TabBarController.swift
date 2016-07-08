@@ -17,12 +17,12 @@ class TabBarController: UITabBarController {
 
 		navigationItem.title = "On The Map"
 		
-		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(logout))
+		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(doLogout))
 		
 		let pinButton = UIBarButtonItem(image: UIImage(named: "pin"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(postInformation))
 		let refreshButton = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: #selector(refreshData))
 		
-		// these appear on nav bar right to left
+		// note: right bar buttons in array appear on nav bar right to left
 		navigationItem.rightBarButtonItems = [refreshButton, pinButton]
 		
     }
@@ -30,13 +30,10 @@ class TabBarController: UITabBarController {
 	
 	// MARK: - Selectors
 	
-	func logout() {
-		
-		print("IN \(#function)")
-		// TODO: segue back to login item, logging out in process
+	/// Segues back (unwinds) to logout function
+	func doLogout() {
 		
 		performSegueWithIdentifier("unwindFromLogoutButton", sender: self)
-		
 	}
 	
 	

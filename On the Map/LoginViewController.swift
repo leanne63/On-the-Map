@@ -16,8 +16,12 @@ class LoginViewController: UIViewController {
 	// MARK: - Constants
 	
 	let loginFailedTitle = "Login failed!"
+	let logoutFailedTitle = "Logout failed!"
+	let loggedOutTitle = "Logout succeeded!"
+	let loggedOutMessage = "Logged out successfully!"
 	let unableToRetrieveUserDataMessage = "Unable to retrieve user data."
 	let returnActionTitle = "Return"
+	
 	let loginViewToTabViewSegue = "loginViewToTabViewSegue"
 	
 	
@@ -36,18 +40,30 @@ class LoginViewController: UIViewController {
 	
 	// MARK: - Overrides
 	
-	override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		
 		subscribeToNotifications()
-    }
+	}
 	
-	override func viewWillDisappear(animated: Bool) {
-		super.viewWillDisappear(animated)
+	deinit {
 		
 		// remove ourself from all notifications
 		NSNotificationCenter.defaultCenter().removeObserver(self)
 	}
+	
+//	override func viewWillAppear(animated: Bool) {
+//        super.viewWillAppear(animated)
+//		
+//		subscribeToNotifications()
+//    }
+//	
+//	override func viewWillDisappear(animated: Bool) {
+//		super.viewWillDisappear(animated)
+//		
+//		// remove ourself from all notifications
+//		NSNotificationCenter.defaultCenter().removeObserver(self)
+//	}
 
 	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
 		
@@ -80,7 +96,7 @@ class LoginViewController: UIViewController {
 	
 	@IBAction func unwindFromLogoutButton(segue: UIStoryboardSegue) {
 		
-		logoutFromUdacity()
+		loginModel.logoutFromUdacity()
 	}
 	
 	
@@ -108,7 +124,18 @@ class LoginViewController: UIViewController {
 		                                                 selector: #selector(userDataRequestDidFail(_:)),
 		                                                 name: userModel.userDataRequestDidFailNotification,
 		                                                 object: nil)
-	}
+		
+		NSNotificationCenter.defaultCenter().addObserver(self,
+		                                                 selector: #selector(logoutDidComplete(_:)),
+		                                                 name: loginModel.logoutDidCompleteNotification,
+		                                                 object: nil)
+		
+		NSNotificationCenter.defaultCenter().addObserver(self,
+		                                                 selector: #selector(logoutDidFail(_:)),
+		                                                 name: loginModel.logoutDidFailNotification,
+		                                                 object: nil)
+		
+}
 	
 	
 	/**
@@ -141,6 +168,40 @@ class LoginViewController: UIViewController {
 	
 	
 	/**
+	Handles actions related to a successful logout attempt.
+	
+	- parameter: notification object
+	
+	*/
+	func logoutDidComplete(notification: NSNotification) {
+		
+		// logout completed, so blank out username and email
+		emailField.text = ""
+		passwordField.text = ""
+		
+		let alertViewMessage = loggedOutMessage
+		let alertActionTitle = returnActionTitle
+		
+		presentAlert(loggedOutTitle, message: alertViewMessage, actionTitle: alertActionTitle)
+	}
+	
+	
+	/**
+	Handles actions related to a failed logout attempt.
+	
+	- parameter: notification object
+	
+	*/
+	func logoutDidFail(notification: NSNotification) {
+		
+		let alertViewMessage = notification.userInfo![loginModel.messageKey] as! String
+		let alertActionTitle = returnActionTitle
+		
+		presentAlert(logoutFailedTitle, message: alertViewMessage, actionTitle: alertActionTitle)
+	}
+	
+	
+	/**
 	Handles actions related to completion of a user data request.
 	
 	- parameter: notification object
@@ -163,14 +224,6 @@ class LoginViewController: UIViewController {
 		let alertActionTitle = returnActionTitle
 
 		presentAlert(unableToRetrieveUserDataMessage, message: alertViewMessage, actionTitle: alertActionTitle)
-	}
-	
-	
-	// MARK: - Utility Functions
-	
-	private func logoutFromUdacity() {
-		
-		print("IN \(#function)")
 	}
 	
 }

@@ -21,6 +21,8 @@ class UdacityLogin {
 	// notification names
 	let loginDidCompleteNotification = "loginDidCompleteNotification"
 	let loginDidFailNotification = "loginDidFailNotification"
+	let logoutDidCompleteNotification = "logoutDidCompleteNotification"
+	let logoutDidFailNotification = "logoutDidFailNotification"
 	
 	// dictionary keys
 	let messageKey = "message"
@@ -36,6 +38,7 @@ class UdacityLogin {
 	// request-related
 	private let urlString = "https:/www.udacity.com/api/session"
 	private let postMethod = "POST"
+	private let deleteMethod = "DELETE"
 	private let jsonMimeType = "application/json"
 	private let acceptHeader = "Accept"
 	private let contentTypeHeader = "Content-Type"
@@ -97,13 +100,13 @@ class UdacityLogin {
 		let validationResult = validateLoginData(email, password: password)
 		guard validationResult.isSuccess, let email = email, let password = password else {
 			let failureMessage = validationResult.errorMsg!
-			postFailureNotification(failureMessage)
+			postFailureNotification(loginDidFailNotification, failureMessage: failureMessage)
 			return
 		}
 		
 		// data is good; begin request
 		guard let requestURL = NSURL(string: urlString) else {
-			postFailureNotification(invalidRequestURLMessage)
+			postFailureNotification(loginDidFailNotification, failureMessage: invalidRequestURLMessage)
 			return
 		}
 		
@@ -115,14 +118,14 @@ class UdacityLogin {
 		let jsonBodyDict = [apiKey: [usernameKey: email, passwordKey: password]]
 		let jsonWritingOptions = NSJSONWritingOptions()
 		guard let jsonBody: NSData = try? NSJSONSerialization.dataWithJSONObject(jsonBodyDict, options: jsonWritingOptions) else {
-			postFailureNotification(jsonSerializationFailureMessage)
+			postFailureNotification(loginDidFailNotification, failureMessage: jsonSerializationFailureMessage)
 			return
 		}
 
 		request.HTTPBody = jsonBody
 		
 		guard SCNetworkReachability.checkIfNetworkAvailable(requestURL) == true else {
-			postFailureNotification(networkUnreachableMessage)
+			postFailureNotification(loginDidFailNotification, failureMessage: networkUnreachableMessage)
 			return
 		}
 		
@@ -133,20 +136,20 @@ class UdacityLogin {
 				
 				let errorMessage = error!.userInfo[NSLocalizedDescriptionKey] as! String
 				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
-				self.postFailureNotification(failureMessage)
+				self.postFailureNotification(self.loginDidFailNotification, failureMessage: failureMessage)
 				return
 			}
 			
 			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
 				
 				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
-				self.postFailureNotification(failureMessage)
+				self.postFailureNotification(self.loginDidFailNotification, failureMessage: failureMessage)
 				return
 			}
 			
 			guard let data = data else {
 				
-				self.postFailureNotification(self.loginDataUnavailableMessage)
+				self.postFailureNotification(self.loginDidFailNotification, failureMessage: self.loginDataUnavailableMessage)
 				return
 			}
 			
@@ -160,21 +163,21 @@ class UdacityLogin {
 			
 			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(subData, options: .AllowFragments) else {
 				
-				self.postFailureNotification(self.unableToParseDataMessage)
+				self.postFailureNotification(self.loginDidFailNotification, failureMessage: self.unableToParseDataMessage)
 				return
 			}
 			
 			guard let accountData = parsedData[self.accountKey] as? [String: AnyObject],
 				let userAccountId = accountData[self.accountIdKey] as? String else {
 					
-					self.postFailureNotification(self.accountDataUnavailableMessage)
+					self.postFailureNotification(self.loginDidFailNotification, failureMessage: self.accountDataUnavailableMessage)
 					return
 			}
 			
 			guard let sessionData = parsedData[self.sessionKey] as? [String: String],
 				let udacitySessionId = sessionData[self.idKey] else {
 					
-					self.postFailureNotification(self.sessionDataUnavailableMessage)
+					self.postFailureNotification(self.loginDidFailNotification, failureMessage: self.sessionDataUnavailableMessage)
 					return
 			}
 			
@@ -197,8 +200,55 @@ class UdacityLogin {
 	
 	*/
 	func logoutFromUdacity() {
-		// TODO: DELETE request with session id
-		print("IN: \(#function)")
+
+		guard let requestURL = NSURL(string: urlString) else {
+			postFailureNotification(logoutDidFailNotification, failureMessage: invalidRequestURLMessage)
+			return
+		}
+		
+		let request = NSMutableURLRequest(URL: requestURL)
+		request.HTTPMethod = deleteMethod
+
+		var xsrfCookie: NSHTTPCookie? = nil
+		let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+		for cookie in sharedCookieStorage.cookies! {
+			if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
+		}
+		if let xsrfCookie = xsrfCookie {
+			request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
+		}
+		
+		guard SCNetworkReachability.checkIfNetworkAvailable(requestURL) == true else {
+			postFailureNotification(logoutDidFailNotification, failureMessage: networkUnreachableMessage)
+			return
+		}
+		
+		let session = NSURLSession.sharedSession()
+		let task = session.dataTaskWithRequest(request) {
+			
+			data, response, error in
+			
+			if error != nil {
+				
+				let errorMessage = error!.userInfo[NSLocalizedDescriptionKey] as! String
+				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
+				self.postFailureNotification(self.logoutDidFailNotification, failureMessage: failureMessage)
+				return
+			}
+			
+			// if status code is 200, we've successfully deleted the session (ie, logged out)
+			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
+				
+				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
+				self.postFailureNotification(self.logoutDidFailNotification, failureMessage: failureMessage)
+				return
+			}
+			
+			NSNotificationCenter.postNotificationOnMain(self.logoutDidCompleteNotification, userInfo: nil)
+		}
+		
+		task.resume()
+
 	}
 	
 	/**
@@ -283,11 +333,11 @@ class UdacityLogin {
 	- parameter failureMessage: Failure information to be provided to observers.
 	
 	 */
-	private func postFailureNotification(failureMessage: String) {
+	private func postFailureNotification(notificationName: String, failureMessage: String) {
 		
 		let userInfo = [messageKey: failureMessage]
 
-		NSNotificationCenter.postNotificationOnMain(loginDidFailNotification, userInfo: userInfo)
+		NSNotificationCenter.postNotificationOnMain(notificationName, userInfo: userInfo)
 	}
 	
 }
