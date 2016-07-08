@@ -15,6 +15,7 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+		// TODO: remove this if notifications not needed here
 		subscribeToNotifications()
 
 		// set up navigation bar items
@@ -64,19 +65,20 @@ class TabBarController: UITabBarController {
 	}
 	
 	
+	// TODO: remove below if notifications not needed here
 	// MARK: - Notification Handlers
 	
 	private func subscribeToNotifications() {
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
-		                                                 selector: #selector(parseRetrievalDidComplete(_:)),
-		                                                 name: Parse.parseRetrievalDidCompleteNotification,
-		                                                 object: nil)
-	
-		NSNotificationCenter.defaultCenter().addObserver(self,
-		                                                 selector: #selector(parseRetrievalDidFail(_:)),
-		                                                 name: Parse.parseRetrievalDidFailNotification,
-		                                                 object: nil)
+//		NSNotificationCenter.defaultCenter().addObserver(self,
+//		                                                 selector: #selector(parseRetrievalDidComplete(_:)),
+//		                                                 name: Parse.parseRetrievalDidCompleteNotification,
+//		                                                 object: nil)
+//	
+//		NSNotificationCenter.defaultCenter().addObserver(self,
+//		                                                 selector: #selector(parseRetrievalDidFail(_:)),
+//		                                                 name: Parse.parseRetrievalDidFailNotification,
+//		                                                 object: nil)
 	}
 	
 	

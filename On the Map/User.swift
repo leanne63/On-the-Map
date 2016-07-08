@@ -8,11 +8,8 @@
 
 import Foundation
 
-/**
-
-Represents On the Map user-related data.
-
-*/
+// TODO: remove this class if not needed (session from login; student data from Parse!)
+/// Represents On the Map user-related data.
 class User {
 	
 	// MARK: - Constants
