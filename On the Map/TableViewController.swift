@@ -14,6 +14,10 @@ class TableViewController: UITableViewController {
 	
 	let reuseIdentifier = "reusableCell"
 	
+	let returnActionTitle = "Return"
+	let invalidLinkProvidedMessage = "Unable to open provided link!"
+	let badLinkTitle = "Invalid URL"
+	
 
 	// MARK: - Overrides
 	
@@ -106,16 +110,21 @@ class TableViewController: UITableViewController {
 	}
 	
 	
-	// This delegate method is implemented to respond to taps. It opens the system browser
-	// to the URL specified in the annotationViews subtitle property.
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		
+		// this object will check for applications that can open the provided URL
 		let app = UIApplication.sharedApplication()
 		
-		let url = tableView.cellForRowAtIndexPath(indexPath)?.detailTextLabel?.text
-		
-		if let urlToOpen = url {
-			app.openURL(NSURL(string: urlToOpen)!)
+		// make sure text is present in the cell and can be turned into a NSURL; if so, open it; else, alert and return!
+		guard let providedURL = tableView.cellForRowAtIndexPath(indexPath)?.detailTextLabel?.text,
+			  let url = NSURL(string: providedURL) where app.openURL(url) == true else {
+				
+			let alertViewMessage = invalidLinkProvidedMessage
+			let alertActionTitle = returnActionTitle
+				
+			presentAlert(badLinkTitle, message: alertViewMessage, actionTitle: alertActionTitle)
+				
+			return
 		}
 	}
 	
