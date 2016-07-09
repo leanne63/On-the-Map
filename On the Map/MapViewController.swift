@@ -21,6 +21,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	
 	let reuseIdentifier = "reusableAnnotationView"
 	
+	let returnActionTitle = "Return"
+	let invalidLinkProvidedMessage = "Unable to open provided link!"
+	let badLinkTitle = "Invalid URL"
+	
 	
 	// MARK: - Properties (Outlets)
 	
@@ -140,16 +144,28 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	}
 	
 	
-	// This delegate method is implemented to respond to taps. It opens the system browser
-	// to the URL specified in the annotationViews subtitle property.
 	func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
 		
 		if control == view.rightCalloutAccessoryView {
+			
+			// this object will check for applications that can open the provided URL
 			let app = UIApplication.sharedApplication()
-			if let toOpen = view.annotation?.subtitle! {
-				app.openURL(NSURL(string: toOpen)!)
+			
+			// make sure text is present in the cell and can be turned into a NSURL; if so, open it; else, alert and return!
+			guard let providedURL = view.annotation?.subtitle where providedURL != nil,
+				let url = NSURL(string: providedURL!) where app.openURL(url) == true else {
+					
+					let alertViewMessage = invalidLinkProvidedMessage
+					let alertActionTitle = returnActionTitle
+					
+					presentAlert(badLinkTitle, message: alertViewMessage, actionTitle: alertActionTitle)
+					
+					return
 			}
 		}
+		
+		
+
 	}
 
 }
