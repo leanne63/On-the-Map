@@ -18,9 +18,9 @@ struct StudentInformation {
 	/// The last name of the student which matches their Udacity profile last name.
 	let lastName: String
 	/// The latitude of the student location (ranges from -90 to 90).
-	let latitude: Float
+	let latitude: Double
 	/// The longitude of the student location (ranges from -180 to 180).
-	let longitude: Float
+	let longitude: Double
 	/// The location string used for geocoding the student location.
 	let mapString: String
 	/// The URL provided by the student.
@@ -40,8 +40,8 @@ struct StudentInformation {
 		createdAt = studentInfo[StudentInformationModel.createdAtKey] as! String
 		firstName = studentInfo[StudentInformationModel.firstNameKey] as! String
 		lastName  = studentInfo[StudentInformationModel.lastNameKey]  as! String
-		latitude  = studentInfo[StudentInformationModel.latitudeKey]  as! Float
-		longitude = studentInfo[StudentInformationModel.longitudeKey] as! Float
+		latitude  = studentInfo[StudentInformationModel.latitudeKey]  as! Double
+		longitude = studentInfo[StudentInformationModel.longitudeKey] as! Double
 		mapString = studentInfo[StudentInformationModel.mapStringKey] as! String
 		mediaURL  = studentInfo[StudentInformationModel.mediaURLKey]  as! String
 		objectID  = studentInfo[StudentInformationModel.objectIDKey] != nil ? studentInfo[StudentInformationModel.createdAtKey] as! String : ""
@@ -49,7 +49,6 @@ struct StudentInformation {
 		updatedAt = studentInfo[StudentInformationModel.updatedAtKey] as! String
 		
 		StudentInformationModel.students.append(self)
-		
 	}
 
 }
