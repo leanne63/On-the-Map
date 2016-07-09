@@ -88,6 +88,7 @@ class TableViewController: UITableViewController {
 	
 	
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+		
 		let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath)
 		
 		let thisStudent = StudentInformationModel.students[indexPath.item]
@@ -102,6 +103,20 @@ class TableViewController: UITableViewController {
 		cell.detailTextLabel?.text = studentURL
 	
 		return cell
+	}
+	
+	
+	// This delegate method is implemented to respond to taps. It opens the system browser
+	// to the URL specified in the annotationViews subtitle property.
+	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		
+		let app = UIApplication.sharedApplication()
+		
+		let url = tableView.cellForRowAtIndexPath(indexPath)?.detailTextLabel?.text
+		
+		if let urlToOpen = url {
+			app.openURL(NSURL(string: urlToOpen)!)
+		}
 	}
 	
 }
