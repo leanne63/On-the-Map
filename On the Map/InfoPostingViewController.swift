@@ -31,6 +31,8 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	@IBOutlet weak var locationTextView: UITextView!
 	@IBOutlet weak var bottomView: UIView!
 	@IBOutlet weak var mapView: MKMapView!
+	
+	@IBOutlet weak var cancelButton: UIButton!
 	@IBOutlet weak var findOnTheMapButton: UIButton!
 	@IBOutlet weak var submitButton: UIButton!
 	
@@ -40,10 +42,13 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	override func viewDidLoad() {
         super.viewDidLoad()
 		
-		// hide items that don't show when view is first loaded
+		// when starting, we show the topLabel, locationTextView, bottomView, and findTheMapButton
+		// so, hide items that don't show when view is first loaded (topView always shows - has cancelButton!)
+		linkTextView.hidden = true
 		mapView.hidden = true
 		submitButton.hidden = true
 		
+		linkTextView.delegate = self
 		locationTextView.delegate = self
     }
 
@@ -59,13 +64,18 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	@IBAction func findOnTheMap(sender: UIButton) {
 		
 		// show/hide items for map version of view
+		topLabel.hidden = true
 		locationTextView.hidden = true
 		bottomView.hidden = true
 		findOnTheMapButton.hidden = true
 		
+		linkTextView.hidden = false
 		mapView.hidden = false
 		submitButton.hidden = false
-
+		
+		// change the cancel button's text color, so it's not invisible!
+		cancelButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+		
 		// retrieve and display location info
 		let address = locationTextView.text
 		let geocoder = CLGeocoder()
