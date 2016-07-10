@@ -16,6 +16,8 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	let whereTextLine1 = "Where are you"
 	let whereTextLine2 = "studying"
 	let whereTextLine3 = "today?"
+	let newline = "\n"
+	let emptyString = ""
 	
 	
 	// MARK: - Properties (Private)
@@ -89,7 +91,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	func textViewDidBeginEditing(textView: UITextView) {
 
 		if placeholderTextPresent {
-			textView.text = ""
+			textView.text = emptyString
 			placeholderTextPresent = false
 		}
 	}
@@ -97,7 +99,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
 		
-		if text == "\n" {
+		if text == newline {
 			textView.resignFirstResponder()
 			
 			return false

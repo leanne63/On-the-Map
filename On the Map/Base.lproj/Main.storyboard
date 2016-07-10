@@ -94,8 +94,8 @@
                                         <attributedString key="attributedText">
                                             <fragment content="Where are you studying today?">
                                                 <attributes>
-                                                    <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <font key="NSFont" size="17" name="HelveticaNeue"/>
+                                                    <color key="NSColor" red="0.0" green="0.50196081400000003" blue="1" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
+                                                    <font key="NSFont" size="36" name="HelveticaNeue"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -123,7 +123,7 @@
                                     <fragment content="Enter Your Location Here">
                                         <attributes>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="18" name="HelveticaNeue"/>
+                                            <font key="NSFont" size="24" name="HelveticaNeue"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
