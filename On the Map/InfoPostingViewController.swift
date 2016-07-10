@@ -10,18 +10,24 @@ import UIKit
 
 class InfoPostingViewController: UIViewController {
 
-    override func viewDidLoad() {
+	// MARK: - Overrides
+	
+	override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
+	
+	// MARK: - Actions
+	
+	@IBAction func cancelInfoPosting(sender: UIButton) {
+		
+		// TODO: need to submit info to Parse!
+		dismissViewControllerAnimated(true, completion: nil)
+	}
+	
+	
     /*
     // MARK: - Navigation
 
