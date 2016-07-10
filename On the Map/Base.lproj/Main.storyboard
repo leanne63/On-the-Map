@@ -81,8 +81,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qxy-Jh-Inr" userLabel="Top View">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tow-lE-L2f" userLabel="Cancel Button">
-                                        <rect key="frame" x="545" y="8" width="48" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tow-lE-L2f" userLabel="Cancel Button">
+                                        <rect key="frame" x="544" y="16" width="48" height="30"/>
                                         <state key="normal" title="Cancel"/>
                                         <connections>
                                             <action selector="cancelInfoPosting:" destination="t41-bx-jie" eventType="touchUpInside" id="Ar1-sa-AGL"/>
@@ -90,6 +90,10 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Tow-lE-L2f" firstAttribute="top" secondItem="qxy-Jh-Inr" secondAttribute="top" constant="16" id="0b0-8e-cyI"/>
+                                    <constraint firstAttribute="trailing" secondItem="Tow-lE-L2f" secondAttribute="trailing" constant="8" id="tBv-qb-Ekk"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
