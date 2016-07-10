@@ -8,9 +8,21 @@
 
 import MapKit
 
-class InfoPostingViewController: UIViewController {
-
-	// MARK: - Outlets
+class InfoPostingViewController: UIViewController, UITextViewDelegate {
+	
+	// MARK: - Constants
+	
+	let placeholderText = "Enter Your Location Here"
+	let whereTextLine1 = "Where are you"
+	let whereTextLine2 = "studying"
+	let whereTextLine3 = "today?"
+	
+	
+	// MARK: - Properties (Private)
+	private var placeholderTextPresent = true
+	
+	
+	// MARK: - Properties (Outlets)
 	
 	@IBOutlet weak var topView: UIView!
 	@IBOutlet weak var topLabel: UILabel!
@@ -25,8 +37,27 @@ class InfoPostingViewController: UIViewController {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
+		
+		// hide items that don't show when view is first loaded
+		mapView.hidden = true
+		submitButton.hidden = true
+		
+		locationTextView.delegate = self
+		
 
-        // Do any additional setup after loading the view.
+// TODO: attributed text for label(s)
+//		let topLabelTextAttributes = [
+//			NSStrokeColorAttributeName : UIColor.blackColor(),
+//			NSForegroundColorAttributeName : UIColor.whiteColor(),
+//			NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+//			NSStrokeWidthAttributeName : -3.0,
+//			
+//			NSParagraphStyleAttributeName : paragraphStyleToCenterText,
+//			]
+//		
+//		textField.defaultTextAttributes = memeTextAttributes
+//		textField.adjustsFontSizeToFitWidth = true
+
     }
 
 	
@@ -42,21 +73,38 @@ class InfoPostingViewController: UIViewController {
 	@IBAction func findOnTheMap(sender: UIButton) {
 		
 		// TODO: geolocate location on our map view
+		print("IN \(#function)")
 	}
 	
 	
 	@IBAction func submit(sender: UIButton) {
 		
 		// TODO: submit location information to Parse
+		print("IN \(#function)")
 	}
-	/*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+	
+	// MARK: - Text View Delegate Methods
+	
+	func textViewDidBeginEditing(textView: UITextView) {
 
+		if placeholderTextPresent {
+			textView.text = ""
+			placeholderTextPresent = false
+		}
+	}
+	
+	
+	func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+		
+		if text == "\n" {
+			textView.resignFirstResponder()
+			
+			return false
+		}
+		
+		return true
+	}
+	
+	
 }

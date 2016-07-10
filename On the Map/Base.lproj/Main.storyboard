@@ -120,7 +120,7 @@
                                 <rect key="frame" x="0.0" y="150" width="600" height="373"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                                 <attributedString key="attributedText">
-                                    <fragment content="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing civiuda.">
+                                    <fragment content="Enter Your Location Here">
                                         <attributes>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="18" name="HelveticaNeue"/>
@@ -128,7 +128,7 @@
                                         </attributes>
                                     </fragment>
                                 </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                             </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5oR-jI-yh6" userLabel="Bottom View">
                                 <rect key="frame" x="0.0" y="525" width="600" height="75"/>
@@ -181,7 +181,6 @@
                     </view>
                     <connections>
                         <outlet property="bottomView" destination="5oR-jI-yh6" id="iH0-P4-d8B"/>
-                        <outlet property="findOnTheMap" destination="Cox-0P-cia" id="aCQ-Jz-ZeS"/>
                         <outlet property="findOnTheMapButton" destination="Cox-0P-cia" id="ZSu-4O-StU"/>
                         <outlet property="locationTextView" destination="Ib1-mq-ZQd" id="W8b-qw-j8I"/>
                         <outlet property="mapView" destination="ihe-iY-OV6" id="o1G-Zz-qfg"/>
