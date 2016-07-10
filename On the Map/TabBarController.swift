@@ -44,6 +44,17 @@ class TabBarController: UITabBarController {
     }
 	
 	
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		
+		// if moving to posting information view, pass user data
+		if segue.identifier == tabBarPinToInfoPostingViewSegueID {
+			let viewController = segue.destinationViewController as! InfoPostingViewController
+			
+			viewController.userModel = userModel
+		}
+	}
+	
+	
 	// MARK: - Selectors
 	
 	/// Segues back (unwinds) to logout function

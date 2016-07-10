@@ -24,8 +24,8 @@ class Parse {
 	static let parsePostDidFailNotification = "parsePostDidFail"
 	
 	// dictionary keys
-	let messageKey = "message"
-	let resultsKey = "results"
+	static let messageKey = "message"
+	static let resultsKey = "results"
 
 	// request-related
 	private let limitParm = "limit"
@@ -101,7 +101,7 @@ class Parse {
 			
 			let options = NSJSONReadingOptions()
 			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(data, options: options),
-				let results = parsedData[self.resultsKey] as? [[String: AnyObject]] else {
+				let results = parsedData[Parse.resultsKey] as? [[String: AnyObject]] else {
 				
 				self.postFailureNotification(self.unableToParseDataMessage)
 				return
@@ -120,7 +120,7 @@ class Parse {
 }
 	
 	
-	func postStudentData(studentInfo: [StudentInformation]) {
+	func postStudentData(studentInfo: StudentInformation) {
 		
 		let requestURL = createURLFromParameters(nil)
 		let request = NSMutableURLRequest(URL: requestURL)
@@ -187,7 +187,7 @@ class Parse {
 	*/
 	private func postFailureNotification(failureMessage: String) {
 		
-		let userInfo = [messageKey: failureMessage]
+		let userInfo = [Parse.messageKey: failureMessage]
 		
 		NSNotificationCenter.postNotificationOnMain(Parse.parseRetrievalDidFailNotification, userInfo: userInfo)
 	}

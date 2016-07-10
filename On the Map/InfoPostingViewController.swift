@@ -18,8 +18,16 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	let newline = "\n"
 	let emptyString = ""
 	
+	let missingLinkTitle = "Missing Link Information"
+	let missingLinkMessage = "Please enter a link to display with your location!"
+	let parsePostFailedTitle = "Post Action Failed"
+	
+	let actionTitle = "Return"
+	
 	
 	// MARK: - Properties (Non-Outlets)
+	
+	var userModel: User!
 	private var mapCoordinates: CLLocationCoordinate2D!
 	
 	
@@ -42,6 +50,8 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	override func viewDidLoad() {
         super.viewDidLoad()
 		
+		subscribeToNotifications()
+		
 		// when starting, we show the topLabel, locationTextView, bottomView, and findTheMapButton
 		// so, hide items that don't show when view is first loaded (topView always shows - has cancelButton!)
 		linkTextView.hidden = true
@@ -51,6 +61,13 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		linkTextView.delegate = self
 		locationTextView.delegate = self
     }
+	
+	
+	deinit {
+		
+		// unsubscribe ourself from any notifications
+		NSNotificationCenter.defaultCenter().removeObserver(self)
+	}
 
 	
 	// MARK: - Actions
@@ -110,8 +127,70 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	@IBAction func submit(sender: UIButton) {
 		
-		// TODO: submit location information to Parse
-		print("IN \(#function)")
+		// if text hasn't changed, notify that link needs to be added
+		guard linkTextView.text == placeholderTextLink || linkTextView.text == emptyString  else {
+			
+			presentAlert(missingLinkTitle, message: missingLinkMessage, actionTitle: actionTitle)
+			
+			return
+		}
+		
+		// submit location information to Parse
+		let studentInfo = createStudent()
+		let parse = Parse()
+		parse.postStudentData(studentInfo)
+	}
+	
+	
+	// MARK: - Notification Handlers
+	
+	func subscribeToNotifications() {
+		
+		NSNotificationCenter.defaultCenter().addObserver(self,
+		                                                 selector: #selector(parsePostDidComplete(_:)),
+		                                                 name: Parse.parsePostDidCompleteNotification,
+		                                                 object: nil)
+		
+		NSNotificationCenter.defaultCenter().addObserver(self,
+		                                                 selector: #selector(parsePostDidFail(_:)),
+		                                                 name: Parse.parsePostDidFailNotification,
+		                                                 object: nil)
+	}
+	
+	
+	func parsePostDidComplete(notification: NSNotification) {
+		
+		dismissViewControllerAnimated(true, completion: nil)
+	}
+	
+	
+	func parsePostDidFail(notification: NSNotification) {
+		
+		var failureMessage: String = ""
+		if let userInfo = notification.userInfo as? [String: String] {
+			failureMessage = userInfo[Parse.messageKey] ?? ""
+		}
+		
+		presentAlert(parsePostFailedTitle, message: failureMessage, actionTitle: actionTitle)
+	}
+	
+	
+	// MARK: - Private Functions
+	
+	private func createStudent() -> StudentInformation {
+		
+		var studentInfo = [String: AnyObject]()
+		studentInfo[StudentInformationModel.uniqueKeyKey] = userModel.userId
+		studentInfo[StudentInformationModel.firstNameKey] = userModel.firstName
+		studentInfo[StudentInformationModel.lastNameKey] = userModel.lastName
+		studentInfo[StudentInformationModel.latitudeKey] = mapCoordinates.latitude
+		studentInfo[StudentInformationModel.longitudeKey] = mapCoordinates.longitude
+		studentInfo[StudentInformationModel.mapStringKey] = locationTextView.text
+		studentInfo[StudentInformationModel.mediaURLKey] = linkTextView.text
+		
+		let student = StudentInformation(studentInfo)
+		
+		return student
 	}
 
 	
