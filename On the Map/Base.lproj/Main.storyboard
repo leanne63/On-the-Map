@@ -113,11 +113,18 @@
                                     <constraint firstItem="7AN-uV-KCe" firstAttribute="bottom" secondItem="qxy-Jh-Inr" secondAttribute="bottomMargin" id="zfI-UB-rI3"/>
                                 </constraints>
                             </view>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ihe-iY-OV6">
+                                <rect key="frame" x="0.0" y="150" width="600" height="450"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="qxy-Jh-Inr" firstAttribute="leading" secondItem="29I-VY-dL4" secondAttribute="leading" id="Jpn-Rd-qah"/>
+                            <constraint firstItem="ihe-iY-OV6" firstAttribute="trailing" secondItem="29I-VY-dL4" secondAttribute="trailing" id="KVW-bQ-KJT"/>
+                            <constraint firstItem="ihe-iY-OV6" firstAttribute="leading" secondItem="29I-VY-dL4" secondAttribute="leading" id="PWO-1T-vYl"/>
                             <constraint firstItem="qxy-Jh-Inr" firstAttribute="height" secondItem="29I-VY-dL4" secondAttribute="height" multiplier="1/4" id="RMP-BG-Me2"/>
+                            <constraint firstItem="ihe-iY-OV6" firstAttribute="top" secondItem="qxy-Jh-Inr" secondAttribute="bottom" id="WrO-jt-sWU"/>
+                            <constraint firstItem="ihe-iY-OV6" firstAttribute="bottom" secondItem="KdN-lu-ze7" secondAttribute="top" id="kQ6-hE-2Y4"/>
                             <constraint firstItem="qxy-Jh-Inr" firstAttribute="top" secondItem="29I-VY-dL4" secondAttribute="top" id="v5y-He-S7n"/>
                             <constraint firstItem="qxy-Jh-Inr" firstAttribute="trailing" secondItem="29I-VY-dL4" secondAttribute="trailing" id="yvD-ba-leH"/>
                         </constraints>
