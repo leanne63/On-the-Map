@@ -27,6 +27,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	@IBOutlet weak var topView: UIView!
 	@IBOutlet weak var topLabel: UILabel!
+	@IBOutlet weak var linkTextView: UITextView!
 	@IBOutlet weak var locationTextView: UITextView!
 	@IBOutlet weak var bottomView: UIView!
 	@IBOutlet weak var mapView: MKMapView!

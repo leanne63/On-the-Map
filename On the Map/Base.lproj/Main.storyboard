@@ -102,14 +102,32 @@
                                         </attributedString>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ebz-hF-dPJ" userLabel="Link Text View">
+                                        <rect key="frame" x="8" y="48" width="584" height="94"/>
+                                        <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Enter a Link to Share Here">
+                                                <attributes>
+                                                    <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <font key="NSFont" size="18" name="HelveticaNeue"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
+                                    </textView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Tow-lE-L2f" firstAttribute="top" secondItem="qxy-Jh-Inr" secondAttribute="top" constant="16" id="0b0-8e-cyI"/>
+                                    <constraint firstItem="ebz-hF-dPJ" firstAttribute="leading" secondItem="qxy-Jh-Inr" secondAttribute="leadingMargin" id="Spr-mP-gv4"/>
+                                    <constraint firstItem="ebz-hF-dPJ" firstAttribute="trailing" secondItem="qxy-Jh-Inr" secondAttribute="trailingMargin" id="bR7-Ej-Hud"/>
                                     <constraint firstItem="7AN-uV-KCe" firstAttribute="leading" secondItem="qxy-Jh-Inr" secondAttribute="leadingMargin" id="gZL-ZX-TPB"/>
                                     <constraint firstItem="7AN-uV-KCe" firstAttribute="top" secondItem="qxy-Jh-Inr" secondAttribute="topMargin" id="hDp-gU-PpG"/>
+                                    <constraint firstItem="ebz-hF-dPJ" firstAttribute="top" secondItem="qxy-Jh-Inr" secondAttribute="topMargin" multiplier="6" id="nkR-8V-dbI"/>
                                     <constraint firstItem="7AN-uV-KCe" firstAttribute="trailing" secondItem="qxy-Jh-Inr" secondAttribute="trailingMargin" id="pXo-qE-j9Y"/>
                                     <constraint firstItem="Tow-lE-L2f" firstAttribute="trailing" secondItem="qxy-Jh-Inr" secondAttribute="trailing" constant="-8" id="tBv-qb-Ekk"/>
+                                    <constraint firstItem="ebz-hF-dPJ" firstAttribute="bottom" secondItem="qxy-Jh-Inr" secondAttribute="bottomMargin" id="toE-FY-M58"/>
                                     <constraint firstItem="7AN-uV-KCe" firstAttribute="bottom" secondItem="qxy-Jh-Inr" secondAttribute="bottomMargin" id="zfI-UB-rI3"/>
                                 </constraints>
                             </view>
@@ -182,6 +200,7 @@
                     <connections>
                         <outlet property="bottomView" destination="5oR-jI-yh6" id="iH0-P4-d8B"/>
                         <outlet property="findOnTheMapButton" destination="Cox-0P-cia" id="ZSu-4O-StU"/>
+                        <outlet property="linkTextView" destination="ebz-hF-dPJ" id="htj-bo-Mjh"/>
                         <outlet property="locationTextView" destination="Ib1-mq-ZQd" id="W8b-qw-j8I"/>
                         <outlet property="mapView" destination="ihe-iY-OV6" id="o1G-Zz-qfg"/>
                         <outlet property="submitButton" destination="Eg6-uI-D0p" id="gjn-mm-tJf"/>
