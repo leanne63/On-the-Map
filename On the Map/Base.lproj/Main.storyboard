@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -88,11 +89,28 @@
                                             <action selector="cancelInfoPosting:" destination="t41-bx-jie" eventType="touchUpInside" id="Ar1-sa-AGL"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7AN-uV-KCe" userLabel="Top Label">
+                                        <rect key="frame" x="8" y="8" width="584" height="134"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Where are you studying today?">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <font key="NSFont" size="17" name="HelveticaNeue"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Tow-lE-L2f" firstAttribute="top" secondItem="qxy-Jh-Inr" secondAttribute="top" constant="16" id="0b0-8e-cyI"/>
-                                    <constraint firstAttribute="trailing" secondItem="Tow-lE-L2f" secondAttribute="trailing" constant="8" id="tBv-qb-Ekk"/>
+                                    <constraint firstItem="7AN-uV-KCe" firstAttribute="leading" secondItem="qxy-Jh-Inr" secondAttribute="leadingMargin" id="gZL-ZX-TPB"/>
+                                    <constraint firstItem="7AN-uV-KCe" firstAttribute="top" secondItem="qxy-Jh-Inr" secondAttribute="topMargin" id="hDp-gU-PpG"/>
+                                    <constraint firstItem="7AN-uV-KCe" firstAttribute="trailing" secondItem="qxy-Jh-Inr" secondAttribute="trailingMargin" id="pXo-qE-j9Y"/>
+                                    <constraint firstItem="Tow-lE-L2f" firstAttribute="trailing" secondItem="qxy-Jh-Inr" secondAttribute="trailing" constant="-8" id="tBv-qb-Ekk"/>
+                                    <constraint firstItem="7AN-uV-KCe" firstAttribute="bottom" secondItem="qxy-Jh-Inr" secondAttribute="bottomMargin" id="zfI-UB-rI3"/>
                                 </constraints>
                             </view>
                         </subviews>
