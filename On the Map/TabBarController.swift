@@ -10,20 +10,30 @@ import UIKit
 
 class TabBarController: UITabBarController {
 	
+	// MARK: - Constants
+	
+	let logoutButtonTitle = "Logout"
+	let pinImageName = "pin"
+	let unwindFromLogoutButtonSegueID = "unwindFromLogoutButton"
+	let tabBarPinToInfoPostingViewSegueID = "tabBarPinToInfoPostingViewSegue"
+	
+	
+	// MARK: - Properties
+	
 	var userModel: User!
 
-    override func viewDidLoad() {
+	
+	// MARK: - Overrides
+	
+	override func viewDidLoad() {
         super.viewDidLoad()
 		
-		// TODO: remove this if notifications not needed here
-		subscribeToNotifications()
-
 		// set up navigation bar items
 		navigationItem.title = "On The Map"
 		
-		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(doLogout))
+		navigationItem.leftBarButtonItem = UIBarButtonItem(title: logoutButtonTitle, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(doLogout))
 		
-		let pinButton = UIBarButtonItem(image: UIImage(named: "pin"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(postInformation))
+		let pinButton = UIBarButtonItem(image: UIImage(named: pinImageName), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(postInformation))
 		let refreshButton = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: #selector(retrieveUserData))
 		
 		// note: right bar buttons in array appear on nav bar right to left
@@ -34,26 +44,19 @@ class TabBarController: UITabBarController {
     }
 	
 	
-	deinit {
-		
-		// unsubscribe ourself from any notifications
-		NSNotificationCenter.defaultCenter().removeObserver(self)
-	}
-	
-	
 	// MARK: - Selectors
 	
 	/// Segues back (unwinds) to logout function
 	func doLogout() {
 		
-		performSegueWithIdentifier("unwindFromLogoutButton", sender: self)
+		performSegueWithIdentifier(unwindFromLogoutButtonSegueID, sender: nil)
 	}
 	
 	
+	/// Segues to Information Posting view
 	func postInformation() {
 		
-		print("IN \(#function)")
-		// TODO: segue to Post Information View
+		performSegueWithIdentifier(tabBarPinToInfoPostingViewSegueID, sender: nil)
 	}
 	
 	
@@ -62,38 +65,6 @@ class TabBarController: UITabBarController {
 		
 		let parseInstance = Parse()
 		parseInstance.retrieveMapData()
-	}
-	
-	
-	// TODO: remove below if notifications not needed here
-	// MARK: - Notification Handlers
-	
-	private func subscribeToNotifications() {
-		
-//		NSNotificationCenter.defaultCenter().addObserver(self,
-//		                                                 selector: #selector(parseRetrievalDidComplete(_:)),
-//		                                                 name: Parse.parseRetrievalDidCompleteNotification,
-//		                                                 object: nil)
-//	
-//		NSNotificationCenter.defaultCenter().addObserver(self,
-//		                                                 selector: #selector(parseRetrievalDidFail(_:)),
-//		                                                 name: Parse.parseRetrievalDidFailNotification,
-//		                                                 object: nil)
-	}
-	
-	
-	// TODO: move this (or both these?) into map and table view controllers? They're the ones using the data...
-	func parseRetrievalDidComplete(notification: NSNotification) {
-		
-		// TODO: share data as needed with view controllers
-		print(Parse.parseRetrievalDidCompleteNotification)
-		print("Student Info:\n\(StudentInformationModel.students)")
-	}
-
-	func parseRetrievalDidFail(notification: NSNotification) {
-		
-		// TODO: what to do if fails???
-		print(Parse.parseRetrievalDidFailNotification)
 	}
 	
 }
