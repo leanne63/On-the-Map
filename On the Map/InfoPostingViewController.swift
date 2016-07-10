@@ -19,6 +19,10 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	let emptyString = ""
 	
 	
+	// MARK: - Properties (Non-Outlets)
+	private var mapCoordinates: CLLocationCoordinate2D!
+	
+	
 	// MARK: - Properties (Outlets)
 	
 	@IBOutlet weak var topView: UIView!
@@ -66,7 +70,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		let geocoder = CLGeocoder()
 		geocoder.geocodeAddressString(address) {
 			/*
-				Adding unowned self so won't cause strong reference cycle within closure;
+				Adding capture list (unowned self) so closure won't cause strong reference cycle;
 			    see weak and unowned references and "capture lists" at Automatic Reference Counting:
 			    https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AutomaticReferenceCounting.html#//apple_ref/doc/uid/TP40014097-CH20-ID48
 			*/
@@ -78,13 +82,15 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 				return
 			}
 			
+			self.mapCoordinates = location.coordinate
+			
 			let span = MKCoordinateSpanMake(0.5, 0.5)
-			let region = MKCoordinateRegion(center: location.coordinate, span: span)
+			let region = MKCoordinateRegion(center: self.mapCoordinates, span: span)
 			
 			self.mapView.setRegion(region, animated: true)
 			
 			let annotation = MKPointAnnotation()
-			annotation.coordinate = location.coordinate
+			annotation.coordinate = self.mapCoordinates
 			
 			self.mapView.addAnnotation(annotation)
 		}

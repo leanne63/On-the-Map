@@ -20,6 +20,8 @@ class Parse {
 	// notification names
 	static let parseRetrievalDidCompleteNotification = "parseRetrievalDidComplete"
 	static let parseRetrievalDidFailNotification = "parseRetrievalDidFail"
+	static let parsePostDidCompleteNotification = "parsePostDidComplete"
+	static let parsePostDidFailNotification = "parsePostDidFail"
 	
 	// dictionary keys
 	let messageKey = "message"
@@ -32,12 +34,15 @@ class Parse {
 	private let orderValue = "-updatedAt,lastName"
 	private let apiScheme = "https"
 	private let apiHost = "api.parse.com"
-	private let retrievePath = "/1/classes/StudentLocation"
+	private let apiPath = "/1/classes/StudentLocation"
 	private let getMethod = "GET"
+	private let postMethod = "POST"
 	private let parseApplicationId = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
 	private let parseRESTAPIKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
+	private let jsonContentType = "application/json"
 	private let xParseApplicationId = "X-Parse-Application-Id"
 	private let xParseRESTAPIKey = "X-Parse-REST-API-Key"
+	private let xParseContentTypeKey = "Content-Type"
 	
 	// failure messages
 	private let invalidRequestURLMessage = "Invalid request URL."
@@ -115,18 +120,29 @@ class Parse {
 }
 	
 	
-	func postStudentData() {
+	func postStudentData(studentInfo: [StudentInformation]) {
 		
-		let methodParameters = [
-			limitParm: limitValue,
-			orderParm: orderValue
-		]
-		
-		let requestURL = createURLFromParameters(methodParameters)
+		let requestURL = createURLFromParameters(nil)
 		let request = NSMutableURLRequest(URL: requestURL)
 		
 		request.addValue(parseApplicationId, forHTTPHeaderField: xParseApplicationId)
 		request.addValue(parseRESTAPIKey, forHTTPHeaderField: xParseRESTAPIKey)
+		request.addValue(jsonContentType, forHTTPHeaderField: xParseContentTypeKey)
+		
+		// TODO: create json body out of student information struct
+		/*
+		let jsonBodyDict = [apiKey: [usernameKey: email, passwordKey: password]]
+		let jsonWritingOptions = NSJSONWritingOptions()
+		
+		guard let jsonBody: NSData = try? NSJSONSerialization.dataWithJSONObject(jsonBodyDict, options: jsonWritingOptions) else {
+			postFailureNotification(loginDidFailNotification, failureMessage: jsonSerializationFailureMessage)
+			return
+		}
+		
+		request.HTTPBody = jsonBody
+		
+		request.HTTPBody = "{\"uniqueKey\": \"1234\", \"firstName\": \"John\", \"lastName\": \"Doe\",\"mapString\": \"Mountain View, CA\", \"mediaURL\": \"https://udacity.com\",\"latitude\": 37.386052, \"longitude\": -122.083851}".dataUsingEncoding(NSUTF8StringEncoding)
+		*/
 		
 		guard SCNetworkReachability.checkIfNetworkAvailable(requestURL) == true else {
 			postFailureNotification(networkUnreachableMessage)
@@ -151,26 +167,6 @@ class Parse {
 				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
 				self.postFailureNotification(failureMessage)
 				return
-			}
-			
-			guard let data = data else {
-				
-				self.postFailureNotification(self.locationDataUnavailableMessage)
-				return
-			}
-			
-			let options = NSJSONReadingOptions()
-			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(data, options: options),
-				let results = parsedData[self.resultsKey] as? [[String: AnyObject]] else {
-					
-					self.postFailureNotification(self.unableToParseDataMessage)
-					return
-			}
-			
-			for studentItem in results {
-				
-				// don't need to use the result; struct adds it to the model; so setting to '_'
-				let _ = StudentInformation(studentItem)
 			}
 			
 			NSNotificationCenter.postNotificationOnMain(Parse.parseRetrievalDidCompleteNotification, userInfo: nil)
@@ -199,17 +195,19 @@ class Parse {
 	
 	//: MARK: - Private Functions
 	
-	func createURLFromParameters(parameters: [String:AnyObject]) -> NSURL {
+	func createURLFromParameters(parameters: [String:AnyObject]?) -> NSURL {
 		
 		let components = NSURLComponents()
 		components.scheme = apiScheme
 		components.host = apiHost
-		components.path = retrievePath
+		components.path = apiPath
 		components.queryItems = [NSURLQueryItem]()
 		
-		for (key, value) in parameters {
-			let queryItem = NSURLQueryItem(name: key, value: "\(value)")
-			components.queryItems!.append(queryItem)
+		if let parameters = parameters {
+			for (key, value) in parameters {
+				let queryItem = NSURLQueryItem(name: key, value: "\(value)")
+				components.queryItems!.append(queryItem)
+			}
 		}
 		
 		return components.URL!
