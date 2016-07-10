@@ -128,7 +128,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	@IBAction func submit(sender: UIButton) {
 		
 		// if text hasn't changed, notify that link needs to be added
-		guard linkTextView.text == placeholderTextLink || linkTextView.text == emptyString  else {
+		guard linkTextView.text != placeholderTextLink && linkTextView.text != emptyString  else {
 			
 			presentAlert(missingLinkTitle, message: missingLinkMessage, actionTitle: actionTitle)
 			

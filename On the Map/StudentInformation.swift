@@ -37,16 +37,16 @@ struct StudentInformation {
 	
 	init(_ studentInfo: [String: AnyObject]) {
 		
-		createdAt = studentInfo[StudentInformationModel.createdAtKey] as! String
+		createdAt = studentInfo[StudentInformationModel.createdAtKey] != nil ? studentInfo[StudentInformationModel.createdAtKey] as! String : ""
 		firstName = studentInfo[StudentInformationModel.firstNameKey] as! String
 		lastName  = studentInfo[StudentInformationModel.lastNameKey]  as! String
 		latitude  = studentInfo[StudentInformationModel.latitudeKey]  as! Double
 		longitude = studentInfo[StudentInformationModel.longitudeKey] as! Double
 		mapString = studentInfo[StudentInformationModel.mapStringKey] as! String
 		mediaURL  = studentInfo[StudentInformationModel.mediaURLKey]  as! String
-		objectID  = studentInfo[StudentInformationModel.objectIDKey] != nil ? studentInfo[StudentInformationModel.createdAtKey] as! String : ""
+		objectID  = studentInfo[StudentInformationModel.objectIDKey] != nil ? studentInfo[StudentInformationModel.objectIDKey] as! String : ""
 		uniqueKey = studentInfo[StudentInformationModel.uniqueKeyKey] as! String
-		updatedAt = studentInfo[StudentInformationModel.updatedAtKey] as! String
+		updatedAt = studentInfo[StudentInformationModel.updatedAtKey] != nil ? studentInfo[StudentInformationModel.updatedAtKey] as! String : ""
 		
 		StudentInformationModel.students.append(self)
 	}

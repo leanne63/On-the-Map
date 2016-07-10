@@ -69,7 +69,7 @@ class Parse {
 		request.addValue(parseRESTAPIKey, forHTTPHeaderField: xParseRESTAPIKey)
 	
 		guard SCNetworkReachability.checkIfNetworkAvailable(requestURL) == true else {
-			postFailureNotification(networkUnreachableMessage)
+			postFailureNotification(Parse.parseRetrievalDidFailNotification, failureMessage: networkUnreachableMessage)
 			return
 		}
 		
@@ -82,20 +82,20 @@ class Parse {
 				
 				let errorMessage = error!.userInfo[NSLocalizedDescriptionKey] as! String
 				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
-				self.postFailureNotification(failureMessage)
+				self.postFailureNotification(Parse.parseRetrievalDidFailNotification, failureMessage: failureMessage)
 				return
 			}
 		
 			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
 				
 				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
-				self.postFailureNotification(failureMessage)
+				self.postFailureNotification(Parse.parseRetrievalDidFailNotification, failureMessage: failureMessage)
 				return
 			}
 			
 			guard let data = data else {
 				
-				self.postFailureNotification(self.locationDataUnavailableMessage)
+				self.postFailureNotification(Parse.parseRetrievalDidFailNotification, failureMessage: self.locationDataUnavailableMessage)
 				return
 			}
 			
@@ -103,7 +103,7 @@ class Parse {
 			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(data, options: options),
 				let results = parsedData[Parse.resultsKey] as? [[String: AnyObject]] else {
 				
-				self.postFailureNotification(self.unableToParseDataMessage)
+				self.postFailureNotification(Parse.parseRetrievalDidFailNotification, failureMessage: self.unableToParseDataMessage)
 				return
 			}
 			
@@ -145,7 +145,7 @@ class Parse {
 		*/
 		
 		guard SCNetworkReachability.checkIfNetworkAvailable(requestURL) == true else {
-			postFailureNotification(networkUnreachableMessage)
+			postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: networkUnreachableMessage)
 			return
 		}
 		
@@ -158,18 +158,18 @@ class Parse {
 				
 				let errorMessage = error!.userInfo[NSLocalizedDescriptionKey] as! String
 				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
-				self.postFailureNotification(failureMessage)
+				self.postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: failureMessage)
 				return
 			}
 			
 			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
 				
 				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
-				self.postFailureNotification(failureMessage)
+				self.postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: failureMessage)
 				return
 			}
 			
-			NSNotificationCenter.postNotificationOnMain(Parse.parseRetrievalDidCompleteNotification, userInfo: nil)
+			NSNotificationCenter.postNotificationOnMain(Parse.parsePostDidCompleteNotification, userInfo: nil)
 		}
 		
 		task.resume()
@@ -185,11 +185,11 @@ class Parse {
 	- parameter failureMessage: Failure information to be provided to observers.
 	
 	*/
-	private func postFailureNotification(failureMessage: String) {
+	private func postFailureNotification(notificationName: String, failureMessage: String) {
 		
 		let userInfo = [Parse.messageKey: failureMessage]
 		
-		NSNotificationCenter.postNotificationOnMain(Parse.parseRetrievalDidFailNotification, userInfo: userInfo)
+		NSNotificationCenter.postNotificationOnMain(notificationName, userInfo: userInfo)
 	}
 	
 	
