@@ -115,6 +115,71 @@ class Parse {
 }
 	
 	
+	func postStudentData() {
+		
+		let methodParameters = [
+			limitParm: limitValue,
+			orderParm: orderValue
+		]
+		
+		let requestURL = createURLFromParameters(methodParameters)
+		let request = NSMutableURLRequest(URL: requestURL)
+		
+		request.addValue(parseApplicationId, forHTTPHeaderField: xParseApplicationId)
+		request.addValue(parseRESTAPIKey, forHTTPHeaderField: xParseRESTAPIKey)
+		
+		guard SCNetworkReachability.checkIfNetworkAvailable(requestURL) == true else {
+			postFailureNotification(networkUnreachableMessage)
+			return
+		}
+		
+		let session = NSURLSession.sharedSession()
+		let task = session.dataTaskWithRequest(request) {
+			
+			(data, response, error) in
+			
+			guard error == nil else {
+				
+				let errorMessage = error!.userInfo[NSLocalizedDescriptionKey] as! String
+				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
+				self.postFailureNotification(failureMessage)
+				return
+			}
+			
+			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
+				
+				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
+				self.postFailureNotification(failureMessage)
+				return
+			}
+			
+			guard let data = data else {
+				
+				self.postFailureNotification(self.locationDataUnavailableMessage)
+				return
+			}
+			
+			let options = NSJSONReadingOptions()
+			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(data, options: options),
+				let results = parsedData[self.resultsKey] as? [[String: AnyObject]] else {
+					
+					self.postFailureNotification(self.unableToParseDataMessage)
+					return
+			}
+			
+			for studentItem in results {
+				
+				// don't need to use the result; struct adds it to the model; so setting to '_'
+				let _ = StudentInformation(studentItem)
+			}
+			
+			NSNotificationCenter.postNotificationOnMain(Parse.parseRetrievalDidCompleteNotification, userInfo: nil)
+		}
+		
+		task.resume()
+	}
+	
+	
 	// MARK: - Notification Handling
 	
 	/**

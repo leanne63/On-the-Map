@@ -7,21 +7,16 @@
 //
 
 import MapKit
+import CoreLocation	// required for forward geocoding address
 
 class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	// MARK: - Constants
 	
-	let placeholderText = "Enter Your Location Here"
-	let whereTextLine1 = "Where are you"
-	let whereTextLine2 = "studying"
-	let whereTextLine3 = "today?"
+	let placeholderTextWhere = "Enter Your Location Here"
+	let placeholderTextLink = "Enter a Link to Share Here"
 	let newline = "\n"
 	let emptyString = ""
-	
-	
-	// MARK: - Properties (Private)
-	private var placeholderTextPresent = true
 	
 	
 	// MARK: - Properties (Outlets)
@@ -45,21 +40,6 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		submitButton.hidden = true
 		
 		locationTextView.delegate = self
-		
-
-// TODO: attributed text for label(s)
-//		let topLabelTextAttributes = [
-//			NSStrokeColorAttributeName : UIColor.blackColor(),
-//			NSForegroundColorAttributeName : UIColor.whiteColor(),
-//			NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-//			NSStrokeWidthAttributeName : -3.0,
-//			
-//			NSParagraphStyleAttributeName : paragraphStyleToCenterText,
-//			]
-//		
-//		textField.defaultTextAttributes = memeTextAttributes
-//		textField.adjustsFontSizeToFitWidth = true
-
     }
 
 	
@@ -67,15 +47,47 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	@IBAction func cancelInfoPosting(sender: UIButton) {
 		
-		// TODO: need to submit info to Parse!
 		dismissViewControllerAnimated(true, completion: nil)
 	}
 	
 	
 	@IBAction func findOnTheMap(sender: UIButton) {
 		
-		// TODO: geolocate location on our map view
-		print("IN \(#function)")
+		// show/hide items for map version of view
+		locationTextView.hidden = true
+		bottomView.hidden = true
+		findOnTheMapButton.hidden = true
+		
+		mapView.hidden = false
+		submitButton.hidden = false
+
+		// retrieve and display location info
+		let address = locationTextView.text
+		let geocoder = CLGeocoder()
+		geocoder.geocodeAddressString(address) {
+			/*
+				Adding unowned self so won't cause strong reference cycle within closure;
+			    see weak and unowned references and "capture lists" at Automatic Reference Counting:
+			    https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AutomaticReferenceCounting.html#//apple_ref/doc/uid/TP40014097-CH20-ID48
+			*/
+			[unowned self]
+			(placemarkData, error) in
+			
+			guard error == nil, let placemarkData = placemarkData, let location = placemarkData[0].location else {
+				// TODO: what if no data found? alert?
+				return
+			}
+			
+			let span = MKCoordinateSpanMake(0.5, 0.5)
+			let region = MKCoordinateRegion(center: location.coordinate, span: span)
+			
+			self.mapView.setRegion(region, animated: true)
+			
+			let annotation = MKPointAnnotation()
+			annotation.coordinate = location.coordinate
+			
+			self.mapView.addAnnotation(annotation)
+		}
 	}
 	
 	
@@ -90,9 +102,8 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	func textViewDidBeginEditing(textView: UITextView) {
 
-		if placeholderTextPresent {
+		if textView.text == placeholderTextWhere || textView.text == placeholderTextLink {
 			textView.text = emptyString
-			placeholderTextPresent = false
 		}
 	}
 	
