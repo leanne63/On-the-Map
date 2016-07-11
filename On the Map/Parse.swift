@@ -18,14 +18,14 @@ class Parse {
 	// MARK: - Constants
 	
 	// notification names
-	static let parseRetrievalDidCompleteNotification = "parseRetrievalDidComplete"
-	static let parseRetrievalDidFailNotification = "parseRetrievalDidFail"
-	static let parsePostDidCompleteNotification = "parsePostDidComplete"
-	static let parsePostDidFailNotification = "parsePostDidFail"
+	let parseRetrievalDidCompleteNotification = "parseRetrievalDidComplete"
+	let parseRetrievalDidFailNotification = "parseRetrievalDidFail"
+	let parsePostDidCompleteNotification = "parsePostDidComplete"
+	let parsePostDidFailNotification = "parsePostDidFail"
 	
 	// dictionary keys
-	static let messageKey = "message"
-	static let resultsKey = "results"
+	let messageKey = "message"
+	let resultsKey = "results"
 
 	// request-related
 	private let limitParm = "limit"
@@ -70,7 +70,7 @@ class Parse {
 		request.addValue(parseRESTAPIKey, forHTTPHeaderField: xParseRESTAPIKey)
 	
 		guard SCNetworkReachability.checkIfNetworkAvailable(requestURL) == true else {
-			postFailureNotification(Parse.parseRetrievalDidFailNotification, failureMessage: networkUnreachableMessage)
+			postFailureNotification(self.parseRetrievalDidFailNotification, failureMessage: networkUnreachableMessage)
 			return
 		}
 		
@@ -83,28 +83,28 @@ class Parse {
 				
 				let errorMessage = error!.userInfo[NSLocalizedDescriptionKey] as! String
 				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
-				self.postFailureNotification(Parse.parseRetrievalDidFailNotification, failureMessage: failureMessage)
+				self.postFailureNotification(self.parseRetrievalDidFailNotification, failureMessage: failureMessage)
 				return
 			}
 		
 			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
 				
 				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
-				self.postFailureNotification(Parse.parseRetrievalDidFailNotification, failureMessage: failureMessage)
+				self.postFailureNotification(self.parseRetrievalDidFailNotification, failureMessage: failureMessage)
 				return
 			}
 			
 			guard let data = data else {
 				
-				self.postFailureNotification(Parse.parseRetrievalDidFailNotification, failureMessage: self.locationDataUnavailableMessage)
+				self.postFailureNotification(self.parseRetrievalDidFailNotification, failureMessage: self.locationDataUnavailableMessage)
 				return
 			}
 			
 			let options = NSJSONReadingOptions()
 			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(data, options: options),
-				let results = parsedData[Parse.resultsKey] as? [[String: AnyObject]] else {
+				let results = parsedData[self.resultsKey] as? [[String: AnyObject]] else {
 				
-				self.postFailureNotification(Parse.parseRetrievalDidFailNotification, failureMessage: self.unableToParseDataMessage)
+				self.postFailureNotification(self.parseRetrievalDidFailNotification, failureMessage: self.unableToParseDataMessage)
 				return
 			}
 			
@@ -113,7 +113,7 @@ class Parse {
 				StudentInformationModel.addStudent(StudentInformation(studentItem))
 			}
 			
-			NSNotificationCenter.postNotificationOnMain(Parse.parseRetrievalDidCompleteNotification, userInfo: nil)
+			NSNotificationCenter.postNotificationOnMain(self.parseRetrievalDidCompleteNotification, userInfo: nil)
 		}
 		
 		task.resume()
@@ -135,14 +135,14 @@ class Parse {
 		let jsonWritingOptions = NSJSONWritingOptions()
 		
 		guard let jsonBody: NSData = try? NSJSONSerialization.dataWithJSONObject(jsonBodyDict, options: jsonWritingOptions) else {
-			postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: jsonSerializationFailureMessage)
+			postFailureNotification(self.parsePostDidFailNotification, failureMessage: jsonSerializationFailureMessage)
 			return
 		}
 		
 		request.HTTPBody = jsonBody
 		
 		guard SCNetworkReachability.checkIfNetworkAvailable(requestURL) == true else {
-			postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: networkUnreachableMessage)
+			postFailureNotification(self.parsePostDidFailNotification, failureMessage: networkUnreachableMessage)
 			return
 		}
 		
@@ -155,18 +155,36 @@ class Parse {
 				
 				let errorMessage = error!.userInfo[NSLocalizedDescriptionKey] as! String
 				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
-				self.postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: failureMessage)
+				self.postFailureNotification(self.parsePostDidFailNotification, failureMessage: failureMessage)
 				return
 			}
 			
-			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
+			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 201 {
 				
 				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
-				self.postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: failureMessage)
+				self.postFailureNotification(self.parsePostDidFailNotification, failureMessage: failureMessage)
+				return
+			}
+			///////
+			guard let data = data else {
+				
+				self.postFailureNotification(self.parseRetrievalDidFailNotification, failureMessage: self.locationDataUnavailableMessage)
 				return
 			}
 			
-			NSNotificationCenter.postNotificationOnMain(Parse.parsePostDidCompleteNotification, userInfo: nil)
+			let options = NSJSONReadingOptions()
+			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(data, options: options),
+				let results = parsedData[self.resultsKey] as? [[String: AnyObject]] else {
+					
+					self.postFailureNotification(self.parseRetrievalDidFailNotification, failureMessage: self.unableToParseDataMessage)
+					return
+			}
+			
+			print(NSString(data: data, encoding: NSUTF8StringEncoding))
+			print("_____")
+			print(parsedData)
+			///////
+			NSNotificationCenter.postNotificationOnMain(self.parsePostDidCompleteNotification, userInfo: nil)
 		}
 		
 		task.resume()
@@ -184,7 +202,7 @@ class Parse {
 	*/
 	private func postFailureNotification(notificationName: String, failureMessage: String) {
 		
-		let userInfo = [Parse.messageKey: failureMessage]
+		let userInfo = [self.messageKey: failureMessage]
 		
 		NSNotificationCenter.postNotificationOnMain(notificationName, userInfo: userInfo)
 	}

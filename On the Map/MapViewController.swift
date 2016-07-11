@@ -25,6 +25,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	let invalidLinkProvidedMessage = "Unable to open provided link!"
 	let badLinkTitle = "Invalid URL"
 	
+	// TODO: req'd because weird things happen when I set static or class properties in Parse
+	//       will be used for access to Parse constants.
+	private unowned let parse = Parse()
+	
 	
 	// MARK: - Properties (Outlets)
 	
@@ -56,12 +60,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 		
 		NSNotificationCenter.defaultCenter().addObserver(self,
 		                                                 selector: #selector(parseRetrievalDidComplete(_:)),
-		                                                 name: Parse.parseRetrievalDidCompleteNotification,
+		                                                 name: parse.parseRetrievalDidCompleteNotification,
 		                                                 object: nil)
 		
 		NSNotificationCenter.defaultCenter().addObserver(self,
 		                                                 selector: #selector(parseRetrievalDidFail(_:)),
-		                                                 name: Parse.parseRetrievalDidFailNotification,
+		                                                 name: parse.parseRetrievalDidFailNotification,
 		                                                 object: nil)
 	}
 	
@@ -120,7 +124,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	func parseRetrievalDidFail(notification: NSNotification) {
 		
 		// TODO: what to do if fails???
-		print(Parse.parseRetrievalDidFailNotification)
+		print(parse.parseRetrievalDidFailNotification)
 	}
 	
 	
@@ -163,9 +167,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 					return
 			}
 		}
-		
-		
-
 	}
 
 }

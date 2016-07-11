@@ -176,6 +176,9 @@
                                     <action selector="submit:" destination="t41-bx-jie" eventType="touchUpInside" id="rCU-qv-aOZ"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="CdS-0h-jRp">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -184,6 +187,7 @@
                             <constraint firstItem="Eg6-uI-D0p" firstAttribute="bottom" secondItem="ihe-iY-OV6" secondAttribute="bottom" multiplier="96.5%" id="Ftb-wz-A2x"/>
                             <constraint firstItem="qxy-Jh-Inr" firstAttribute="leading" secondItem="29I-VY-dL4" secondAttribute="leading" id="Jpn-Rd-qah"/>
                             <constraint firstItem="ihe-iY-OV6" firstAttribute="trailing" secondItem="29I-VY-dL4" secondAttribute="trailing" id="KVW-bQ-KJT"/>
+                            <constraint firstItem="CdS-0h-jRp" firstAttribute="centerY" secondItem="29I-VY-dL4" secondAttribute="centerY" id="LEV-Rp-RXA"/>
                             <constraint firstItem="ihe-iY-OV6" firstAttribute="leading" secondItem="29I-VY-dL4" secondAttribute="leading" id="PWO-1T-vYl"/>
                             <constraint firstItem="qxy-Jh-Inr" firstAttribute="height" secondItem="29I-VY-dL4" secondAttribute="height" multiplier="1/4" id="RMP-BG-Me2"/>
                             <constraint firstItem="5oR-jI-yh6" firstAttribute="trailing" secondItem="29I-VY-dL4" secondAttribute="trailing" id="WXw-ZY-95u"/>
@@ -195,11 +199,13 @@
                             <constraint firstItem="5oR-jI-yh6" firstAttribute="top" secondItem="Ib1-mq-ZQd" secondAttribute="bottom" constant="2" id="lxS-Px-hIz"/>
                             <constraint firstItem="Ib1-mq-ZQd" firstAttribute="leading" secondItem="29I-VY-dL4" secondAttribute="leading" id="nBc-bA-O2B"/>
                             <constraint firstItem="5oR-jI-yh6" firstAttribute="height" secondItem="29I-VY-dL4" secondAttribute="height" multiplier="1/8" id="scG-4q-ulM"/>
+                            <constraint firstItem="CdS-0h-jRp" firstAttribute="centerX" secondItem="29I-VY-dL4" secondAttribute="centerX" id="upe-S1-Bxy"/>
                             <constraint firstItem="qxy-Jh-Inr" firstAttribute="top" secondItem="29I-VY-dL4" secondAttribute="top" id="v5y-He-S7n"/>
                             <constraint firstItem="qxy-Jh-Inr" firstAttribute="trailing" secondItem="29I-VY-dL4" secondAttribute="trailing" id="yvD-ba-leH"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="CdS-0h-jRp" id="fHc-qj-Ls6"/>
                         <outlet property="bottomView" destination="5oR-jI-yh6" id="iH0-P4-d8B"/>
                         <outlet property="cancelButton" destination="Tow-lE-L2f" id="l7Y-zp-mia"/>
                         <outlet property="findOnTheMapButton" destination="Cox-0P-cia" id="ZSu-4O-StU"/>

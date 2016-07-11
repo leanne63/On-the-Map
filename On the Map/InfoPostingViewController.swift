@@ -24,11 +24,19 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	let actionTitle = "Return"
 	
+	let geocodingDidCompleteNotification = "geocodingDidCompleteNotification"
+	
 	
 	// MARK: - Properties (Non-Outlets)
 	
 	var userModel: User!
 	private var mapCoordinates: CLLocationCoordinate2D!
+	
+	// TODO: req'd because weird things happen when I set static or class properties in Parse
+	//       will be used for access to Parse constants.
+	private unowned let parse = Parse()
+	
+
 	
 	
 	// MARK: - Properties (Outlets)
@@ -43,6 +51,8 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	@IBOutlet weak var cancelButton: UIButton!
 	@IBOutlet weak var findOnTheMapButton: UIButton!
 	@IBOutlet weak var submitButton: UIButton!
+	
+	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 	
 	
 	// MARK: - Overrides
@@ -79,6 +89,8 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	
 	@IBAction func findOnTheMap(sender: UIButton) {
+		
+		activityIndicator.startAnimating()
 		
 		// show/hide items for map version of view
 		topLabel.hidden = true
@@ -121,6 +133,8 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 			annotation.coordinate = self.mapCoordinates
 			
 			self.mapView.addAnnotation(annotation)
+			
+			NSNotificationCenter.postNotificationOnMain(self.geocodingDidCompleteNotification, userInfo: nil)
 		}
 	}
 	
@@ -148,14 +162,19 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		
 		NSNotificationCenter.defaultCenter().addObserver(self,
 		                                                 selector: #selector(parsePostDidComplete(_:)),
-		                                                 name: Parse.parsePostDidCompleteNotification,
+		                                                 name: parse.parsePostDidCompleteNotification,
 		                                                 object: nil)
 		
 		NSNotificationCenter.defaultCenter().addObserver(self,
 		                                                 selector: #selector(parsePostDidFail(_:)),
-		                                                 name: Parse.parsePostDidFailNotification,
+		                                                 name: parse.parsePostDidFailNotification,
 		                                                 object: nil)
-	}
+
+		NSNotificationCenter.defaultCenter().addObserver(self,
+		                                                 selector: #selector(geocodingDidComplete(_:)),
+		                                                 name: geocodingDidCompleteNotification,
+		                                                 object: nil)
+}
 	
 	
 	func parsePostDidComplete(notification: NSNotification) {
@@ -168,10 +187,16 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		
 		var failureMessage: String = ""
 		if let userInfo = notification.userInfo as? [String: String] {
-			failureMessage = userInfo[Parse.messageKey] ?? ""
+			failureMessage = userInfo[parse.messageKey] ?? ""
 		}
 		
 		presentAlert(parsePostFailedTitle, message: failureMessage, actionTitle: actionTitle)
+	}
+	
+	
+	func geocodingDidComplete(notification: NSNotification) {
+		
+		activityIndicator.stopAnimating()
 	}
 	
 	
