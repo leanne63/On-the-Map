@@ -38,4 +38,25 @@ struct StudentInformationModel {
 	
 	/// Shared property to hold all student instances
 	static var students = [StudentInformation]()
+	
+	static func addStudent(student: StudentInformation) {
+		
+		StudentInformationModel.students.append(student)
+
+	}
+	
+	
+	static func convertStudentInfoToParseDict(student: StudentInformation) -> [String: AnyObject] {
+		
+		var studentInfoDict = [String: AnyObject]()
+		studentInfoDict[firstNameKey] = student.firstName
+		studentInfoDict[lastNameKey] = student.lastName
+		studentInfoDict[latitudeKey] = student.latitude
+		studentInfoDict[longitudeKey] = student.longitude
+		studentInfoDict[mapStringKey] = student.mapString
+		studentInfoDict[mediaURLKey] = student.mediaURL
+		studentInfoDict[uniqueKeyKey] = student.uniqueKey
+		
+		return studentInfoDict
+	}
 }
