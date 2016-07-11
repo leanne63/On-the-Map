@@ -26,9 +26,6 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	let geocodingDidCompleteNotification = "geocodingDidCompleteNotification"
 	
-	let mapViewNormalAlpha: CGFloat = 1.0
-	let mapViewDimAlpha: CGFloat = 0.0
-	
 	
 	// MARK: - Properties (Non-Outlets)
 	
@@ -64,7 +61,10 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		linkTextView.hidden = true
 		mapView.hidden = true
 		submitButton.hidden = true
-		activityIndicator.stopAnimating()
+		
+		activityIndicator.hidesWhenStopped = true
+		activityIndicator.color = UIColor.blueColor()
+		activityIndicator.hidden = true
 		
 		linkTextView.delegate = self
 		locationTextView.delegate = self
@@ -73,7 +73,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	deinit {
 		
-		// unsubscribe ourself from any notifications
+		// unsubscribe ourself from all notifications
 		NSNotificationCenter.defaultCenter().removeObserver(self)
 	}
 
@@ -89,6 +89,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	@IBAction func findOnTheMap(sender: UIButton) {
 		
 		activityIndicator.hidden = false
+		activityIndicator.startAnimating()
 		
 		// show/hide items for map version of view
 		topLabel.hidden = true
@@ -121,16 +122,6 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 			}
 			
 			self.mapCoordinates = location.coordinate
-			
-			let span = MKCoordinateSpanMake(0.5, 0.5)
-			let region = MKCoordinateRegion(center: self.mapCoordinates, span: span)
-			
-			self.mapView.setRegion(region, animated: true)
-			
-			let annotation = MKPointAnnotation()
-			annotation.coordinate = self.mapCoordinates
-			
-			self.mapView.addAnnotation(annotation)
 			
 			NSNotificationCenter.postNotificationOnMain(self.geocodingDidCompleteNotification, userInfo: nil)
 		}
@@ -194,7 +185,17 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	func geocodingDidComplete(notification: NSNotification) {
 		
-		activityIndicator.hidden = true
+		activityIndicator.stopAnimating()
+
+		let span = MKCoordinateSpanMake(0.5, 0.5)
+		let region = MKCoordinateRegion(center: mapCoordinates, span: span)
+		
+		mapView.setRegion(region, animated: true)
+		
+		let annotation = MKPointAnnotation()
+		annotation.coordinate = mapCoordinates
+		
+		mapView.addAnnotation(annotation)
 	}
 	
 	
