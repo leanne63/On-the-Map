@@ -32,12 +32,6 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	var userModel: User!
 	private var mapCoordinates: CLLocationCoordinate2D!
 	
-	// TODO: req'd because weird things happen when I set static or class properties in Parse
-	//       will be used for access to Parse constants.
-	private unowned let parse = Parse()
-	
-
-	
 	
 	// MARK: - Properties (Outlets)
 	
@@ -162,12 +156,12 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		
 		NSNotificationCenter.defaultCenter().addObserver(self,
 		                                                 selector: #selector(parsePostDidComplete(_:)),
-		                                                 name: parse.parsePostDidCompleteNotification,
+		                                                 name: Parse.parsePostDidCompleteNotification,
 		                                                 object: nil)
 		
 		NSNotificationCenter.defaultCenter().addObserver(self,
 		                                                 selector: #selector(parsePostDidFail(_:)),
-		                                                 name: parse.parsePostDidFailNotification,
+		                                                 name: Parse.parsePostDidFailNotification,
 		                                                 object: nil)
 
 		NSNotificationCenter.defaultCenter().addObserver(self,
@@ -187,7 +181,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		
 		var failureMessage: String = ""
 		if let userInfo = notification.userInfo as? [String: String] {
-			failureMessage = userInfo[parse.messageKey] ?? ""
+			failureMessage = userInfo[Parse.messageKey] ?? ""
 		}
 		
 		presentAlert(parsePostFailedTitle, message: failureMessage, actionTitle: actionTitle)
