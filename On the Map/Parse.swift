@@ -51,6 +51,7 @@ class Parse {
 	private let badStatusCodeMessage = "Unable to retrieve data from server."
 	private let locationDataUnavailableMessage = "Location data is unavailable."
 	private let unableToParseDataMessage = "Unable to parse received data."
+	private let jsonSerializationFailureMessage = "Unable to convert post data to JSON format."
 
 
 	// MARK: - Functions
@@ -109,8 +110,7 @@ class Parse {
 			
 			for studentItem in results {
 				
-				// don't need to use the result; struct adds it to the model; so setting to '_'
-				let _ = StudentInformation(studentItem)
+				StudentInformationModel.addStudent(StudentInformation(studentItem))
 			}
 			
 			NSNotificationCenter.postNotificationOnMain(Parse.parseRetrievalDidCompleteNotification, userInfo: nil)
@@ -125,24 +125,21 @@ class Parse {
 		let requestURL = createURLFromParameters(nil)
 		let request = NSMutableURLRequest(URL: requestURL)
 		
+		request.HTTPMethod = postMethod
+		
 		request.addValue(parseApplicationId, forHTTPHeaderField: xParseApplicationId)
 		request.addValue(parseRESTAPIKey, forHTTPHeaderField: xParseRESTAPIKey)
 		request.addValue(jsonContentType, forHTTPHeaderField: xParseContentTypeKey)
 		
-		// TODO: create json body out of student information struct
-		/*
-		let jsonBodyDict = [apiKey: [usernameKey: email, passwordKey: password]]
+		let jsonBodyDict = StudentInformationModel.convertStudentInfoToParseDict(studentInfo)
 		let jsonWritingOptions = NSJSONWritingOptions()
 		
 		guard let jsonBody: NSData = try? NSJSONSerialization.dataWithJSONObject(jsonBodyDict, options: jsonWritingOptions) else {
-			postFailureNotification(loginDidFailNotification, failureMessage: jsonSerializationFailureMessage)
+			postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: jsonSerializationFailureMessage)
 			return
 		}
 		
 		request.HTTPBody = jsonBody
-		
-		request.HTTPBody = "{\"uniqueKey\": \"1234\", \"firstName\": \"John\", \"lastName\": \"Doe\",\"mapString\": \"Mountain View, CA\", \"mediaURL\": \"https://udacity.com\",\"latitude\": 37.386052, \"longitude\": -122.083851}".dataUsingEncoding(NSUTF8StringEncoding)
-		*/
 		
 		guard SCNetworkReachability.checkIfNetworkAvailable(requestURL) == true else {
 			postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: networkUnreachableMessage)
@@ -162,7 +159,7 @@ class Parse {
 				return
 			}
 			
-			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
+			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 201 {
 				
 				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
 				self.postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: failureMessage)
