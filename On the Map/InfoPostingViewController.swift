@@ -160,7 +160,6 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	func parsePostDidComplete(notification: NSNotification) {
 		
-		parentViewController
 		dismissViewControllerAnimated(true, completion: nil)
 	}
 	

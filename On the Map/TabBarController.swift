@@ -44,6 +44,14 @@ class TabBarController: UITabBarController {
     }
 	
 	
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		// refresh data when the view appears again
+		retrieveUserData()
+	}
+	
+	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		
 		// if moving to posting information view, pass user data

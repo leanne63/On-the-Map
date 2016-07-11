@@ -159,7 +159,7 @@ class Parse {
 				return
 			}
 			
-			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 201 {
+			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
 				
 				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
 				self.postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: failureMessage)
