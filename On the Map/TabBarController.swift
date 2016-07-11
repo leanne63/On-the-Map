@@ -60,6 +60,13 @@ class TabBarController: UITabBarController {
 			
 			viewController.userModel = userModel
 		}
+		
+		if segue.identifier == unwindFromLogoutButtonSegueID {
+			let viewController = segue.destinationViewController as! LoginViewController
+			
+			viewController.activityIndicator.hidden = false
+			viewController.activityIndicator.startAnimating()
+		}
 	}
 	
 	

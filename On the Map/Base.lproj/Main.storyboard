@@ -79,6 +79,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="CdS-0h-jRp">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                            </activityIndicatorView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qxy-Jh-Inr" userLabel="Top View">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
                                 <subviews>
@@ -176,9 +179,6 @@
                                     <action selector="submit:" destination="t41-bx-jie" eventType="touchUpInside" id="rCU-qv-aOZ"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="CdS-0h-jRp">
-                                <rect key="frame" x="282" y="281" width="37" height="37"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -361,12 +361,17 @@
                                     <constraint firstItem="puq-CG-FxR" firstAttribute="leading" secondItem="Enu-UL-ki3" secondAttribute="leading" identifier="SignUpButtonLeadingToView" id="zHa-n9-do1"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="jd4-2M-oLy">
+                                <rect key="frame" x="282" y="222" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Enu-UL-ki3" firstAttribute="width" secondItem="Olz-p4-9WK" secondAttribute="width" constant="-20" id="HNa-6w-Tn3"/>
                             <constraint firstItem="Enu-UL-ki3" firstAttribute="centerX" secondItem="Olz-p4-9WK" secondAttribute="centerX" id="TMP-bV-7jh"/>
                             <constraint firstItem="Enu-UL-ki3" firstAttribute="centerY" secondItem="Olz-p4-9WK" secondAttribute="centerY" multiplier="80%" id="YNI-Il-aFb"/>
+                            <constraint firstItem="jd4-2M-oLy" firstAttribute="centerX" secondItem="Enu-UL-ki3" secondAttribute="centerX" id="fT0-21-W4R"/>
+                            <constraint firstItem="jd4-2M-oLy" firstAttribute="centerY" secondItem="Enu-UL-ki3" secondAttribute="centerY" id="h44-WF-gnP"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="gradientColor">
@@ -375,6 +380,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="jd4-2M-oLy" id="4uF-27-AcA"/>
                         <outlet property="emailField" destination="Pjk-Kt-lJE" id="cOE-Qi-4Fg"/>
                         <outlet property="loginButton" destination="aPT-l0-NXO" id="Qom-Ut-DGG"/>
                         <outlet property="passwordField" destination="y4u-Fv-3KU" id="tHo-8g-DUO"/>

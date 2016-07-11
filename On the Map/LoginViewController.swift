@@ -36,6 +36,7 @@ class LoginViewController: UIViewController {
 	@IBOutlet weak var emailField: UITextField!
 	@IBOutlet weak var passwordField: UITextField!
 	@IBOutlet weak var loginButton: UIButton!
+	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 	
 	
 	// MARK: - Overrides
@@ -43,6 +44,9 @@ class LoginViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		activityIndicator.hidesWhenStopped = true
+		activityIndicator.color = UIColor.blueColor()
+		activityIndicator.hidden = true
 		subscribeToNotifications()
 	}
 	
@@ -52,19 +56,6 @@ class LoginViewController: UIViewController {
 		NSNotificationCenter.defaultCenter().removeObserver(self)
 	}
 	
-//	override func viewWillAppear(animated: Bool) {
-//        super.viewWillAppear(animated)
-//		
-//		subscribeToNotifications()
-//    }
-//	
-//	override func viewWillDisappear(animated: Bool) {
-//		super.viewWillDisappear(animated)
-//		
-//		// remove ourself from all notifications
-//		NSNotificationCenter.defaultCenter().removeObserver(self)
-//	}
-
 	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
 		
 		// locking this login view to portrait since subviews won't all fit on smaller devices in landscape
@@ -82,6 +73,8 @@ class LoginViewController: UIViewController {
 			let tabBarController = navController.childViewControllers[0] as! TabBarController
 			
 			tabBarController.userModel = userModel
+			
+			activityIndicator.stopAnimating()
 		}
 	}
 	
@@ -90,6 +83,8 @@ class LoginViewController: UIViewController {
 	
 	@IBAction func loginClicked(sender: UIButton) {
 		
+		activityIndicator.hidden = false
+		activityIndicator.startAnimating()
 		loginModel.loginToUdacity(emailField.text, password: passwordField.text)
 	}
 	
@@ -160,6 +155,8 @@ class LoginViewController: UIViewController {
 	*/
 	func loginDidFail(notification: NSNotification) {
 		
+		activityIndicator.stopAnimating()
+		
 		let alertViewMessage = notification.userInfo![loginModel.messageKey] as! String
 		let alertActionTitle = returnActionTitle
 
@@ -179,10 +176,7 @@ class LoginViewController: UIViewController {
 		emailField.text = ""
 		passwordField.text = ""
 		
-		let alertViewMessage = loggedOutMessage
-		let alertActionTitle = returnActionTitle
-		
-		presentAlert(loggedOutTitle, message: alertViewMessage, actionTitle: alertActionTitle)
+		activityIndicator.stopAnimating()
 	}
 	
 	
@@ -193,6 +187,8 @@ class LoginViewController: UIViewController {
 	
 	*/
 	func logoutDidFail(notification: NSNotification) {
+		
+		activityIndicator.stopAnimating()
 		
 		let alertViewMessage = notification.userInfo![loginModel.messageKey] as! String
 		let alertActionTitle = returnActionTitle

@@ -26,6 +26,9 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	let geocodingDidCompleteNotification = "geocodingDidCompleteNotification"
 	
+	let mapViewNormalAlpha: CGFloat = 1.0
+	let mapViewDimAlpha: CGFloat = 0.0
+	
 	
 	// MARK: - Properties (Non-Outlets)
 	
@@ -61,6 +64,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		linkTextView.hidden = true
 		mapView.hidden = true
 		submitButton.hidden = true
+		activityIndicator.stopAnimating()
 		
 		linkTextView.delegate = self
 		locationTextView.delegate = self
@@ -84,7 +88,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	@IBAction func findOnTheMap(sender: UIButton) {
 		
-		activityIndicator.startAnimating()
+		activityIndicator.hidden = false
 		
 		// show/hide items for map version of view
 		topLabel.hidden = true
@@ -190,7 +194,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	func geocodingDidComplete(notification: NSNotification) {
 		
-		activityIndicator.stopAnimating()
+		activityIndicator.hidden = true
 	}
 	
 	
