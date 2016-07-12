@@ -24,6 +24,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	let returnActionTitle = "Return"
 	let invalidLinkProvidedMessage = "Unable to open provided link!"
 	let badLinkTitle = "Invalid URL"
+	let parseRetrievalFailedTitle = "No Location Data"
 	
 	
 	// MARK: - Properties (Outlets)
@@ -119,8 +120,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	*/
 	func parseRetrievalDidFail(notification: NSNotification) {
 		
-		// TODO: what to do if fails???
-		print(Parse.parseRetrievalDidFailNotification)
+		let alertViewMessage = notification.userInfo![Parse.messageKey] as! String
+		let alertActionTitle = returnActionTitle
+		
+		presentAlert(parseRetrievalFailedTitle, message: alertViewMessage, actionTitle: alertActionTitle)
 	}
 	
 	
