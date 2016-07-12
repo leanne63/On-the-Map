@@ -8,6 +8,8 @@
 
 import MapKit
 import CoreLocation	// required for forward geocoding address
+import SystemConfiguration	// required for SCNetworkReachability
+
 
 class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
@@ -17,14 +19,22 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	let placeholderTextLink = "Enter a Link to Share Here"
 	let newline = "\n"
 	let emptyString = ""
+	// NSURL will take non-URL, and SCNetworkReachability doesn't actually access URL,
+	//	so using plain text to test for network availability (since we don't know the
+	//	actual URL/host used by CLGeocoder)
+	let fakeURLForAccessTest = "fakeURLforAccessTest"
 	
+	let errorReceivedMessage = "An error was received:\n"
 	let missingLinkTitle = "Missing Link Information"
 	let missingLinkMessage = "Please enter a link to display with your location!"
 	let parsePostFailedTitle = "Post Action Failed"
+	let networkUnreachableMessage = "Network connection is not available."
+	let unableToGeocodeLocationMessage = "Unable to geocode location"
 	
 	let actionTitle = "Return"
 	
 	let geocodingDidCompleteNotification = "geocodingDidCompleteNotification"
+	let geocodingDidFailNotification = "geocodingDidFailNotification"
 	
 	
 	// MARK: - Properties (Non-Outlets)
@@ -107,17 +117,25 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		// retrieve and display location info
 		let address = locationTextView.text
 		let geocoder = CLGeocoder()
+
+		
+		let fakeURL = NSURL(string: fakeURLForAccessTest)
+		guard SCNetworkReachability.checkIfNetworkAvailable(fakeURL!) == true else {
+			postFailureNotification(self.geocodingDidFailNotification, failureMessage: networkUnreachableMessage)
+			return
+		}
+		
 		geocoder.geocodeAddressString(address) {
-			/*
-				Adding capture list (unowned self) so closure won't cause strong reference cycle;
-			    see weak and unowned references and "capture lists" at Automatic Reference Counting:
-			    https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AutomaticReferenceCounting.html#//apple_ref/doc/uid/TP40014097-CH20-ID48
-			*/
-			[unowned self]
+
 			(placemarkData, error) in
 			
-			guard error == nil, let placemarkData = placemarkData, let location = placemarkData[0].location else {
-				// TODO: what if no data found? alert?
+			guard error == nil else {
+				self.postFailureNotification(self.geocodingDidFailNotification, failureMessage: self.unableToGeocodeLocationMessage)
+				return
+			}
+			
+			guard let placemarkData = placemarkData, let location = placemarkData[0].location else {
+				self.postFailureNotification(self.geocodingDidFailNotification, failureMessage: "oops!")
 				return
 			}
 			
@@ -163,10 +181,17 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		                                                 selector: #selector(geocodingDidComplete(_:)),
 		                                                 name: geocodingDidCompleteNotification,
 		                                                 object: nil)
-}
+		
+		NSNotificationCenter.defaultCenter().addObserver(self,
+		                                                 selector: #selector(geocodingDidFail(_:)),
+		                                                 name: geocodingDidFailNotification,
+		                                                 object: nil)
+	}
 	
 	
 	func parsePostDidComplete(notification: NSNotification) {
+		
+		activityIndicator.stopAnimating()
 		
 		dismissViewControllerAnimated(true, completion: nil)
 	}
@@ -187,6 +212,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		
 		activityIndicator.stopAnimating()
 
+		// update the map with the new location information
 		let span = MKCoordinateSpanMake(0.5, 0.5)
 		let region = MKCoordinateRegion(center: mapCoordinates, span: span)
 		
@@ -198,6 +224,34 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		mapView.addAnnotation(annotation)
 	}
 	
+	
+	func geocodingDidFail(notification: NSNotification) {
+		
+		activityIndicator.stopAnimating()
+		
+		var failureMessage: String = ""
+		if let userInfo = notification.userInfo as? [String: String] {
+			failureMessage = userInfo[Parse.messageKey] ?? ""
+		}
+		
+		presentAlert(parsePostFailedTitle, message: failureMessage, actionTitle: actionTitle)
+	}
+	
+	
+	/**
+	
+	Post notification containing a failure message.
+	
+	- parameter failureMessage: Failure information to be provided to observers.
+	
+	*/
+	private func postFailureNotification(notificationName: String, failureMessage: String) {
+		
+		let userInfo = [Parse.messageKey: failureMessage]
+		
+		NSNotificationCenter.postNotificationOnMain(notificationName, userInfo: userInfo)
+	}
+
 	
 	// MARK: - Private Functions
 	
