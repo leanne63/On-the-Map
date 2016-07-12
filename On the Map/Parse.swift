@@ -31,7 +31,7 @@ struct Parse {
 	private let limitParm = "limit"
 	private let limitValue = "100"
 	private let orderParm = "order"
-	private let orderValue = "-updatedAt,lastName"
+	private let orderValue = "-updatedAt"
 	private let apiScheme = "https"
 	private let apiHost = "api.parse.com"
 	private let apiPath = "/1/classes/StudentLocation"
