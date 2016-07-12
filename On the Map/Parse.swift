@@ -22,6 +22,8 @@ struct Parse {
 	static let parseRetrievalDidFailNotification = "parseRetrievalDidFail"
 	static let parsePostDidCompleteNotification = "parsePostDidComplete"
 	static let parsePostDidFailNotification = "parsePostDidFail"
+	static let parsePutDidCompleteNotification = "parsePutDidComplete"
+	static let parsePutDidFailNotification = "parsePutDidFail"
 	
 	// dictionary keys
 	static let messageKey = "message"
@@ -37,6 +39,7 @@ struct Parse {
 	private let apiPath = "/1/classes/StudentLocation"
 	private let getMethod = "GET"
 	private let postMethod = "POST"
+	private let putMethod = "PUT"
 	private let parseApplicationId = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
 	private let parseRESTAPIKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
 	private let jsonContentType = "application/json"
@@ -65,7 +68,7 @@ struct Parse {
 			orderParm: orderValue
 		]
 		
-		let requestURL = createURLFromParameters(methodParameters)
+		let requestURL = createURLFromParameters(methodParameters, pathExtension: nil)
 		let request = NSMutableURLRequest(URL: requestURL)
 		
 		request.addValue(parseApplicationId, forHTTPHeaderField: xParseApplicationId)
@@ -109,11 +112,8 @@ struct Parse {
 				self.postFailureNotification(Parse.parseRetrievalDidFailNotification, failureMessage: self.unableToParseDataMessage)
 				return
 			}
-			
-			for studentItem in results {
-				
-				StudentInformationModel.addStudent(StudentInformation(studentItem))
-			}
+
+			StudentInformationModel.populateStudentList(withStudents: results)
 			
 			NSNotificationCenter.postNotificationOnMain(Parse.parseRetrievalDidCompleteNotification, userInfo: nil)
 		}
@@ -124,7 +124,7 @@ struct Parse {
 	
 	func postStudentData(studentInfo: StudentInformation) {
 		
-		let requestURL = createURLFromParameters(nil)
+		let requestURL = createURLFromParameters(nil, pathExtension: nil)
 		let request = NSMutableURLRequest(URL: requestURL)
 		
 		request.HTTPMethod = postMethod
@@ -161,10 +161,19 @@ struct Parse {
 				return
 			}
 			
-			// status code = 201 means successfully updated; but anything in the 200 range should indicate success
-			guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+			// ensure status code present
+			guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode else {
 				
-				let failureMessage = self.badStatusCodeMessage + " (\((response as? NSHTTPURLResponse)?.statusCode))"
+				let failureMessage = self.badStatusCodeMessage
+				self.postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: failureMessage)
+				return
+				
+			}
+			
+			// status code = 201 means successfully updated; but anything in the 200 range should indicate success
+			guard statusCode >= 200 && statusCode <= 299 else {
+				
+				let failureMessage = "\(self.badStatusCodeMessage) (code: \(statusCode))"
 				self.postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: failureMessage)
 				return
 			}
@@ -182,7 +191,7 @@ struct Parse {
 					return
 			}
 			
-			guard parsedData[StudentInformationModel.createdAtKey] != nil && parsedData[StudentInformationModel.objectIDKey] != nil else {
+			guard parsedData[StudentInformationModel.createdAtKey] != nil && parsedData[StudentInformationModel.objectIdKey] != nil else {
 				
 				self.postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: self.invalidDataReceivedMessage)
 				return
@@ -194,6 +203,94 @@ struct Parse {
 		task.resume()
 	}
 	
+	
+	// TODO: refactor into postStudentData method
+	func replaceStudentData(studentInfo: StudentInformation) {
+		
+		let requestURL = createURLFromParameters(nil, pathExtension: studentInfo.objectId)
+		let request = NSMutableURLRequest(URL: requestURL)
+		
+		request.HTTPMethod = putMethod
+		
+		request.addValue(parseApplicationId, forHTTPHeaderField: xParseApplicationId)
+		request.addValue(parseRESTAPIKey, forHTTPHeaderField: xParseRESTAPIKey)
+		request.addValue(jsonContentType, forHTTPHeaderField: xParseContentTypeKey)
+		
+		var jsonBodyDict = StudentInformationModel.convertStudentInfoToParseDict(studentInfo)
+		// remove the keys that aren't needed for replacing a student
+		jsonBodyDict[StudentInformationModel.createdAtKey] = nil
+		jsonBodyDict[StudentInformationModel.objectIdKey] = nil
+		jsonBodyDict[StudentInformationModel.updatedAtKey] = nil
+		
+		let jsonWritingOptions = NSJSONWritingOptions()
+		
+		guard let jsonBody: NSData = try? NSJSONSerialization.dataWithJSONObject(jsonBodyDict, options: jsonWritingOptions) else {
+			postFailureNotification(Parse.parsePutDidFailNotification, failureMessage: jsonSerializationFailureMessage)
+			return
+		}
+
+		request.HTTPBody = jsonBody
+		
+		guard SCNetworkReachability.checkIfNetworkAvailable(requestURL) == true else {
+			postFailureNotification(Parse.parsePutDidFailNotification, failureMessage: networkUnreachableMessage)
+			return
+		}
+		
+		let session = NSURLSession.sharedSession()
+		let task = session.dataTaskWithRequest(request) {
+			
+			(data, response, error) in
+			
+			guard error == nil else {
+				
+				let errorMessage = error!.userInfo[NSLocalizedDescriptionKey] as! String
+				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
+				self.postFailureNotification(Parse.parsePutDidFailNotification, failureMessage: failureMessage)
+				return
+			}
+			
+			// ensure status code present
+			guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode else {
+				
+				let failureMessage = self.badStatusCodeMessage
+				self.postFailureNotification(Parse.parsePutDidFailNotification, failureMessage: failureMessage)
+				return
+				
+			}
+			
+			// status code = 201 means successfully updated; but anything in the 200 range should indicate success
+			guard statusCode >= 200 && statusCode <= 299 else {
+				
+				let failureMessage = "\(self.badStatusCodeMessage) (code: \(statusCode))"
+				self.postFailureNotification(Parse.parsePutDidFailNotification, failureMessage: failureMessage)
+				return
+			}
+			
+			guard let data = data else {
+				
+				self.postFailureNotification(Parse.parsePutDidFailNotification, failureMessage: self.noDataReceivedMessage)
+				return
+			}
+			
+			let options = NSJSONReadingOptions()
+			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(data, options: options) else {
+				
+				self.postFailureNotification(Parse.parsePutDidFailNotification, failureMessage: self.unableToParseDataMessage)
+				return
+			}
+			
+			guard parsedData[StudentInformationModel.createdAtKey] != nil && parsedData[StudentInformationModel.objectIdKey] != nil else {
+				
+				self.postFailureNotification(Parse.parsePutDidFailNotification, failureMessage: self.invalidDataReceivedMessage)
+				return
+			}
+			
+			NSNotificationCenter.postNotificationOnMain(Parse.parsePostDidCompleteNotification, userInfo: nil)
+		}
+		
+		task.resume()
+	}
+
 	
 	// MARK: - Notification Handling
 	
@@ -214,15 +311,16 @@ struct Parse {
 	
 	//: MARK: - Private Functions
 	
-	func createURLFromParameters(parameters: [String:AnyObject]?) -> NSURL {
+	func createURLFromParameters(parameters: [String:AnyObject]?, pathExtension: String?) -> NSURL {
 		
 		let components = NSURLComponents()
 		components.scheme = apiScheme
 		components.host = apiHost
-		components.path = apiPath
-		components.queryItems = [NSURLQueryItem]()
+		components.path = ("\(apiPath)/\(pathExtension ?? "")")
 		
 		if let parameters = parameters {
+			components.queryItems = [NSURLQueryItem]()
+		
 			for (key, value) in parameters {
 				let queryItem = NSURLQueryItem(name: key, value: "\(value)")
 				components.queryItems!.append(queryItem)

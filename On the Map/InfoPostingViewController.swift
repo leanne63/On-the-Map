@@ -28,11 +28,15 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	let missingLinkTitle = "Missing Link Information"
 	let missingLinkMessage = "Please enter a link to display with your location!"
 	let parsePostFailedTitle = "Post Action Failed"
+	let parsePutFailedTitle = "Replace Action Failed"
 	let networkUnreachableMessage = "Network connection is not available."
-	let unableToGeocodeLocationMessage = "Unable to geocode location"
+	let unableToGeocodeLocationTitle = "Invalid Location."
+	let unableToGeocodeLocationMessage = "Unable to geocode provided location."
+	let invalidLocationDataMessage = "Invalid location information."
 	
 	let actionTitle = "Return"
 	
+	// used for requests internal to this class
 	let geocodingDidCompleteNotification = "geocodingDidCompleteNotification"
 	let geocodingDidFailNotification = "geocodingDidFailNotification"
 	
@@ -41,6 +45,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	var userModel: User!
 	private var mapCoordinates: CLLocationCoordinate2D!
+	private var userObjectId: String?
 	
 	
 	// MARK: - Properties (Outlets)
@@ -79,6 +84,34 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		linkTextView.delegate = self
 		locationTextView.delegate = self
     }
+	
+	
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		// check for existing student; if present, need to ask if they want to replace their current location
+		userObjectId = StudentInformationModel.checkForStudentWithID(userModel.userId)
+		
+		if userObjectId != nil {
+			
+			// give student choice to replace or cancel (stay at current view)
+			let alertControllerStyle = UIAlertControllerStyle.Alert
+			let alertView = UIAlertController(title: "Student In List", message: "You're already in the list! What would you like to do?", preferredStyle: alertControllerStyle)
+			
+			let alertActionReplace = UIAlertAction(title: "Replace", style: UIAlertActionStyle.Default, handler: nil)
+			alertView.addAction(alertActionReplace)
+
+			let alertActionCancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+				
+				(alertAction) in
+				
+				self.dismissViewControllerAnimated(true, completion: nil)
+			}
+			alertView.addAction(alertActionCancel)
+
+			presentViewController(alertView, animated: true, completion: nil)
+		}
+	}
 	
 	
 	deinit {
@@ -135,7 +168,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 			}
 			
 			guard let placemarkData = placemarkData, let location = placemarkData[0].location else {
-				self.postFailureNotification(self.geocodingDidFailNotification, failureMessage: "oops!")
+				self.postFailureNotification(self.geocodingDidFailNotification, failureMessage: self.invalidLocationDataMessage)
 				return
 			}
 			
@@ -157,9 +190,16 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		}
 		
 		// submit location information to Parse
-		let studentInfo = createStudent()
-		let parse = Parse()
-		parse.postStudentData(studentInfo)
+		var studentInfo = createStudent()
+		
+		if let replacementObjectId = userObjectId {
+			studentInfo.objectId = replacementObjectId
+			
+			Parse().replaceStudentData(studentInfo)
+		}
+		else {
+			Parse().postStudentData(studentInfo)
+		}
 	}
 	
 	
@@ -176,7 +216,17 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		                                                 selector: #selector(parsePostDidFail(_:)),
 		                                                 name: Parse.parsePostDidFailNotification,
 		                                                 object: nil)
-
+		
+		NSNotificationCenter.defaultCenter().addObserver(self,
+		                                                 selector: #selector(parsePostDidComplete(_:)),
+		                                                 name: Parse.parsePutDidCompleteNotification,
+		                                                 object: nil)
+		
+		NSNotificationCenter.defaultCenter().addObserver(self,
+		                                                 selector: #selector(parsePostDidFail(_:)),
+		                                                 name: Parse.parsePutDidFailNotification,
+		                                                 object: nil)
+		
 		NSNotificationCenter.defaultCenter().addObserver(self,
 		                                                 selector: #selector(geocodingDidComplete(_:)),
 		                                                 name: geocodingDidCompleteNotification,
@@ -204,7 +254,36 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 			failureMessage = userInfo[Parse.messageKey] ?? ""
 		}
 		
-		presentAlert(parsePostFailedTitle, message: failureMessage, actionTitle: actionTitle)
+		presentAlert(parsePostFailedTitle, message: failureMessage, actionTitle: actionTitle) {
+			
+			(alertAction) in
+			
+			self.dismissViewControllerAnimated(true, completion: nil)
+		}
+	}
+	
+	
+	func parsePutDidComplete(notification: NSNotification) {
+		
+		activityIndicator.stopAnimating()
+		
+		dismissViewControllerAnimated(true, completion: nil)
+	}
+	
+	
+	func parsePutDidFail(notification: NSNotification) {
+		
+		var failureMessage: String = ""
+		if let userInfo = notification.userInfo as? [String: String] {
+			failureMessage = userInfo[Parse.messageKey] ?? ""
+		}
+		
+		presentAlert(parsePostFailedTitle, message: failureMessage, actionTitle: actionTitle) {
+			
+			(alertAction) in
+			
+			self.dismissViewControllerAnimated(true, completion: nil)
+		}
 	}
 	
 	
@@ -236,7 +315,12 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 			failureMessage = userInfo[Parse.messageKey] ?? ""
 		}
 		
-		presentAlert(parsePostFailedTitle, message: failureMessage, actionTitle: actionTitle)
+		presentAlert(unableToGeocodeLocationTitle, message: failureMessage, actionTitle: actionTitle) {
+			
+			(alertAction) in
+			
+			self.dismissViewControllerAnimated(true, completion: nil)
+		}
 	}
 	
 	

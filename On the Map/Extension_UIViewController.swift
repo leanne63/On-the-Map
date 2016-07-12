@@ -31,4 +31,29 @@ extension UIViewController {
 		
 		presentViewController(alertView, animated: true, completion: nil)
 	}
+	
+	
+	/**
+	Displays an alert.
+	
+	- parameters:
+		- title: Text to appear as alert title.
+		- message: Text to appear as main alert message.
+		- actionTitle: Text to appear for user action (such as "OK")
+		- actionHandler: Closure to perform actions upon user response to alert.
+	
+	*/
+	func presentAlert(title: String, message: String, actionTitle: String, actionHandler: ((UIAlertAction) -> Void)?) {
+		
+		let alertControllerStyle = UIAlertControllerStyle.Alert
+		let alertView = UIAlertController(title: title, message: message, preferredStyle: alertControllerStyle)
+		
+		let alertActionStyle = UIAlertActionStyle.Default
+		let alertAction = UIAlertAction(title: actionTitle, style: alertActionStyle, handler: actionHandler)
+		
+		alertView.addAction(alertAction)
+		
+		presentViewController(alertView, animated: true, completion: nil)
+	}
+
 }

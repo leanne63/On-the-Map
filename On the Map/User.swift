@@ -37,9 +37,9 @@ class User {
 	// MARK: - Properties
 	
 	// values will differ based on account used to log in
-	var userId: String?
-	var firstName: String?
-	var lastName: String?
+	var userId: String!
+	var firstName: String!
+	var lastName: String!
 	var nickname: String?
 	
 	
