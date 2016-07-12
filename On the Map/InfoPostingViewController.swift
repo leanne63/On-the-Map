@@ -213,6 +213,8 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		activityIndicator.stopAnimating()
 
 		// update the map with the new location information
+		mapView.removeAnnotations(mapView.annotations)
+		
 		let span = MKCoordinateSpanMake(0.5, 0.5)
 		let region = MKCoordinateRegion(center: mapCoordinates, span: span)
 		

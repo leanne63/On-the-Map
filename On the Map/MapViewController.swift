@@ -81,6 +81,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	
 	private func loadMapData() {
 		
+		mapView.removeAnnotations(mapView.annotations)
+		
 		let students = StudentInformationModel.students
 		
 		var annotations = [MKPointAnnotation]()
