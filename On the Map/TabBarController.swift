@@ -31,10 +31,10 @@ class TabBarController: UITabBarController {
 		// set up navigation bar items
 		navigationItem.title = "On The Map"
 		
-		navigationItem.leftBarButtonItem = UIBarButtonItem(title: logoutButtonTitle, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(doLogout))
+		navigationItem.leftBarButtonItem = UIBarButtonItem(title: logoutButtonTitle, style: UIBarButtonItemStyle.plain, target: self, action: #selector(doLogout))
 		
-		let pinButton = UIBarButtonItem(image: UIImage(named: pinImageName), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(postInformation))
-		let refreshButton = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: #selector(retrieveUserData))
+		let pinButton = UIBarButtonItem(image: UIImage(named: pinImageName), style: UIBarButtonItemStyle.plain, target: self, action: #selector(postInformation))
+		let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(retrieveUserData))
 		
 		// note: right bar buttons in array appear on nav bar right to left
 		navigationItem.rightBarButtonItems = [refreshButton, pinButton]
@@ -44,7 +44,7 @@ class TabBarController: UITabBarController {
     }
 	
 	
-	override func viewWillAppear(animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
 		// refresh data when the view appears again
@@ -52,19 +52,19 @@ class TabBarController: UITabBarController {
 	}
 	
 	
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		
 		// if moving to posting information view, pass user data
 		if segue.identifier == tabBarPinToInfoPostingViewSegueID {
-			let viewController = segue.destinationViewController as! InfoPostingViewController
+			let viewController = segue.destination as! InfoPostingViewController
 			
 			viewController.userModel = userModel
 		}
 		
 		if segue.identifier == unwindFromLogoutButtonSegueID {
-			let viewController = segue.destinationViewController as! LoginViewController
+			let viewController = segue.destination as! LoginViewController
 			
-			viewController.activityIndicator.hidden = false
+			viewController.activityIndicator.isHidden = false
 			viewController.activityIndicator.startAnimating()
 		}
 	}
@@ -75,14 +75,14 @@ class TabBarController: UITabBarController {
 	/// Segues back (unwinds) to logout function
 	func doLogout() {
 		
-		performSegueWithIdentifier(unwindFromLogoutButtonSegueID, sender: nil)
+		performSegue(withIdentifier: unwindFromLogoutButtonSegueID, sender: nil)
 	}
 	
 	
 	/// Segues to Information Posting view
 	func postInformation() {
 		
-		performSegueWithIdentifier(tabBarPinToInfoPostingViewSegueID, sender: nil)
+		performSegue(withIdentifier: tabBarPinToInfoPostingViewSegueID, sender: nil)
 	}
 	
 	

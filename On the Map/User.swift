@@ -19,19 +19,19 @@ class User {
 	let userDataRequestDidFailNotification = "userDataRequestDidFailNotification"
 	
 	// request-related
-	private let urlString = "https://www.udacity.com/api/users/"
+	fileprivate let urlString = "https://www.udacity.com/api/users/"
 	
 	// dictionary keys
 	let messageKey = "message"
-	private let userKey = "user"
+	fileprivate let userKey = "user"
 	
 	// failure messages
-	private let invalidRequestURLMessage = "Invalid request URL."
-	private let errorReceivedMessage = "An error was received:\n"
-	private let badStatusCodeMessage = "Invalid login email or password."
-	private let userDataUnavailableMessage = "User data unavailable."
-	private let unableToParseDataMessage = "Unable to parse received data."
-	private let unableToParseUserDataMessage = "Unable to parse user data."
+	fileprivate let invalidRequestURLMessage = "Invalid request URL."
+	fileprivate let errorReceivedMessage = "An error was received:\n"
+	fileprivate let badStatusCodeMessage = "Invalid login email or password."
+	fileprivate let userDataUnavailableMessage = "User data unavailable."
+	fileprivate let unableToParseDataMessage = "Unable to parse received data."
+	fileprivate let unableToParseUserDataMessage = "Unable to parse user data."
 
 	
 	// MARK: - Properties
@@ -45,29 +45,29 @@ class User {
 	
 	// MARK: - Public Functions
 	
-	func getUserInfo(accountId: String) {
+	func getUserInfo(_ accountId: String) {
 		
 		let apiURL = urlString + accountId
-		guard let requestURL = NSURL(string: apiURL) else {
+		guard let requestURL = URL(string: apiURL) else {
 			let failureMessage = invalidRequestURLMessage
 			postFailureNotification(failureMessage)
 			return
 		}
 		
-		let request = NSMutableURLRequest(URL: requestURL)
+		let request = URLRequest(url: requestURL)
 
-		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+		let task = URLSession.shared.dataTask(with: request, completionHandler: {
 			(data, response, error) in
 			
 			if error != nil {
 				
-				let errorMessage = error!.userInfo[NSLocalizedDescriptionKey] as! String
+				let errorMessage = (error as! NSError).userInfo[NSLocalizedDescriptionKey] as! String
 				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
 				self.postFailureNotification(failureMessage)
 				return
 			}
 			
-			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
+			if let statusCode = (response as? HTTPURLResponse)?.statusCode , statusCode != 200 {
 				
 				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
 				self.postFailureNotification(failureMessage)
@@ -85,10 +85,12 @@ class User {
 			* response data in order to skip over them." - per API doc at:
 			* https://docs.google.com/document/d/1MECZgeASBDYrbBg7RlRu9zBBLGd3_kfzsN-0FtURqn0/pub?embedded=true
 			*/
-			let range = NSMakeRange(5, data.length - 5)
-			let subData = data.subdataWithRange(range)
+			let actualStartPos = 5
+			let endPos = data.count
+			let range = Range(uncheckedBounds: (actualStartPos, endPos))
+			let subData = data.subdata(in: range)
 			
-			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(subData, options: .AllowFragments) else {
+			guard let parsedData = try? JSONSerialization.jsonObject(with: subData, options: []) as! [String: AnyObject] else {
 				
 				self.postFailureNotification(self.unableToParseDataMessage)
 				return
@@ -105,8 +107,8 @@ class User {
 			self.lastName = userData["last_name"] as? String
 			self.nickname = userData["nickname"] as? String
 			
-			NSNotificationCenter.postNotificationOnMain(self.userDataRequestDidCompleteNotification, userInfo: nil)
-		}
+			NotificationCenter.postNotificationOnMain(self.userDataRequestDidCompleteNotification, userInfo: nil)
+		}) 
 		
 		task.resume()
 	}
@@ -120,11 +122,11 @@ class User {
 	- parameter failureMessage: Failure information to be provided to observers.
 	
 	*/
-	private func postFailureNotification(failureMessage: String) {
+	fileprivate func postFailureNotification(_ failureMessage: String) {
 		
 		let userInfo = [messageKey: failureMessage]
 		
-		NSNotificationCenter.postNotificationOnMain(userDataRequestDidFailNotification, userInfo: userInfo)
+		NotificationCenter.postNotificationOnMain(userDataRequestDidFailNotification, userInfo: userInfo)
 	}
 	
 }

@@ -44,8 +44,8 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	// MARK: - Properties (Non-Outlets)
 	
 	var userModel: User!
-	private var mapCoordinates: CLLocationCoordinate2D!
-	private var userObjectId: String?
+	fileprivate var mapCoordinates: CLLocationCoordinate2D!
+	fileprivate var userObjectId: String?
 	
 	
 	// MARK: - Properties (Outlets)
@@ -73,43 +73,43 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		
 		// when starting, we show the topLabel, locationTextView, bottomView, and findTheMapButton
 		// so, hide items that don't show when view is first loaded (topView always shows - has cancelButton!)
-		linkTextView.hidden = true
-		mapView.hidden = true
-		submitButton.hidden = true
+		linkTextView.isHidden = true
+		mapView.isHidden = true
+		submitButton.isHidden = true
 		
 		activityIndicator.hidesWhenStopped = true
-		activityIndicator.color = UIColor.blueColor()
-		activityIndicator.hidden = true
+		activityIndicator.color = UIColor.blue
+		activityIndicator.isHidden = true
 		
 		linkTextView.delegate = self
 		locationTextView.delegate = self
     }
 	
 	
-	override func viewWillAppear(animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
 		// check for existing student; if present, need to ask if they want to replace their current location
-		userObjectId = StudentInformationModel.checkForStudentWithID(userModel.userId)
+		userObjectId = StudentInformationModel.checkForStudentWithID(uniqueKey: userModel.userId)
 		
 		if userObjectId != nil {
 			
 			// give student choice to replace or cancel (stay at current view)
-			let alertControllerStyle = UIAlertControllerStyle.Alert
+			let alertControllerStyle = UIAlertControllerStyle.alert
 			let alertView = UIAlertController(title: "Student In List", message: "You're already in the list! What would you like to do?", preferredStyle: alertControllerStyle)
 			
-			let alertActionReplace = UIAlertAction(title: "Replace", style: UIAlertActionStyle.Default, handler: nil)
+			let alertActionReplace = UIAlertAction(title: "Replace", style: UIAlertActionStyle.default, handler: nil)
 			alertView.addAction(alertActionReplace)
 
-			let alertActionCancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+			let alertActionCancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
 				
 				(alertAction) in
 				
-				self.dismissViewControllerAnimated(true, completion: nil)
+				self.dismiss(animated: true, completion: nil)
 			}
 			alertView.addAction(alertActionCancel)
 
-			presentViewController(alertView, animated: true, completion: nil)
+			present(alertView, animated: true, completion: nil)
 		}
 	}
 	
@@ -117,48 +117,48 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	deinit {
 		
 		// unsubscribe ourself from all notifications
-		NSNotificationCenter.defaultCenter().removeObserver(self)
+		NotificationCenter.default.removeObserver(self)
 	}
 
 	
 	// MARK: - Actions
 	
-	@IBAction func cancelInfoPosting(sender: UIButton) {
+	@IBAction func cancelInfoPosting(_ sender: UIButton) {
 		
-		dismissViewControllerAnimated(true, completion: nil)
+		dismiss(animated: true, completion: nil)
 	}
 	
 	
-	@IBAction func findOnTheMap(sender: UIButton) {
+	@IBAction func findOnTheMap(_ sender: UIButton) {
 		
-		activityIndicator.hidden = false
+		activityIndicator.isHidden = false
 		activityIndicator.startAnimating()
 		
 		// show/hide items for map version of view
-		topLabel.hidden = true
-		locationTextView.hidden = true
-		bottomView.hidden = true
-		findOnTheMapButton.hidden = true
+		topLabel.isHidden = true
+		locationTextView.isHidden = true
+		bottomView.isHidden = true
+		findOnTheMapButton.isHidden = true
 		
-		linkTextView.hidden = false
-		mapView.hidden = false
-		submitButton.hidden = false
+		linkTextView.isHidden = false
+		mapView.isHidden = false
+		submitButton.isHidden = false
 		
 		// change the cancel button's text color, so it's not invisible!
-		cancelButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+		cancelButton.setTitleColor(UIColor.white, for: UIControlState())
 		
 		// retrieve and display location info
 		let address = locationTextView.text
 		let geocoder = CLGeocoder()
 
 		
-		let fakeURL = NSURL(string: fakeURLForAccessTest)
+		let fakeURL = URL(string: fakeURLForAccessTest)
 		guard SCNetworkReachability.checkIfNetworkAvailable(fakeURL!) == true else {
 			postFailureNotification(self.geocodingDidFailNotification, failureMessage: networkUnreachableMessage)
 			return
 		}
 		
-		geocoder.geocodeAddressString(address) {
+		geocoder.geocodeAddressString(address!) {
 
 			(placemarkData, error) in
 			
@@ -174,12 +174,12 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 			
 			self.mapCoordinates = location.coordinate
 			
-			NSNotificationCenter.postNotificationOnMain(self.geocodingDidCompleteNotification, userInfo: nil)
+			NotificationCenter.postNotificationOnMain(self.geocodingDidCompleteNotification, userInfo: nil)
 		}
 	}
 	
 	
-	@IBAction func submit(sender: UIButton) {
+	@IBAction func submit(_ sender: UIButton) {
 		
 		// if text hasn't changed, notify that link needs to be added
 		guard linkTextView.text != placeholderTextLink && linkTextView.text != emptyString  else {
@@ -207,50 +207,50 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	func subscribeToNotifications() {
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(parsePostDidComplete(_:)),
-		                                                 name: Parse.parsePostDidCompleteNotification,
+		                                                 name: NSNotification.Name(rawValue: Parse.parsePostDidCompleteNotification),
 		                                                 object: nil)
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(parsePostDidFail(_:)),
-		                                                 name: Parse.parsePostDidFailNotification,
+		                                                 name: NSNotification.Name(rawValue: Parse.parsePostDidFailNotification),
 		                                                 object: nil)
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(parsePostDidComplete(_:)),
-		                                                 name: Parse.parsePutDidCompleteNotification,
+		                                                 name: NSNotification.Name(rawValue: Parse.parsePutDidCompleteNotification),
 		                                                 object: nil)
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(parsePostDidFail(_:)),
-		                                                 name: Parse.parsePutDidFailNotification,
+		                                                 name: NSNotification.Name(rawValue: Parse.parsePutDidFailNotification),
 		                                                 object: nil)
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(geocodingDidComplete(_:)),
-		                                                 name: geocodingDidCompleteNotification,
+		                                                 name: NSNotification.Name(rawValue: geocodingDidCompleteNotification),
 		                                                 object: nil)
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(geocodingDidFail(_:)),
-		                                                 name: geocodingDidFailNotification,
+		                                                 name: NSNotification.Name(rawValue: geocodingDidFailNotification),
 		                                                 object: nil)
 	}
 	
 	
-	func parsePostDidComplete(notification: NSNotification) {
+	func parsePostDidComplete(_ notification: Notification) {
 		
 		activityIndicator.stopAnimating()
 		
-		dismissViewControllerAnimated(true, completion: nil)
+		dismiss(animated: true, completion: nil)
 	}
 	
 	
-	func parsePostDidFail(notification: NSNotification) {
+	func parsePostDidFail(_ notification: Notification) {
 		
 		var failureMessage: String = ""
-		if let userInfo = notification.userInfo as? [String: String] {
+		if let userInfo = (notification as NSNotification).userInfo as? [String: String] {
 			failureMessage = userInfo[Parse.messageKey] ?? ""
 		}
 		
@@ -258,23 +258,23 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 			
 			(alertAction) in
 			
-			self.dismissViewControllerAnimated(true, completion: nil)
+			self.dismiss(animated: true, completion: nil)
 		}
 	}
 	
 	
-	func parsePutDidComplete(notification: NSNotification) {
+	func parsePutDidComplete(_ notification: Notification) {
 		
 		activityIndicator.stopAnimating()
 		
-		dismissViewControllerAnimated(true, completion: nil)
+		dismiss(animated: true, completion: nil)
 	}
 	
 	
-	func parsePutDidFail(notification: NSNotification) {
+	func parsePutDidFail(_ notification: Notification) {
 		
 		var failureMessage: String = ""
-		if let userInfo = notification.userInfo as? [String: String] {
+		if let userInfo = (notification as NSNotification).userInfo as? [String: String] {
 			failureMessage = userInfo[Parse.messageKey] ?? ""
 		}
 		
@@ -282,12 +282,12 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 			
 			(alertAction) in
 			
-			self.dismissViewControllerAnimated(true, completion: nil)
+			self.dismiss(animated: true, completion: nil)
 		}
 	}
 	
 	
-	func geocodingDidComplete(notification: NSNotification) {
+	func geocodingDidComplete(_ notification: Notification) {
 		
 		activityIndicator.stopAnimating()
 
@@ -306,12 +306,12 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	}
 	
 	
-	func geocodingDidFail(notification: NSNotification) {
+	func geocodingDidFail(_ notification: Notification) {
 		
 		activityIndicator.stopAnimating()
 		
 		var failureMessage: String = ""
-		if let userInfo = notification.userInfo as? [String: String] {
+		if let userInfo = (notification as NSNotification).userInfo as? [String: String] {
 			failureMessage = userInfo[Parse.messageKey] ?? ""
 		}
 		
@@ -319,7 +319,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 			
 			(alertAction) in
 			
-			self.dismissViewControllerAnimated(true, completion: nil)
+			self.dismiss(animated: true, completion: nil)
 		}
 	}
 	
@@ -331,26 +331,26 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	- parameter failureMessage: Failure information to be provided to observers.
 	
 	*/
-	private func postFailureNotification(notificationName: String, failureMessage: String) {
+	fileprivate func postFailureNotification(_ notificationName: String, failureMessage: String) {
 		
 		let userInfo = [Parse.messageKey: failureMessage]
 		
-		NSNotificationCenter.postNotificationOnMain(notificationName, userInfo: userInfo)
+		NotificationCenter.postNotificationOnMain(notificationName, userInfo: userInfo)
 	}
 
 	
 	// MARK: - Private Functions
 	
-	private func createStudent() -> StudentInformation {
+	fileprivate func createStudent() -> StudentInformation {
 		
 		var studentInfo = [String: AnyObject]()
-		studentInfo[StudentInformationModel.uniqueKeyKey] = userModel.userId
-		studentInfo[StudentInformationModel.firstNameKey] = userModel.firstName
-		studentInfo[StudentInformationModel.lastNameKey] = userModel.lastName
-		studentInfo[StudentInformationModel.latitudeKey] = mapCoordinates.latitude
-		studentInfo[StudentInformationModel.longitudeKey] = mapCoordinates.longitude
-		studentInfo[StudentInformationModel.mapStringKey] = locationTextView.text
-		studentInfo[StudentInformationModel.mediaURLKey] = linkTextView.text
+		studentInfo[StudentInformationModel.uniqueKeyKey] = userModel.userId as AnyObject?
+		studentInfo[StudentInformationModel.firstNameKey] = userModel.firstName as AnyObject?
+		studentInfo[StudentInformationModel.lastNameKey] = userModel.lastName as AnyObject?
+		studentInfo[StudentInformationModel.latitudeKey] = mapCoordinates.latitude as AnyObject?
+		studentInfo[StudentInformationModel.longitudeKey] = mapCoordinates.longitude as AnyObject?
+		studentInfo[StudentInformationModel.mapStringKey] = locationTextView.text as AnyObject?
+		studentInfo[StudentInformationModel.mediaURLKey] = linkTextView.text as AnyObject?
 		
 		let student = StudentInformation(studentInfo)
 		
@@ -360,7 +360,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	
 	// MARK: - Text View Delegate Methods
 	
-	func textViewDidBeginEditing(textView: UITextView) {
+	func textViewDidBeginEditing(_ textView: UITextView) {
 
 		if textView.text == placeholderTextWhere || textView.text == placeholderTextLink {
 			textView.text = emptyString
@@ -368,7 +368,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	}
 	
 	
-	func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 		
 		if text == newline {
 			textView.resignFirstResponder()

@@ -46,23 +46,23 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	deinit {
 		
 		// unsubscribe ourself from any notifications
-		NSNotificationCenter.defaultCenter().removeObserver(self)
+		NotificationCenter.default.removeObserver(self)
 	}
 	
 	
 	// MARK: - Notification Handlers
 	
 	/// Subscribes to necessary notifications.
-	private func subscribeToNotifications() {
+	fileprivate func subscribeToNotifications() {
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(parseRetrievalDidComplete(_:)),
-		                                                 name: Parse.parseRetrievalDidCompleteNotification,
+		                                                 name: NSNotification.Name(rawValue: Parse.parseRetrievalDidCompleteNotification),
 		                                                 object: nil)
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(parseRetrievalDidFail(_:)),
-		                                                 name: Parse.parseRetrievalDidFailNotification,
+		                                                 name: NSNotification.Name(rawValue: Parse.parseRetrievalDidFailNotification),
 		                                                 object: nil)
 	}
 	
@@ -73,13 +73,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	- parameter: notification object
 	
 	*/
-	func parseRetrievalDidComplete(notification: NSNotification) {
+	func parseRetrievalDidComplete(_ notification: Notification) {
 		
 		loadMapData()
 	}
 	
 	
-	private func loadMapData() {
+	fileprivate func loadMapData() {
 		
 		mapView.removeAnnotations(mapView.annotations)
 		
@@ -120,9 +120,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	- parameter: notification object
 	
 	*/
-	func parseRetrievalDidFail(notification: NSNotification) {
+	func parseRetrievalDidFail(_ notification: Notification) {
 		
-		let alertViewMessage = notification.userInfo![Parse.messageKey] as! String
+		let alertViewMessage = (notification as NSNotification).userInfo![Parse.messageKey] as! String
 		let alertActionTitle = returnActionTitle
 		
 		presentAlert(parseRetrievalFailedTitle, message: alertViewMessage, actionTitle: alertActionTitle)
@@ -131,15 +131,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	
 	// MARK: - MKMapViewDelegate
 	
-	func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 		
-		var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseIdentifier) as? MKPinAnnotationView
+		var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier) as? MKPinAnnotationView
 		
 		if pinView == nil {
 			pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
-			pinView!.pinTintColor = UIColor.redColor()
+			pinView!.pinTintColor = UIColor.red
 			pinView!.canShowCallout = true
-			pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+			pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
 		}
 		else {
 			pinView!.annotation = annotation
@@ -149,16 +149,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	}
 	
 	
-	func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+	func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
 		
 		if control == view.rightCalloutAccessoryView {
 			
 			// this object will check for applications that can open the provided URL
-			let app = UIApplication.sharedApplication()
+			let app = UIApplication.shared
 			
 			// make sure text is present in the cell and can be turned into a NSURL; if so, open it; else, alert and return!
-			guard let providedURL = view.annotation?.subtitle where providedURL != nil,
-				let url = NSURL(string: providedURL!) where app.openURL(url) == true else {
+			guard let providedURL = view.annotation?.subtitle , providedURL != nil,
+				let url = URL(string: providedURL!) , app.openURL(url) == true else {
 					
 					let alertViewMessage = invalidLinkProvidedMessage
 					let alertActionTitle = returnActionTitle

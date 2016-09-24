@@ -27,35 +27,35 @@ class UdacityLogin {
 	// dictionary keys
 	let messageKey = "message"
 	let accountKey = "account"
-	private let idKey = "id"
-	private let apiKey = "udacity"
-	private let usernameKey = "username"
-	private let passwordKey = "password"
-	private let sessionKey = "session"
-	private let accountIdKey = "key"
-	private let sessionIdKey = "sessionId"
+	fileprivate let idKey = "id"
+	fileprivate let apiKey = "udacity"
+	fileprivate let usernameKey = "username"
+	fileprivate let passwordKey = "password"
+	fileprivate let sessionKey = "session"
+	fileprivate let accountIdKey = "key"
+	fileprivate let sessionIdKey = "sessionId"
 	
 	// request-related
-	private let urlString = "https:/www.udacity.com/api/session"
-	private let postMethod = "POST"
-	private let deleteMethod = "DELETE"
-	private let jsonMimeType = "application/json"
-	private let acceptHeader = "Accept"
-	private let contentTypeHeader = "Content-Type"
+	fileprivate let urlString = "https:/www.udacity.com/api/session"
+	fileprivate let postMethod = "POST"
+	fileprivate let deleteMethod = "DELETE"
+	fileprivate let jsonMimeType = "application/json"
+	fileprivate let acceptHeader = "Accept"
+	fileprivate let contentTypeHeader = "Content-Type"
 	
 	// failure messages
-	private let missingLoginDataMessage = "Login email and password are both required."
-	private let regexCreationFailureMessage = "Unable to validate email address."
-	private let invalidRequestURLMessage = "Invalid request URL."
-	private let jsonSerializationFailureMessage = "Unable to convert login data to required format."
-	private let invalidEmailFormatMessage = "Email address isn't formatted correctly"
-	private let errorReceivedMessage = "An error was received:\n"
-	private let badStatusCodeMessage = "Invalid login email or password."
-	private let loginDataUnavailableMessage = "Login data is unavailable."
-	private let unableToParseDataMessage = "Unable to parse received data."
-	private let accountDataUnavailableMessage = "Account data is  not available."
-	private let sessionDataUnavailableMessage = "Session data is not available."
-	private let networkUnreachableMessage = "Network connection is not available."
+	fileprivate let missingLoginDataMessage = "Login email and password are both required."
+	fileprivate let regexCreationFailureMessage = "Unable to validate email address."
+	fileprivate let invalidRequestURLMessage = "Invalid request URL."
+	fileprivate let jsonSerializationFailureMessage = "Unable to convert login data to required format."
+	fileprivate let invalidEmailFormatMessage = "Email address isn't formatted correctly"
+	fileprivate let errorReceivedMessage = "An error was received:\n"
+	fileprivate let badStatusCodeMessage = "Invalid login email or password."
+	fileprivate let loginDataUnavailableMessage = "Login data is unavailable."
+	fileprivate let unableToParseDataMessage = "Unable to parse received data."
+	fileprivate let accountDataUnavailableMessage = "Account data is  not available."
+	fileprivate let sessionDataUnavailableMessage = "Session data is not available."
+	fileprivate let networkUnreachableMessage = "Network connection is not available."
 	
 	// regular expression patterns, including pattern explanation
 	/*
@@ -74,13 +74,13 @@ class UdacityLogin {
 	 * Note: regular expression matches are case sensitive by default;
 	 *	we'll use NSRegularExpressionOptions.CaseInsensitive to ignore that
 	 */
-	private let regexEmailPattern = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}"
+	fileprivate let regexEmailPattern = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}"
 	
 	
 	// MARK: - Properties
 	
 	/// Udacity session ID; required for logging out
-	private var sessionID: String?
+	fileprivate var sessionID: String?
 	
 	
 	// MARK: - Functions
@@ -94,7 +94,7 @@ class UdacityLogin {
 		- password: user's Udacity password.
 	
 	 */
-	func loginToUdacity(email: String?, password: String?) {
+	func loginToUdacity(_ email: String?, password: String?) {
 
 		// validate login data
 		let validationResult = validateLoginData(email, password: password)
@@ -105,42 +105,42 @@ class UdacityLogin {
 		}
 		
 		// data is good; begin request
-		guard let requestURL = NSURL(string: urlString) else {
+		guard let requestURL = URL(string: urlString) else {
 			postFailureNotification(loginDidFailNotification, failureMessage: invalidRequestURLMessage)
 			return
 		}
 		
-		let request = NSMutableURLRequest(URL: requestURL)
-		request.HTTPMethod = postMethod
+		var request = URLRequest(url: requestURL)
+		request.httpMethod = postMethod
 		request.addValue(jsonMimeType, forHTTPHeaderField: acceptHeader)
 		request.addValue(jsonMimeType, forHTTPHeaderField: contentTypeHeader)
 		
 		let jsonBodyDict = [apiKey: [usernameKey: email, passwordKey: password]]
-		let jsonWritingOptions = NSJSONWritingOptions()
-		guard let jsonBody: NSData = try? NSJSONSerialization.dataWithJSONObject(jsonBodyDict, options: jsonWritingOptions) else {
+		let jsonWritingOptions = JSONSerialization.WritingOptions()
+		guard let jsonBody: Data = try? JSONSerialization.data(withJSONObject: jsonBodyDict, options: jsonWritingOptions) else {
 			postFailureNotification(loginDidFailNotification, failureMessage: jsonSerializationFailureMessage)
 			return
 		}
 
-		request.HTTPBody = jsonBody
+		request.httpBody = jsonBody
 		
 		guard SCNetworkReachability.checkIfNetworkAvailable(requestURL) == true else {
 			postFailureNotification(loginDidFailNotification, failureMessage: networkUnreachableMessage)
 			return
 		}
 		
-		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+		let task = URLSession.shared.dataTask(with: request, completionHandler: {
 			(data, response, error) in
 			
 			if error != nil {
 				
-				let errorMessage = error!.userInfo[NSLocalizedDescriptionKey] as! String
+				let errorMessage = (error as! NSError).userInfo[NSLocalizedDescriptionKey] as! String
 				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
 				self.postFailureNotification(self.loginDidFailNotification, failureMessage: failureMessage)
 				return
 			}
 			
-			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
+			if let statusCode = (response as? HTTPURLResponse)?.statusCode , statusCode != 200 {
 				
 				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
 				self.postFailureNotification(self.loginDidFailNotification, failureMessage: failureMessage)
@@ -152,16 +152,20 @@ class UdacityLogin {
 				self.postFailureNotification(self.loginDidFailNotification, failureMessage: self.loginDataUnavailableMessage)
 				return
 			}
+			//print("\n*** DATA:\n\(String(data: data, encoding: String.Encoding.utf8))\n")
 			
 			/* "FOR ALL RESPONSES FROM THE UDACITY API, YOU WILL NEED TO SKIP THE FIRST 5 CHARACTERS OF THE RESPONSE.
 			 * These characters are used for security purposes. In the examples, you will see that we subset the
 			 * response data in order to skip over them." - per API doc at:
 			 * https://docs.google.com/document/d/1MECZgeASBDYrbBg7RlRu9zBBLGd3_kfzsN-0FtURqn0/pub?embedded=true
 			 */
-			let range = NSMakeRange(5, data.length - 5)
-			let subData = data.subdataWithRange(range)
+			let actualStartPos = 5
+			let endPos = data.count
+			let range = Range(uncheckedBounds: (actualStartPos, endPos))
+			let subData = data.subdata(in: range)
+			//print("\n*** SUBDATA:\n\(String(data: subData, encoding: String.Encoding.utf8))\n")
 			
-			guard let parsedData = try? NSJSONSerialization.JSONObjectWithData(subData, options: .AllowFragments) else {
+			guard let parsedData = try? JSONSerialization.jsonObject(with: subData, options: .allowFragments) as! [String: AnyObject] else {
 				
 				self.postFailureNotification(self.loginDidFailNotification, failureMessage: self.unableToParseDataMessage)
 				return
@@ -186,8 +190,8 @@ class UdacityLogin {
 			// post success notification for observers
 			let userInfo = [self.accountKey: userAccountId]
 			
-			NSNotificationCenter.postNotificationOnMain(self.loginDidCompleteNotification, userInfo: userInfo)
-		}
+			NotificationCenter.postNotificationOnMain(self.loginDidCompleteNotification, userInfo: userInfo)
+		}) 
 		
 		task.resume()
 	}
@@ -201,16 +205,16 @@ class UdacityLogin {
 	*/
 	func logoutFromUdacity() {
 
-		guard let requestURL = NSURL(string: urlString) else {
+		guard let requestURL = URL(string: urlString) else {
 			postFailureNotification(logoutDidFailNotification, failureMessage: invalidRequestURLMessage)
 			return
 		}
 		
-		let request = NSMutableURLRequest(URL: requestURL)
-		request.HTTPMethod = deleteMethod
+		var request = URLRequest(url: requestURL)
+		request.httpMethod = deleteMethod
 
-		var xsrfCookie: NSHTTPCookie? = nil
-		let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+		var xsrfCookie: HTTPCookie? = nil
+		let sharedCookieStorage = HTTPCookieStorage.shared
 		for cookie in sharedCookieStorage.cookies! {
 			if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
 		}
@@ -223,29 +227,29 @@ class UdacityLogin {
 			return
 		}
 		
-		let session = NSURLSession.sharedSession()
-		let task = session.dataTaskWithRequest(request) {
+		let session = URLSession.shared
+		let task = session.dataTask(with: request, completionHandler: {
 			
 			data, response, error in
 			
 			if error != nil {
 				
-				let errorMessage = error!.userInfo[NSLocalizedDescriptionKey] as! String
+				let errorMessage = (error as! NSError).userInfo[NSLocalizedDescriptionKey] as! String
 				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
 				self.postFailureNotification(self.logoutDidFailNotification, failureMessage: failureMessage)
 				return
 			}
 			
 			// if status code is 200, we've successfully deleted the session (ie, logged out)
-			if let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode != 200 {
+			if let statusCode = (response as? HTTPURLResponse)?.statusCode , statusCode != 200 {
 				
 				let failureMessage = self.badStatusCodeMessage + " (\(statusCode))"
 				self.postFailureNotification(self.logoutDidFailNotification, failureMessage: failureMessage)
 				return
 			}
 			
-			NSNotificationCenter.postNotificationOnMain(self.logoutDidCompleteNotification, userInfo: nil)
-		}
+			NotificationCenter.postNotificationOnMain(self.logoutDidCompleteNotification, userInfo: nil)
+		}) 
 		
 		task.resume()
 
@@ -260,14 +264,14 @@ class UdacityLogin {
 		* Failure message if validation unsuccessful, nil otherwise
 	
 	*/
-	func validateLoginData(email: String?, password: String?) -> (isSuccess: Bool, errorMsg: String?) {
+	func validateLoginData(_ email: String?, password: String?) -> (isSuccess: Bool, errorMsg: String?) {
 		
 		var returnBool = true
 		var failMessage: String? = nil
 		
 		// validate login email and password aren't empty
-		guard let email = email where !email.isEmpty,
-			let password = password where !password.isEmpty else {
+		guard let email = email , !email.isEmpty,
+			let password = password , !password.isEmpty else {
 				returnBool = false
 				failMessage = missingLoginDataMessage
 				return (returnBool, failMessage)
@@ -296,12 +300,12 @@ class UdacityLogin {
 		* Failure message if validation unsuccessful, nil otherwise
 	
 	*/
-	private func validateEmailAddressFormat(emailAddress: String) -> (Bool, String?) {
+	fileprivate func validateEmailAddressFormat(_ emailAddress: String) -> (Bool, String?) {
 		
 		var returnBool = true
 		var failMessage: String? = nil
 		
-		guard let regex = try? NSRegularExpression(pattern: regexEmailPattern, options: .CaseInsensitive) else {
+		guard let regex = try? NSRegularExpression(pattern: regexEmailPattern, options: .caseInsensitive) else {
 			returnBool = false
 			failMessage = regexCreationFailureMessage
 			return (returnBool, failMessage)
@@ -312,7 +316,7 @@ class UdacityLogin {
 		//	Swift's characters.count value; so convert to NSString for correct length
 		let searchRange = NSMakeRange(0, (emailAddress as NSString).length)
 		
-		guard regex.numberOfMatchesInString(emailAddress, options: .WithoutAnchoringBounds, range: searchRange) > 0 else {
+		guard regex.numberOfMatches(in: emailAddress, options: .withoutAnchoringBounds, range: searchRange) > 0 else {
 			returnBool = false
 			failMessage = invalidEmailFormatMessage
 			return (returnBool, failMessage)
@@ -333,11 +337,11 @@ class UdacityLogin {
 	- parameter failureMessage: Failure information to be provided to observers.
 	
 	 */
-	private func postFailureNotification(notificationName: String, failureMessage: String) {
+	fileprivate func postFailureNotification(_ notificationName: String, failureMessage: String) {
 		
 		let userInfo = [messageKey: failureMessage]
 
-		NSNotificationCenter.postNotificationOnMain(notificationName, userInfo: userInfo)
+		NotificationCenter.postNotificationOnMain(notificationName, userInfo: userInfo)
 	}
 	
 }

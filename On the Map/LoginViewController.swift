@@ -45,31 +45,31 @@ class LoginViewController: UIViewController {
 		super.viewDidLoad()
 		
 		activityIndicator.hidesWhenStopped = true
-		activityIndicator.color = UIColor.blueColor()
-		activityIndicator.hidden = true
+		activityIndicator.color = UIColor.blue
+		activityIndicator.isHidden = true
 		subscribeToNotifications()
 	}
 	
 	deinit {
 		
 		// remove ourself from all notifications
-		NSNotificationCenter.defaultCenter().removeObserver(self)
+		NotificationCenter.default.removeObserver(self)
 	}
 	
-	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+	override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
 		
 		// locking this login view to portrait since subviews won't all fit on smaller devices in landscape
-		return .Portrait
+		return .portrait
 	}
 	
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		guard let segueId = segue.identifier else {
 			return
 		}
 		
 		if segueId == loginViewToTabViewSegue {
 			
-			let navController = segue.destinationViewController as! UINavigationController
+			let navController = segue.destination as! UINavigationController
 			let tabBarController = navController.childViewControllers[0] as! TabBarController
 			
 			tabBarController.userModel = userModel
@@ -81,15 +81,15 @@ class LoginViewController: UIViewController {
 	
 	// MARK: - Actions
 	
-	@IBAction func loginClicked(sender: UIButton) {
+	@IBAction func loginClicked(_ sender: UIButton) {
 		
-		activityIndicator.hidden = false
+		activityIndicator.isHidden = false
 		activityIndicator.startAnimating()
 		loginModel.loginToUdacity(emailField.text, password: passwordField.text)
 	}
 	
 	
-	@IBAction func unwindFromLogoutButton(segue: UIStoryboardSegue) {
+	@IBAction func unwindFromLogoutButton(_ segue: UIStoryboardSegue) {
 		
 		loginModel.logoutFromUdacity()
 	}
@@ -98,36 +98,36 @@ class LoginViewController: UIViewController {
 	// MARK: - Notification Handlers
 	
 	/// Subscribes to any needed notifications.
-	private func subscribeToNotifications() {
+	fileprivate func subscribeToNotifications() {
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(loginDidComplete(_:)),
-		                                                 name: loginModel.loginDidCompleteNotification,
+		                                                 name: NSNotification.Name(rawValue: loginModel.loginDidCompleteNotification),
 		                                                 object: nil)
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(loginDidFail(_:)),
-		                                                 name: loginModel.loginDidFailNotification,
+		                                                 name: NSNotification.Name(rawValue: loginModel.loginDidFailNotification),
 		                                                 object: nil)
 	
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(userDataRequestDidComplete(_:)),
-		                                                 name: userModel.userDataRequestDidCompleteNotification,
+		                                                 name: NSNotification.Name(rawValue: userModel.userDataRequestDidCompleteNotification),
 		                                                 object: nil)
 
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(userDataRequestDidFail(_:)),
-		                                                 name: userModel.userDataRequestDidFailNotification,
+		                                                 name: NSNotification.Name(rawValue: userModel.userDataRequestDidFailNotification),
 		                                                 object: nil)
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(logoutDidComplete(_:)),
-		                                                 name: loginModel.logoutDidCompleteNotification,
+		                                                 name: NSNotification.Name(rawValue: loginModel.logoutDidCompleteNotification),
 		                                                 object: nil)
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(logoutDidFail(_:)),
-		                                                 name: loginModel.logoutDidFailNotification,
+		                                                 name: NSNotification.Name(rawValue: loginModel.logoutDidFailNotification),
 		                                                 object: nil)
 		
 }
@@ -139,9 +139,9 @@ class LoginViewController: UIViewController {
 	- parameter: notification object
 	
 	 */
-	func loginDidComplete(notification: NSNotification) {
+	func loginDidComplete(_ notification: Notification) {
 		
-		let accountKey = notification.userInfo![loginModel.accountKey] as! String
+		let accountKey = (notification as NSNotification).userInfo![loginModel.accountKey] as! String
 		
 		userModel.getUserInfo(accountKey)
 	}
@@ -153,11 +153,11 @@ class LoginViewController: UIViewController {
 	- parameter: notification object
 	
 	*/
-	func loginDidFail(notification: NSNotification) {
+	func loginDidFail(_ notification: Notification) {
 		
 		activityIndicator.stopAnimating()
 		
-		let alertViewMessage = notification.userInfo![loginModel.messageKey] as! String
+		let alertViewMessage = (notification as NSNotification).userInfo![loginModel.messageKey] as! String
 		let alertActionTitle = returnActionTitle
 
 		presentAlert(loginFailedTitle, message: alertViewMessage, actionTitle: alertActionTitle)
@@ -170,7 +170,7 @@ class LoginViewController: UIViewController {
 	- parameter: notification object
 	
 	*/
-	func logoutDidComplete(notification: NSNotification) {
+	func logoutDidComplete(_ notification: Notification) {
 		
 		// logout completed, so blank out username and email
 		emailField.text = ""
@@ -186,11 +186,11 @@ class LoginViewController: UIViewController {
 	- parameter: notification object
 	
 	*/
-	func logoutDidFail(notification: NSNotification) {
+	func logoutDidFail(_ notification: Notification) {
 		
 		activityIndicator.stopAnimating()
 		
-		let alertViewMessage = notification.userInfo![loginModel.messageKey] as! String
+		let alertViewMessage = (notification as NSNotification).userInfo![loginModel.messageKey] as! String
 		let alertActionTitle = returnActionTitle
 		
 		presentAlert(logoutFailedTitle, message: alertViewMessage, actionTitle: alertActionTitle)
@@ -203,9 +203,9 @@ class LoginViewController: UIViewController {
 	- parameter: notification object
 	
 	*/
-	func userDataRequestDidComplete(notification: NSNotification) {
+	func userDataRequestDidComplete(_ notification: Notification) {
 		
-		performSegueWithIdentifier(loginViewToTabViewSegue, sender: self)
+		performSegue(withIdentifier: loginViewToTabViewSegue, sender: self)
 	}
 	
 	/**
@@ -214,9 +214,9 @@ class LoginViewController: UIViewController {
 	- parameter: notification object
 	
 	*/
-	func userDataRequestDidFail(notification: NSNotification) {
+	func userDataRequestDidFail(_ notification: Notification) {
 		
-		let alertViewMessage = notification.userInfo![loginModel.messageKey] as! String
+		let alertViewMessage = (notification as NSNotification).userInfo![loginModel.messageKey] as! String
 		let alertActionTitle = returnActionTitle
 
 		presentAlert(unableToRetrieveUserDataMessage, message: alertViewMessage, actionTitle: alertActionTitle)

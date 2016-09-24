@@ -47,7 +47,7 @@ class LoginView: UIView {
 	
 	// MARK: - Overrides
 	
-	override class func layerClass() -> AnyClass {
+	override class var layerClass : AnyClass {
 		
 		// return a 'type' or class of CAGradientLayer (Obj-C equivalent is CAGradientLayer.class)
 		return CAGradientLayer.self

@@ -72,7 +72,7 @@ struct StudentInformationModel {
 		
 		// shorthand for using a predicate: $0 represents each student from the
 		//	 students array; 'contains' enumerates, looking for the provided value
-		guard students.contains({$0.uniqueKey == uniqueKey}) else {
+		guard students.contains(where: {$0.uniqueKey == uniqueKey}) else {
 			return nil
 		}
 		
@@ -87,20 +87,25 @@ struct StudentInformationModel {
 	}
 	
 	
-	static func convertStudentInfoToParseDict(student: StudentInformation) -> [String: AnyObject] {
+	static func convertStudentInfoToParseDict(student: StudentInformation, includeMetaFields: Bool = true) -> [String: AnyObject] {
 		
 		var studentInfoDict = [String: AnyObject]()
 		
-		studentInfoDict[createdAtKey] = student.createdAt
-		studentInfoDict[firstNameKey] = student.firstName
-		studentInfoDict[lastNameKey] = student.lastName
-		studentInfoDict[latitudeKey] = student.latitude
-		studentInfoDict[longitudeKey] = student.longitude
-		studentInfoDict[mapStringKey] = student.mapString
-		studentInfoDict[mediaURLKey] = student.mediaURL
-		studentInfoDict[objectIdKey] = student.objectId
-		studentInfoDict[uniqueKeyKey] = student.uniqueKey
-		studentInfoDict[updatedAtKey] = student.updatedAt
+		studentInfoDict[firstNameKey] = student.firstName as AnyObject?
+		studentInfoDict[lastNameKey] = student.lastName as AnyObject?
+		studentInfoDict[latitudeKey] = student.latitude as AnyObject?
+		studentInfoDict[longitudeKey] = student.longitude as AnyObject?
+		studentInfoDict[mapStringKey] = student.mapString as AnyObject?
+		studentInfoDict[mediaURLKey] = student.mediaURL as AnyObject?
+		studentInfoDict[uniqueKeyKey] = student.uniqueKey as AnyObject?
+		
+		if includeMetaFields {
+			studentInfoDict[createdAtKey] = student.createdAt as AnyObject?
+			studentInfoDict[objectIdKey] = student.objectId as AnyObject?
+			studentInfoDict[updatedAtKey] = student.updatedAt as AnyObject?
+		}
+		
+		
 		
 		return studentInfoDict
 	}

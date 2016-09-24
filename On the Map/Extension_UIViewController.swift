@@ -19,17 +19,17 @@ extension UIViewController {
 		- actionTitle: Text to appear for user action (such as "OK")
 	
 	*/
-	func presentAlert(title: String, message: String, actionTitle: String) {
+	func presentAlert(_ title: String, message: String, actionTitle: String) {
 		
-		let alertControllerStyle = UIAlertControllerStyle.Alert
+		let alertControllerStyle = UIAlertControllerStyle.alert
 		let alertView = UIAlertController(title: title, message: message, preferredStyle: alertControllerStyle)
 		
-		let alertActionStyle = UIAlertActionStyle.Default
+		let alertActionStyle = UIAlertActionStyle.default
 		let alertActionOK = UIAlertAction(title: actionTitle, style: alertActionStyle, handler: nil)
 		
 		alertView.addAction(alertActionOK)
 		
-		presentViewController(alertView, animated: true, completion: nil)
+		present(alertView, animated: true, completion: nil)
 	}
 	
 	
@@ -43,17 +43,17 @@ extension UIViewController {
 		- actionHandler: Closure to perform actions upon user response to alert.
 	
 	*/
-	func presentAlert(title: String, message: String, actionTitle: String, actionHandler: ((UIAlertAction) -> Void)?) {
+	func presentAlert(_ title: String, message: String, actionTitle: String, actionHandler: ((UIAlertAction) -> Void)?) {
 		
-		let alertControllerStyle = UIAlertControllerStyle.Alert
+		let alertControllerStyle = UIAlertControllerStyle.alert
 		let alertView = UIAlertController(title: title, message: message, preferredStyle: alertControllerStyle)
 		
-		let alertActionStyle = UIAlertActionStyle.Default
+		let alertActionStyle = UIAlertActionStyle.default
 		let alertAction = UIAlertAction(title: actionTitle, style: alertActionStyle, handler: actionHandler)
 		
 		alertView.addAction(alertAction)
 		
-		presentViewController(alertView, animated: true, completion: nil)
+		present(alertView, animated: true, completion: nil)
 	}
 
 }

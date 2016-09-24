@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension NSNotificationCenter {
+extension NotificationCenter {
 	
 	/**
 	
@@ -19,12 +19,12 @@ extension NSNotificationCenter {
 		- userInfo: Dictionary of custom information to be provided to observers, or nil if none needed.
 	
 	*/
-	class func postNotificationOnMain(notificationName: String, userInfo: [String: String]?) {
+	class func postNotificationOnMain(_ notificationName: String, userInfo: [String: String]?) {
 		
-		let notification = NSNotification(name: notificationName, object: nil, userInfo: userInfo)
+		let notification = Notification(name: Notification.Name(rawValue: notificationName), object: nil, userInfo: userInfo)
 		
-		NSOperationQueue.mainQueue().addOperationWithBlock {
-			NSNotificationCenter.defaultCenter().postNotification(notification)
+		OperationQueue.main.addOperation {
+			NotificationCenter.default.post(notification)
 		}
 	}
 }

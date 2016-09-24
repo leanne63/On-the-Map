@@ -30,9 +30,9 @@ extension UIView {
 				let layerColors = layer.colors {
 				
 				var uiColors = [UIColor]()
-				for (indexVal, cgColor) in layerColors.enumerate() {
-					let thisColor = UIColor.init(CGColor: cgColor as! CGColor)
-					uiColors.insert(thisColor, atIndex: indexVal)
+				for (indexVal, cgColor) in layerColors.enumerated() {
+					let thisColor = UIColor.init(cgColor: cgColor as! CGColor)
+					uiColors.insert(thisColor, at: indexVal)
 				}
 				return uiColors
 			}
@@ -67,7 +67,7 @@ extension UIView {
 	- Returns: Array of CGColors for the provided UIColors (including generated colors if only one UIColor was provided).
 	
 	*/
-	private func gradientColorsFromUIColors(colors: [UIColor]) -> [CGColor] {
+	fileprivate func gradientColorsFromUIColors(_ colors: [UIColor]) -> [CGColor] {
 		
 		var gradientColors = [CGColor]()
 		
@@ -100,13 +100,13 @@ extension UIView {
 			let color2 = color
 			let color3 = (UIColor.init(hue: hueDown, saturation: saturation, brightness: brightness, alpha: alpha))
 			
-			gradientColors = [color1.CGColor, color2.CGColor, color3.CGColor]
+			gradientColors = [color1.cgColor, color2.cgColor, color3.cgColor]
 		}
 		else {
 			// if multiple colors provided, use those
 			// enumerate via index as colors are expected to be in order of arguments provided
-			for (indexVal, color) in colors.enumerate() {
-				gradientColors.insert(color.CGColor, atIndex: indexVal)
+			for (indexVal, color) in colors.enumerated() {
+				gradientColors.insert(color.cgColor, at: indexVal)
 			}
 		}
 		

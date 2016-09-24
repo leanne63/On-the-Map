@@ -32,23 +32,23 @@ class TableViewController: UITableViewController {
 	deinit {
 		
 		// unsubscribe ourself from any notifications
-		NSNotificationCenter.defaultCenter().removeObserver(self)
+		NotificationCenter.default.removeObserver(self)
 	}
 
 	
 	// MARK: - Notification Handlers
 	
 	/// Subscribes to necessary notifications.
-	private func subscribeToNotifications() {
+	fileprivate func subscribeToNotifications() {
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(parseRetrievalDidComplete(_:)),
-		                                                 name: Parse.parseRetrievalDidCompleteNotification,
+		                                                 name: NSNotification.Name(rawValue: Parse.parseRetrievalDidCompleteNotification),
 		                                                 object: nil)
 		
-		NSNotificationCenter.defaultCenter().addObserver(self,
+		NotificationCenter.default.addObserver(self,
 		                                                 selector: #selector(parseRetrievalDidFail(_:)),
-		                                                 name: Parse.parseRetrievalDidFailNotification,
+		                                                 name: NSNotification.Name(rawValue: Parse.parseRetrievalDidFailNotification),
 		                                                 object: nil)
 	}
 	
@@ -59,7 +59,7 @@ class TableViewController: UITableViewController {
 	- parameter: notification object
 	
 	*/
-	func parseRetrievalDidComplete(notification: NSNotification) {
+	func parseRetrievalDidComplete(_ notification: Notification) {
 		
 		self.tableView.reloadData()
 	}
@@ -71,9 +71,9 @@ class TableViewController: UITableViewController {
 	- parameter: notification object
 	
 	*/
-	func parseRetrievalDidFail(notification: NSNotification) {
+	func parseRetrievalDidFail(_ notification: Notification) {
 		
-		let alertViewMessage = notification.userInfo![Parse.messageKey] as! String
+		let alertViewMessage = (notification as NSNotification).userInfo![Parse.messageKey] as! String
 		let alertActionTitle = returnActionTitle
 		
 		presentAlert(parseRetrievalFailedTitle, message: alertViewMessage, actionTitle: alertActionTitle)
@@ -81,24 +81,24 @@ class TableViewController: UITableViewController {
 	
 	// MARK: - Table view data source
 	
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		
 		return 1
 	}
 	
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
 		let numStudents = StudentInformationModel.students.count
 		return numStudents
 	}
 	
 	
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
-		let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath)
+		let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
 		
-		let thisStudent = StudentInformationModel.students[indexPath.item]
+		let thisStudent = StudentInformationModel.students[(indexPath as NSIndexPath).item]
 		
 		let firstName = thisStudent.firstName
 		let lastName = thisStudent.lastName
@@ -113,14 +113,14 @@ class TableViewController: UITableViewController {
 	}
 	
 	
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
 		// this object will check for applications that can open the provided URL
-		let app = UIApplication.sharedApplication()
+		let app = UIApplication.shared
 		
 		// make sure text is present in the cell and can be turned into a NSURL; if so, open it; else, alert and return!
-		guard let providedURL = tableView.cellForRowAtIndexPath(indexPath)?.detailTextLabel?.text,
-			  let url = NSURL(string: providedURL) where app.openURL(url) == true else {
+		guard let providedURL = tableView.cellForRow(at: indexPath)?.detailTextLabel?.text,
+			  let url = URL(string: providedURL) , app.openURL(url) == true else {
 				
 			let alertViewMessage = invalidLinkProvidedMessage
 			let alertActionTitle = returnActionTitle
