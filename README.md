@@ -11,7 +11,7 @@ I was curious how to create a view that would work with Interface Builder (IB). 
 
 The `gradientColor` variable is decorated with `@IBInspectable` and is property observing-compliant (note the `didSet`). This causes IB to display this variable in the Attributes Inspector. To see it in action:
 
-- Click on the view.
+- Click on the view in Interface Builder.
 - At the top of the inspector, use the dropdown to choose a Login View color.
 - The chosen color becomes the center of a 3-tone gradient, determined in the view's code.
 
