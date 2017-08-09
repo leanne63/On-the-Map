@@ -4,6 +4,7 @@
 * Xcode 8  
 * Swift 3  
 * iOS 9.3  
+* REST API
 
 Frameworks:  
 - Foundation  
