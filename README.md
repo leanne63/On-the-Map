@@ -1,8 +1,8 @@
 ## On the Map
 
 ### *Tech Used*
-* Xcode 9
-* Swift 4
+* Xcode 8+
+* Swift 3+
 * iOS 9.3+
 * REST API
 
