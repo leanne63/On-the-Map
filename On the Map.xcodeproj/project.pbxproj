@@ -132,7 +132,6 @@
 		D5DE9FC41CC7FB7A00537561 /* On the Map */ = {
 			isa = PBXGroup;
 			children = (
-				D5DE9FC51CC7FB7A00537561 /* AppDelegate.swift */,
 				D5EB2CDF1CDBEDFF001737B3 /* Models */,
 				D5EB2CDC1CDBED20001737B3 /* Views */,
 				D5EB2CDB1CDBED03001737B3 /* Controllers */,
@@ -185,6 +184,7 @@
 		D5EB2CDD1CDBED39001737B3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D5DE9FC51CC7FB7A00537561 /* AppDelegate.swift */,
 				D5DE9FCE1CC7FB7A00537561 /* Assets.xcassets */,
 				D5DE9FD31CC7FB7A00537561 /* Info.plist */,
 			);
@@ -476,6 +476,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -523,6 +525,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -539,7 +543,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leanne63.On-the-Map";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -555,7 +559,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leanne63.On-the-Map";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

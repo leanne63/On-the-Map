@@ -44,7 +44,7 @@ Once you have a login, you'll be able to place yourself *On the Map*, as well as
 ### *Other Notes*
 
 - Although, I added a sign up link and a Facebook login to the initial view, those features are not implemented in this version of the code.
-- Updated for Swift 4. Runs successfully, but gives various warnings about insets and annotation layer issues.
+- Updated for Swift 4. Runs successfully, but gives various warnings about insets and annotation layer issues.  
 
 
 
