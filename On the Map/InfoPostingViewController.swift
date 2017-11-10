@@ -239,7 +239,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	}
 	
 	
-	func parsePostDidComplete(_ notification: Notification) {
+	@objc func parsePostDidComplete(_ notification: Notification) {
 		
 		activityIndicator.stopAnimating()
 		
@@ -247,7 +247,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	}
 	
 	
-	func parsePostDidFail(_ notification: Notification) {
+	@objc func parsePostDidFail(_ notification: Notification) {
 		
 		var failureMessage: String = ""
 		if let userInfo = (notification as NSNotification).userInfo as? [String: String] {
@@ -287,7 +287,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	}
 	
 	
-	func geocodingDidComplete(_ notification: Notification) {
+	@objc func geocodingDidComplete(_ notification: Notification) {
 		
 		activityIndicator.stopAnimating()
 
@@ -306,7 +306,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 	}
 	
 	
-	func geocodingDidFail(_ notification: Notification) {
+	@objc func geocodingDidFail(_ notification: Notification) {
 		
 		activityIndicator.stopAnimating()
 		

@@ -1,9 +1,9 @@
 ## On the Map
 
 ### *Tech Used*
-* Xcode 8  
-* Swift 3  
-* iOS 9.3  
+* Xcode 9
+* Swift 4
+* iOS 9.3+
 * REST API
 
 Frameworks:  
@@ -43,7 +43,8 @@ Once you have a login, you'll be able to place yourself *On the Map*, as well as
 
 ### *Other Notes*
 
-Although, I added a sign up link and a Facebook login to the initial view, those features are not implemented in this version of the code.
+- Although, I added a sign up link and a Facebook login to the initial view, those features are not implemented in this version of the code.
+- Updated for Swift 4. Runs successfully, but gives various warnings about insets and annotation layer issues.
 
 
 

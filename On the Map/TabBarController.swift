@@ -73,21 +73,21 @@ class TabBarController: UITabBarController {
 	// MARK: - Selectors
 	
 	/// Segues back (unwinds) to logout function
-	func doLogout() {
+	@objc func doLogout() {
 		
 		performSegue(withIdentifier: unwindFromLogoutButtonSegueID, sender: nil)
 	}
 	
 	
 	/// Segues to Information Posting view
-	func postInformation() {
+	@objc func postInformation() {
 		
 		performSegue(withIdentifier: tabBarPinToInfoPostingViewSegueID, sender: nil)
 	}
 	
 	
 	/// Calls out for user information
-	func retrieveUserData() {
+	@objc func retrieveUserData() {
 		
 		let parseInstance = Parse()
 		parseInstance.retrieveMapData()

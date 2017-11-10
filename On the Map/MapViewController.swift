@@ -73,7 +73,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	- parameter: notification object
 	
 	*/
-	func parseRetrievalDidComplete(_ notification: Notification) {
+	@objc func parseRetrievalDidComplete(_ notification: Notification) {
 		
 		loadMapData()
 	}
@@ -120,7 +120,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	- parameter: notification object
 	
 	*/
-	func parseRetrievalDidFail(_ notification: Notification) {
+	@objc func parseRetrievalDidFail(_ notification: Notification) {
 		
 		let alertViewMessage = (notification as NSNotification).userInfo![Parse.messageKey] as! String
 		let alertActionTitle = returnActionTitle

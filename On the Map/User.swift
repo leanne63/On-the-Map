@@ -59,9 +59,8 @@ class User {
 		let task = URLSession.shared.dataTask(with: request, completionHandler: {
 			(data, response, error) in
 			
-			if error != nil {
-				
-				let errorMessage = (error as! NSError).userInfo[NSLocalizedDescriptionKey] as! String
+			if let error = error {
+				let errorMessage = error.localizedDescription
 				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
 				self.postFailureNotification(failureMessage)
 				return

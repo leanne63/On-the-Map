@@ -12,6 +12,7 @@
 		D54387BE1CC98AFE00EC6DB6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54387BD1CC98AFE00EC6DB6 /* LoginView.swift */; };
 		D54387C01CC9DE2300EC6DB6 /* Extension_UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54387BF1CC9DE2300EC6DB6 /* Extension_UIView.swift */; };
 		D5910CA01D136596005FCEA6 /* Extension_SCNetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5910C9F1D136596005FCEA6 /* Extension_SCNetworkReachability.swift */; };
+		D5995D871FB6437100B563B7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D5995D861FB6437100B563B7 /* README.md */; };
 		D5CE4E331D08699200283DC6 /* Extension_NSNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5CE4E321D08699200283DC6 /* Extension_NSNotificationCenter.swift */; };
 		D5D582A21CFA229B00E39110 /* UdacityLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D582A01CFA229B00E39110 /* UdacityLogin.swift */; };
 		D5D582A31CFA229B00E39110 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D582A11CFA229B00E39110 /* User.swift */; };
@@ -54,6 +55,7 @@
 		D54387BD1CC98AFE00EC6DB6 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		D54387BF1CC9DE2300EC6DB6 /* Extension_UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_UIView.swift; sourceTree = "<group>"; };
 		D5910C9F1D136596005FCEA6 /* Extension_SCNetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_SCNetworkReachability.swift; sourceTree = "<group>"; };
+		D5995D861FB6437100B563B7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D5CE4E321D08699200283DC6 /* Extension_NSNotificationCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_NSNotificationCenter.swift; sourceTree = "<group>"; };
 		D5D582A01CFA229B00E39110 /* UdacityLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UdacityLogin.swift; path = "On the Map/UdacityLogin.swift"; sourceTree = "<group>"; };
 		D5D582A11CFA229B00E39110 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = "On the Map/User.swift"; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 		D5DE9FB91CC7FB7A00537561 = {
 			isa = PBXGroup;
 			children = (
+				D5995D861FB6437100B563B7 /* README.md */,
 				D5ECCA401D32B99400D936E0 /* CoreLocation.framework */,
 				D5DE9FC41CC7FB7A00537561 /* On the Map */,
 				D5DE9FDB1CC7FB7B00537561 /* On the MapTests */,
@@ -281,7 +284,7 @@
 					D5DE9FC11CC7FB7A00537561 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = T3V4Z3867Q;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0910;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 0;
@@ -290,12 +293,12 @@
 					};
 					D5DE9FD71CC7FB7B00537561 = {
 						CreatedOnToolsVersion = 7.3;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0910;
 						TestTargetID = D5DE9FC11CC7FB7A00537561;
 					};
 					D5DE9FE21CC7FB7B00537561 = {
 						CreatedOnToolsVersion = 7.3;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0910;
 						TestTargetID = D5DE9FC11CC7FB7A00537561;
 					};
 				};
@@ -327,6 +330,7 @@
 			files = (
 				D5DE9FD21CC7FB7A00537561 /* LaunchScreen.storyboard in Resources */,
 				D5DE9FCF1CC7FB7A00537561 /* Assets.xcassets in Resources */,
+				D5995D871FB6437100B563B7 /* README.md in Resources */,
 				D5DE9FCD1CC7FB7A00537561 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,7 +539,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leanne63.On-the-Map";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -550,7 +555,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leanne63.On-the-Map";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -562,7 +568,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leanne63.On-the-MapTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/On the Map.app/On the Map";
 			};
 			name = Debug;
@@ -575,7 +582,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leanne63.On-the-MapTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/On the Map.app/On the Map";
 			};
 			name = Release;
@@ -587,7 +595,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leanne63.On-the-MapUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = "On the Map";
 			};
 			name = Debug;
@@ -599,7 +608,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leanne63.On-the-MapUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = "On the Map";
 			};
 			name = Release;

@@ -93,9 +93,8 @@ struct Parse {
 
 			(data, response, error) in
 			
-			guard error == nil else {
-				
-				let errorMessage = (error as! NSError).userInfo[NSLocalizedDescriptionKey] as! String
+			if let error = error {
+				let errorMessage = error.localizedDescription
 				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
 				self.postFailureNotification(Parse.parseRetrievalDidFailNotification, failureMessage: failureMessage)
 				return
@@ -163,9 +162,8 @@ struct Parse {
 			
 			(data, response, error) in
 			
-			guard error == nil else {
-				
-				let errorMessage = (error as! NSError).userInfo[NSLocalizedDescriptionKey] as! String
+			if let error = error {
+				let errorMessage = error.localizedDescription
 				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
 				self.postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: failureMessage)
 				return
@@ -247,9 +245,8 @@ struct Parse {
 			
 			(data, response, error) in
 			
-			guard error == nil else {
-				
-				let errorMessage = (error as! NSError).userInfo[NSLocalizedDescriptionKey] as! String
+			if let error = error {
+				let errorMessage = error.localizedDescription
 				let failureMessage = self.errorReceivedMessage + "\(errorMessage)"
 				self.postFailureNotification(Parse.parsePutDidFailNotification, failureMessage: failureMessage)
 				return

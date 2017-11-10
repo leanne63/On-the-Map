@@ -139,7 +139,7 @@ class LoginViewController: UIViewController {
 	- parameter: notification object
 	
 	 */
-	func loginDidComplete(_ notification: Notification) {
+	@objc func loginDidComplete(_ notification: Notification) {
 		
 		let accountKey = (notification as NSNotification).userInfo![loginModel.accountKey] as! String
 		
@@ -153,7 +153,7 @@ class LoginViewController: UIViewController {
 	- parameter: notification object
 	
 	*/
-	func loginDidFail(_ notification: Notification) {
+	@objc func loginDidFail(_ notification: Notification) {
 		
 		activityIndicator.stopAnimating()
 		
@@ -170,7 +170,7 @@ class LoginViewController: UIViewController {
 	- parameter: notification object
 	
 	*/
-	func logoutDidComplete(_ notification: Notification) {
+	@objc func logoutDidComplete(_ notification: Notification) {
 		
 		// logout completed, so blank out username and email
 		emailField.text = ""
@@ -186,7 +186,7 @@ class LoginViewController: UIViewController {
 	- parameter: notification object
 	
 	*/
-	func logoutDidFail(_ notification: Notification) {
+	@objc func logoutDidFail(_ notification: Notification) {
 		
 		activityIndicator.stopAnimating()
 		
@@ -203,7 +203,7 @@ class LoginViewController: UIViewController {
 	- parameter: notification object
 	
 	*/
-	func userDataRequestDidComplete(_ notification: Notification) {
+	@objc func userDataRequestDidComplete(_ notification: Notification) {
 		
 		performSegue(withIdentifier: loginViewToTabViewSegue, sender: self)
 	}
@@ -214,7 +214,7 @@ class LoginViewController: UIViewController {
 	- parameter: notification object
 	
 	*/
-	func userDataRequestDidFail(_ notification: Notification) {
+	@objc func userDataRequestDidFail(_ notification: Notification) {
 		
 		let alertViewMessage = (notification as NSNotification).userInfo![loginModel.messageKey] as! String
 		let alertActionTitle = returnActionTitle
