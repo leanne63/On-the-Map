@@ -38,16 +38,35 @@ struct StudentInformation {
 	/// Initializer for Dictionary object
 	init(_ studentInfo: [String: AnyObject]) {
 		
-		createdAt = studentInfo[StudentInformationModel.createdAtKey] != nil ? studentInfo[StudentInformationModel.createdAtKey] as! String : ""
-		firstName = studentInfo[StudentInformationModel.firstNameKey] as! String
-		lastName  = studentInfo[StudentInformationModel.lastNameKey]  as! String
-		latitude  = studentInfo[StudentInformationModel.latitudeKey]  as! Double
-		longitude = studentInfo[StudentInformationModel.longitudeKey] as! Double
-		mapString = studentInfo[StudentInformationModel.mapStringKey] as! String
-		mediaURL  = studentInfo[StudentInformationModel.mediaURLKey]  as! String
-		objectId  = studentInfo[StudentInformationModel.objectIdKey] != nil ? studentInfo[StudentInformationModel.objectIdKey] as! String : ""
-		uniqueKey = studentInfo[StudentInformationModel.uniqueKeyKey] as! String
-		updatedAt = studentInfo[StudentInformationModel.updatedAtKey] != nil ? studentInfo[StudentInformationModel.updatedAtKey] as! String : ""
+		let createdAtVal = studentInfo[StudentInformationModel.createdAtKey]
+		createdAt = createdAtVal as? String ?? ""
+		
+		let firstNameVal = studentInfo[StudentInformationModel.firstNameKey]
+		firstName = firstNameVal as? String ?? ""
+		
+		let lastNameVal = studentInfo[StudentInformationModel.lastNameKey]
+		lastName  = lastNameVal as? String ?? ""
+		
+		let latitudeVal  = studentInfo[StudentInformationModel.latitudeKey]
+		latitude  = latitudeVal as? Double ?? 0.0
+		
+		let longitudeVal = studentInfo[StudentInformationModel.longitudeKey]
+		longitude = longitudeVal as? Double ?? 0.0
+		
+		let mapStringVal = studentInfo[StudentInformationModel.mapStringKey]
+		mapString = mapStringVal as? String ?? ""
+		
+		let mediaURLVal  = studentInfo[StudentInformationModel.mediaURLKey]
+		mediaURL = mediaURLVal as? String ?? ""
+		
+		let objectIdVal  = studentInfo[StudentInformationModel.objectIdKey]
+		objectId = objectIdVal as? String ?? ""
+		
+		let uniqueKeyVal = studentInfo[StudentInformationModel.uniqueKeyKey]
+		uniqueKey = uniqueKeyVal as? String ?? ""
+		
+		let updatedAtVal = studentInfo[StudentInformationModel.updatedAtKey]
+		updatedAt = updatedAtVal as? String ?? ""
 	}
 }
 
