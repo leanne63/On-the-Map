@@ -11,6 +11,7 @@
 		D521378D1D31F97C00321131 /* InfoPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D521378C1D31F97C00321131 /* InfoPostingViewController.swift */; };
 		D54387BE1CC98AFE00EC6DB6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54387BD1CC98AFE00EC6DB6 /* LoginView.swift */; };
 		D54387C01CC9DE2300EC6DB6 /* Extension_UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54387BF1CC9DE2300EC6DB6 /* Extension_UIView.swift */; };
+		D585352B21CD8758006BD12D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D585352A21CD8758006BD12D /* Settings.bundle */; };
 		D5910CA01D136596005FCEA6 /* Extension_SCNetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5910C9F1D136596005FCEA6 /* Extension_SCNetworkReachability.swift */; };
 		D5995D871FB6437100B563B7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D5995D861FB6437100B563B7 /* README.md */; };
 		D5CE4E331D08699200283DC6 /* Extension_NSNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5CE4E321D08699200283DC6 /* Extension_NSNotificationCenter.swift */; };
@@ -54,6 +55,7 @@
 		D521378C1D31F97C00321131 /* InfoPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoPostingViewController.swift; sourceTree = "<group>"; };
 		D54387BD1CC98AFE00EC6DB6 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		D54387BF1CC9DE2300EC6DB6 /* Extension_UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_UIView.swift; sourceTree = "<group>"; };
+		D585352A21CD8758006BD12D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D5910C9F1D136596005FCEA6 /* Extension_SCNetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_SCNetworkReachability.swift; sourceTree = "<group>"; };
 		D5995D861FB6437100B563B7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D5CE4E321D08699200283DC6 /* Extension_NSNotificationCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_NSNotificationCenter.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 		D5EB2CDD1CDBED39001737B3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D585352A21CD8758006BD12D /* Settings.bundle */,
 				D5DE9FC51CC7FB7A00537561 /* AppDelegate.swift */,
 				D5DE9FCE1CC7FB7A00537561 /* Assets.xcassets */,
 				D5DE9FD31CC7FB7A00537561 /* Info.plist */,
@@ -330,6 +333,7 @@
 			files = (
 				D5DE9FD21CC7FB7A00537561 /* LaunchScreen.storyboard in Resources */,
 				D5DE9FCF1CC7FB7A00537561 /* Assets.xcassets in Resources */,
+				D585352B21CD8758006BD12D /* Settings.bundle in Resources */,
 				D5995D871FB6437100B563B7 /* README.md in Resources */,
 				D5DE9FCD1CC7FB7A00537561 /* Main.storyboard in Resources */,
 			);
