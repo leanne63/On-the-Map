@@ -35,8 +35,9 @@ class UdacityLogin {
 	fileprivate let accountIdKey = "key"
 	fileprivate let sessionIdKey = "sessionId"
 	
-	// request-related
-	fileprivate let urlString = "https:/www.udacity.com/api/session"
+	// request-related (POST, DELETE)
+	// fileprivate let urlString = "https:/www.udacity.com/api/session" // chg'd per email from Owen at Udacity, Fri, Nov 30, 7:03 PM
+	fileprivate let urlString = "https://onthemap-api.udacity.com/v1/session"
 	fileprivate let postMethod = "POST"
 	fileprivate let deleteMethod = "DELETE"
 	fileprivate let jsonMimeType = "application/json"

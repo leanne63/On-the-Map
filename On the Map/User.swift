@@ -18,12 +18,14 @@ class User {
 	let userDataRequestDidCompleteNotification = "userDataRequestDidCompleteNotification"
 	let userDataRequestDidFailNotification = "userDataRequestDidFailNotification"
 	
-	// request-related
-	fileprivate let urlString = "https://www.udacity.com/api/users/"
+	// request-related (GET)
+	//fileprivate let urlString = "https://www.udacity.com/api/users/" // chg'd per email from Owen at Udacity, Fri, Nov 30, 7:03 PM
+	fileprivate let urlString = "https://onthemap-api.udacity.com/v1/users/"
 	
 	// dictionary keys
 	let messageKey = "message"
 	fileprivate let userKey = "user"
+	//fileprivate let userKey = "key"
 	
 	// failure messages
 	fileprivate let invalidRequestURLMessage = "Invalid request URL."
@@ -95,16 +97,22 @@ class User {
 				return
 			}
 			
-			guard let userData = parsedData[self.userKey] as? [String: AnyObject] else {
-				
-				self.postFailureNotification(self.unableToParseUserDataMessage)
-				return
-			}
+//			guard let userData = parsedData[self.userKey] as? [String: AnyObject] else {
+//				
+//				self.postFailureNotification(self.unableToParseUserDataMessage)
+//				return
+//			}
+//			
+//			self.userId = accountId
+//			self.firstName = userData["first_name"] as? String
+//			self.lastName = userData["last_name"] as? String
+//			self.nickname = userData["nickname"] as? String
 			
 			self.userId = accountId
-			self.firstName = userData["first_name"] as? String
-			self.lastName = userData["last_name"] as? String
-			self.nickname = userData["nickname"] as? String
+			self.firstName = parsedData["first_name"] as? String
+			self.lastName = parsedData["last_name"] as? String
+			self.nickname = parsedData["nickname"] as? String
+
 			
 			NotificationCenter.postNotificationOnMain(self.userDataRequestDidCompleteNotification, userInfo: nil)
 		}) 
