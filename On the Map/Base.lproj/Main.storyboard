@@ -98,8 +98,8 @@
                                         </attributedString>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ebz-hF-dPJ" userLabel="Link Text View">
-                                        <rect key="frame" x="0.0" y="40" width="600" height="110"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ebz-hF-dPJ" userLabel="Link Text View">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="114"/>
                                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
                                         <attributedString key="attributedText">
                                             <fragment content="Enter a Link to Share Here">
@@ -112,8 +112,8 @@
                                         </attributedString>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                     </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tow-lE-L2f" userLabel="Cancel Button">
-                                        <rect key="frame" x="544" y="18" width="48" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tow-lE-L2f" userLabel="Cancel Button">
+                                        <rect key="frame" x="264" y="77" width="48" height="30"/>
                                         <state key="normal" title="Cancel">
                                             <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -123,16 +123,16 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Tow-lE-L2f" firstAttribute="top" secondItem="qxy-Jh-Inr" secondAttribute="topMargin" multiplier="2.25" id="0b0-8e-cyI"/>
-                                    <constraint firstItem="ebz-hF-dPJ" firstAttribute="leading" secondItem="qxy-Jh-Inr" secondAttribute="leading" id="Spr-mP-gv4"/>
-                                    <constraint firstItem="ebz-hF-dPJ" firstAttribute="trailing" secondItem="qxy-Jh-Inr" secondAttribute="trailing" id="bR7-Ej-Hud"/>
-                                    <constraint firstItem="7AN-uV-KCe" firstAttribute="leading" secondItem="qxy-Jh-Inr" secondAttribute="leading" id="gZL-ZX-TPB"/>
-                                    <constraint firstItem="7AN-uV-KCe" firstAttribute="top" secondItem="qxy-Jh-Inr" secondAttribute="top" id="hDp-gU-PpG"/>
-                                    <constraint firstItem="ebz-hF-dPJ" firstAttribute="top" secondItem="qxy-Jh-Inr" secondAttribute="topMargin" multiplier="5" id="nkR-8V-dbI"/>
-                                    <constraint firstItem="7AN-uV-KCe" firstAttribute="trailing" secondItem="qxy-Jh-Inr" secondAttribute="trailing" id="pXo-qE-j9Y"/>
-                                    <constraint firstItem="Tow-lE-L2f" firstAttribute="trailing" secondItem="qxy-Jh-Inr" secondAttribute="trailingMargin" id="tBv-qb-Ekk"/>
-                                    <constraint firstItem="ebz-hF-dPJ" firstAttribute="bottom" secondItem="qxy-Jh-Inr" secondAttribute="bottom" id="toE-FY-M58"/>
-                                    <constraint firstItem="7AN-uV-KCe" firstAttribute="bottom" secondItem="qxy-Jh-Inr" secondAttribute="bottom" id="zfI-UB-rI3"/>
+                                    <constraint firstItem="Tow-lE-L2f" firstAttribute="top" secondItem="qxy-Jh-Inr" secondAttribute="topMargin" multiplier="2.75" identifier="CancelButtonTop" id="0b0-8e-cyI"/>
+                                    <constraint firstItem="ebz-hF-dPJ" firstAttribute="leading" secondItem="qxy-Jh-Inr" secondAttribute="leading" identifier="LinkTextViewLeading" id="Spr-mP-gv4"/>
+                                    <constraint firstItem="ebz-hF-dPJ" firstAttribute="trailing" secondItem="qxy-Jh-Inr" secondAttribute="trailing" identifier="LinkTextViewTrailing" id="bR7-Ej-Hud"/>
+                                    <constraint firstItem="7AN-uV-KCe" firstAttribute="leading" secondItem="qxy-Jh-Inr" secondAttribute="leading" identifier="TopLabelLeading" id="gZL-ZX-TPB"/>
+                                    <constraint firstItem="7AN-uV-KCe" firstAttribute="top" secondItem="qxy-Jh-Inr" secondAttribute="top" identifier="TopLabelTop" id="hDp-gU-PpG"/>
+                                    <constraint firstItem="ebz-hF-dPJ" firstAttribute="top" secondItem="qxy-Jh-Inr" secondAttribute="topMargin" identifier="LinkTextViewTop" id="nkR-8V-dbI"/>
+                                    <constraint firstItem="7AN-uV-KCe" firstAttribute="trailing" secondItem="qxy-Jh-Inr" secondAttribute="trailing" identifier="TopLabelTrailing" id="pXo-qE-j9Y"/>
+                                    <constraint firstItem="Tow-lE-L2f" firstAttribute="trailing" secondItem="qxy-Jh-Inr" secondAttribute="trailingMargin" identifier="CancelButtonTrailing" id="tBv-qb-Ekk"/>
+                                    <constraint firstItem="ebz-hF-dPJ" firstAttribute="bottom" secondItem="qxy-Jh-Inr" secondAttribute="bottom" identifier="LinkTextViewBottom" id="toE-FY-M58"/>
+                                    <constraint firstItem="7AN-uV-KCe" firstAttribute="bottom" secondItem="qxy-Jh-Inr" secondAttribute="bottom" identifier="TopLabelBottom" id="zfI-UB-rI3"/>
                                 </constraints>
                             </view>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ihe-iY-OV6">
@@ -221,7 +221,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXm-3V-1gY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="0.0" y="768"/>
+            <point key="canvasLocation" x="0.0" y="767.95774647887322"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="aQ3-qd-eCr">
