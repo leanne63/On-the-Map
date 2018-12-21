@@ -551,6 +551,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leanne63.On-the-Map";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SETTINGS_ROOTPLIST_FILE = "On The Map/Settings.bundle/Root.plist";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -567,6 +568,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leanne63.On-the-Map";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SETTINGS_ROOTPLIST_FILE = "On The Map/Settings.bundle/Root.plist";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
