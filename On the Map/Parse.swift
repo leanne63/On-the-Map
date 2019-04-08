@@ -114,7 +114,7 @@ struct Parse {
 			}
 			
 			let options = JSONSerialization.ReadingOptions()
-			guard let parsedData = try? JSONSerialization.jsonObject(with: data, options: options) as! [String: AnyObject],
+			guard let parsedData = try? JSONSerialization.jsonObject(with: data, options: options) as? [String: AnyObject],
 				let results = parsedData[Parse.resultsKey] as? [[String: AnyObject]] else {
 				
 				self.postFailureNotification(Parse.parseRetrievalDidFailNotification, failureMessage: self.unableToParseDataMessage)
@@ -193,7 +193,7 @@ struct Parse {
 			}
 			
 			let options = JSONSerialization.ReadingOptions()
-			guard let parsedData = try? JSONSerialization.jsonObject(with: data, options: options) as! [String: AnyObject] else {
+			guard let parsedData = try? JSONSerialization.jsonObject(with: data, options: options) as? [String: AnyObject] else {
 					
 					self.postFailureNotification(Parse.parsePostDidFailNotification, failureMessage: self.unableToParseDataMessage)
 					return
@@ -276,7 +276,7 @@ struct Parse {
 			}
 			
 			let options = JSONSerialization.ReadingOptions()
-			guard let parsedData = try? JSONSerialization.jsonObject(with: data, options: options) as! [String: AnyObject] else {
+			guard let parsedData = try? JSONSerialization.jsonObject(with: data, options: options) as? [String: AnyObject] else {
 				
 				self.postFailureNotification(Parse.parsePutDidFailNotification, failureMessage: self.unableToParseDataMessage)
 				return

@@ -1,9 +1,9 @@
 ## On the Map
 
 ### *Tech Used*
-* Xcode 8+
-* Swift 3+
-* iOS 9.3+
+* Xcode 8+ (last tested: 10.2)
+* Swift 3+ (lasted tested: 5.0)
+* iOS 9.3+ (last tested: 12.2)
 * REST API
 
 Frameworks:  
@@ -35,17 +35,17 @@ This is a cool way to make your own fully customized view, allowing developers t
 
 Requires a Udacity login:
 
-[Signup Page](https://auth.udacity.com/sign-up?_ga=1.261743181.1763484505.1459126598&next=https%3A%2F%2Fclassroom.udacity.com%2Fauthenticated)
+[Signup Page](https://auth.udacity.com/sign-up?next=https://classroom.udacity.com/authenticated)
 
-[Sitemap link to a list of Udacity's Free Courses](https://www.udacity.com/sitemap)
+[Sitemap link to a list of Udacity's Free Courses](https://www.udacity.com/x/tech-industry-jobs/udacitys-free-online-courses)
 
 Once you have a login, you'll be able to place yourself *On the Map*, as well as seeing what others have posted.
 
 ### *Other Notes*
 
 - Although, I added a sign up link and a Facebook login to the initial view, those features are not implemented in this version of the code.
-- Updated for Swift 4.
-- Cancel button has warning for leading constraint as of Xcode 10.1. However, top and trailing constraints do keep the button in its expected location.
+- Updated for Swift 5.0.
+- On the "Info Posting View Controller scene", the Cancel button has a warning for a missing leading constraint as of Xcode 10.1. However, top and trailing constraints do keep the button in its expected location.
 
 
 

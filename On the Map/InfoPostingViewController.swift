@@ -95,13 +95,13 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		if userObjectId != nil {
 			
 			// give student choice to replace or cancel (stay at current view)
-			let alertControllerStyle = UIAlertControllerStyle.alert
+			let alertControllerStyle = UIAlertController.Style.alert
 			let alertView = UIAlertController(title: "Student In List", message: "You're already in the list! What would you like to do?", preferredStyle: alertControllerStyle)
 			
-			let alertActionReplace = UIAlertAction(title: "Replace", style: UIAlertActionStyle.default, handler: nil)
+			let alertActionReplace = UIAlertAction(title: "Replace", style: UIAlertAction.Style.default, handler: nil)
 			alertView.addAction(alertActionReplace)
 
-			let alertActionCancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
+			let alertActionCancel = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) {
 				
 				(alertAction) in
 				
@@ -145,7 +145,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		submitButton.isHidden = false
 		
 		// change the cancel button's text color, so it's not invisible!
-		cancelButton.setTitleColor(UIColor.white, for: UIControlState())
+		cancelButton.setTitleColor(UIColor.white, for: UIControl.State())
 		
 		// retrieve and display location info
 		let address = locationTextView.text
@@ -294,7 +294,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 		// update the map with the new location information
 		mapView.removeAnnotations(mapView.annotations)
 		
-		let span = MKCoordinateSpanMake(0.5, 0.5)
+		let span = MKCoordinateSpan.init(latitudeDelta: 0.5, longitudeDelta: 0.5)
 		let region = MKCoordinateRegion(center: mapCoordinates, span: span)
 		
 		mapView.setRegion(region, animated: true)

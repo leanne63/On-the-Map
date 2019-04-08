@@ -31,9 +31,9 @@ class TabBarController: UITabBarController {
 		// set up navigation bar items
 		navigationItem.title = "On The Map"
 		
-		navigationItem.leftBarButtonItem = UIBarButtonItem(title: logoutButtonTitle, style: UIBarButtonItemStyle.plain, target: self, action: #selector(doLogout))
+		navigationItem.leftBarButtonItem = UIBarButtonItem(title: logoutButtonTitle, style: UIBarButtonItem.Style.plain, target: self, action: #selector(doLogout))
 		
-		let pinButton = UIBarButtonItem(image: UIImage(named: pinImageName), style: UIBarButtonItemStyle.plain, target: self, action: #selector(postInformation))
+		let pinButton = UIBarButtonItem(image: UIImage(named: pinImageName), style: UIBarButtonItem.Style.plain, target: self, action: #selector(postInformation))
 		let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(retrieveUserData))
 		
 		// note: right bar buttons in array appear on nav bar right to left

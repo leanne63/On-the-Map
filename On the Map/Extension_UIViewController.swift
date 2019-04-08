@@ -21,10 +21,10 @@ extension UIViewController {
 	*/
 	func presentAlert(_ title: String, message: String, actionTitle: String) {
 		
-		let alertControllerStyle = UIAlertControllerStyle.alert
+		let alertControllerStyle = UIAlertController.Style.alert
 		let alertView = UIAlertController(title: title, message: message, preferredStyle: alertControllerStyle)
 		
-		let alertActionStyle = UIAlertActionStyle.default
+		let alertActionStyle = UIAlertAction.Style.default
 		let alertActionOK = UIAlertAction(title: actionTitle, style: alertActionStyle, handler: nil)
 		
 		alertView.addAction(alertActionOK)
@@ -45,10 +45,10 @@ extension UIViewController {
 	*/
 	func presentAlert(_ title: String, message: String, actionTitle: String, actionHandler: ((UIAlertAction) -> Void)?) {
 		
-		let alertControllerStyle = UIAlertControllerStyle.alert
+		let alertControllerStyle = UIAlertController.Style.alert
 		let alertView = UIAlertController(title: title, message: message, preferredStyle: alertControllerStyle)
 		
-		let alertActionStyle = UIAlertActionStyle.default
+		let alertActionStyle = UIAlertAction.Style.default
 		let alertAction = UIAlertAction(title: actionTitle, style: alertActionStyle, handler: actionHandler)
 		
 		alertView.addAction(alertAction)

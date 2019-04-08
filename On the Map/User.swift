@@ -91,7 +91,7 @@ class User {
 			let range = Range(uncheckedBounds: (actualStartPos, endPos))
 			let subData = data.subdata(in: range)
 			
-			guard let parsedData = try? JSONSerialization.jsonObject(with: subData, options: []) as! [String: AnyObject] else {
+			guard let parsedData = try? JSONSerialization.jsonObject(with: subData, options: []) as? [String: AnyObject] else {
 				
 				self.postFailureNotification(self.unableToParseDataMessage)
 				return

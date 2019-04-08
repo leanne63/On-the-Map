@@ -70,7 +70,7 @@ class LoginViewController: UIViewController {
 		if segueId == loginViewToTabViewSegue {
 			
 			let navController = segue.destination as! UINavigationController
-			let tabBarController = navController.childViewControllers[0] as! TabBarController
+			let tabBarController = navController.children[0] as! TabBarController
 			
 			tabBarController.userModel = userModel
 			

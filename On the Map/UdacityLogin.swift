@@ -165,7 +165,7 @@ class UdacityLogin {
 			let subData = data.subdata(in: range)
 			//print("\n*** SUBDATA:\n\(String(data: subData, encoding: String.Encoding.utf8))\n")
 			
-			guard let parsedData = try? JSONSerialization.jsonObject(with: subData, options: .allowFragments) as! [String: AnyObject] else {
+			guard let parsedData = try? JSONSerialization.jsonObject(with: subData, options: .allowFragments) as? [String: AnyObject] else {
 				
 				self.postFailureNotification(self.loginDidFailNotification, failureMessage: self.unableToParseDataMessage)
 				return
